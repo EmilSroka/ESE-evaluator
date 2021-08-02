@@ -1,0 +1,160 @@
+@use 'sass:map';
+@use '~@angular/material' as mat;
+
+$gray-palette: (
+  50: #eceff1,
+  100: #cfd8dc,
+  200: #b0bec5,
+  300: #90a4ae,
+  400: #78909c,
+  500: #607d8b,
+  600: #546e7a,
+  700: #455a64,
+  800: #37474f,
+  900: #263238,
+  contrast: (
+    50: #37474f,
+    100: #263238,
+    200: #152127,
+    300: #041016,
+    400: #030005,
+    500: #030005,
+    600: #fdfff2,
+    700: #fdfff2,
+    800: #eceff1,
+    900: #cfd8dc,
+  )
+);
+
+$oceanic-palette: (
+  50: #e0f3f1,
+  100: #b3e0db,
+  200: #81cdc5,
+  300: #4eb9ad,
+  400: #27aa9b,
+  500: #029a8a,
+  600: #007c6c,
+  700: #007d6d,
+  800: #006d5e,
+  900: #00574B,
+  contrast: (
+    50: #00574B,
+    100: #00574B,
+    200: #00584c,
+    300: #00473b,
+    400: #00362a,
+    500: #002419,
+    600: #f1f4f2,
+    700: #f1f4f2,
+    800: #f1f4f2,
+    900: #e0f3f1,
+  )
+);
+
+// todo
+$pink-palette: (
+  50: #fce3eb,
+  100: #f7b8cc,
+  200: #f28bab,
+  300: #ec5b8a,
+  400: #e73771,
+  500: #e30559,
+  600: #d20256,
+  700: #bd0052,
+  800: #a8004e,
+  900: #840047,
+  contrast: (
+    50: #840047,
+    100: #730036,
+    200: #520025,
+    300: #200000,
+    400: #100000,
+    500: #ffffff,
+    600: #fdf4fc,
+    700: #fdf4fc,
+    800: #fdf4fc,
+    900: #fce3eb,
+  )
+);
+
+$blue-palette: (
+  50: #ebe5f5,
+  100: #cbc0e6,
+  200: #a996d7,
+  300: #876cc7,
+  400: #6c4dbc,
+  500: #512fb0,
+  600: #472aab,
+  700: #3823a2,
+  800: #291d9a,
+  900: #01118d,
+  contrast: (
+    50: #01118d,
+    100: #01118d,
+    200: #01118d,
+    300: #000049,
+    400: #ebe5f5,
+    500: #ebe5f5,
+    600: #ebe5f5,
+    700: #ebe5f5,
+    800: #cbc0e6,
+    900: #cbc0e6,
+  )
+);
+
+//$light-theme-foreground-palette: (
+//  base:              #041016,
+//  divider:           rgba(#041016, 0.12),
+//  dividers:          rgba(#041016, 0.12),
+//  disabled:          rgba(#041016, 0.38),
+//  disabled-button:   rgba(#041016, 0.26),
+//  disabled-text:     rgba(#041016, 0.38),
+//  elevation:         #041016,
+//  hint-text:         rgba(#041016, 0.38),
+//  secondary-text:    rgba(#041016, 0.54),
+//  icon:              rgba(#041016, 0.54),
+//  icons:             rgba(#041016, 0.54),
+//  text:              rgba(#041016, 0.87),
+//  slider-min:        rgba(#041016, 0.87),
+//  slider-off:        rgba(#041016, 0.26),
+//  slider-off-active: rgba(#041016, 0.38),
+//);
+
+//$dark-theme-foreground-palette: (
+//  base:              #fdfff2,
+//  divider:           #eceff1,
+//  dividers:          #eceff1,
+//  disabled:          #78909c,
+//  disabled-button:   #b0bec5,
+//  disabled-text:     #78909c,
+//  elevation:         #041016,
+//  hint-text:         #78909c,
+//  secondary-text:    #546e7a,
+//  icon:              #fdfff2,
+//  icons:             #fdfff2,
+//  text:              #fdfff2,
+//  slider-min:        #fdfff2,
+//  slider-off:        #b0bec5,
+//  slider-off-active: #b0bec5,
+//);
+
+$dark-theme: mat.define-dark-theme((
+  color: (
+    primary: mat.define-palette($oceanic-palette, 500),
+    accent: mat.define-palette($blue-palette, 300),
+    warn: mat.define-palette($pink-palette, 400),
+  )
+));
+
+$light-theme: mat.define-light-theme((
+  color: (
+    primary: mat.define-palette($oceanic-palette, 600),
+    accent: mat.define-palette($blue-palette, 400),
+    warn: mat.define-palette($pink-palette, 600),
+  )
+));
+
+@include mat.all-component-themes($dark-theme);
+.light-theme {
+  @include mat.all-component-themes($light-theme);
+}
