@@ -1,0 +1,62 @@
+name: CI
+
+on: push
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        name: checkout
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v2
+        name: install node
+        with:
+          node-version: '14'
+          cache: 'npm'
+      - run: npm ci
+        name: install dependencies
+      - uses: mansagroup/nrwl-nx-action@v2
+        name: test
+        with:
+          targets: test
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        name: checkout
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v2
+        name: install node
+        with:
+          node-version: '14'
+          cache: 'npm'
+      - run: npm ci
+        name: install dependencies
+      - uses: mansagroup/nrwl-nx-action@v2
+        name: lint
+        with:
+          targets: lint
+      - uses: wagoid/commitlint-github-action@v4
+        name: commit
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        name: checkout
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v2
+        name: install node
+        with:
+          node-version: '14'
+          cache: 'npm'
+      - run: npm ci
+        name: install dependencies
+      - uses: mansagroup/nrwl-nx-action@v2
+        name: build
+        with:
+          targets: build
+

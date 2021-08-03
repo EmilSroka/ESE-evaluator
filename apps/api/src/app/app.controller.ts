@@ -8,9 +8,8 @@ export class AppController {
 
   @Get('translations/:lang')
   translationTest(@Param('lang') lang) {
-    console.log(lang);
     return {
-      h1: 'Elo'
-    }
+      h1: 'Elo',
+    };
   }
 }
