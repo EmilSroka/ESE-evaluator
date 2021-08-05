@@ -20,6 +20,7 @@ module.exports = {
         'docs',
         // git
         'revert',
+        'merge',
       ],
     ],
   },
