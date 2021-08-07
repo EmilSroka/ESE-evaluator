@@ -31,6 +31,18 @@ describe('LanguageService', () => {
 
     expect(languageService.get()).toBeObservable(expected);
   });
+
+  it('get method should memoize previous result', (done) => {
+    languageService.get().subscribe({
+      complete: () => {
+        const expected = cold(RESULT_MARBLE, {
+          a: [ENGLISH_LANGUAGE_OBJECT, POLISH_LANGUAGE_OBJECT],
+        });
+        expect(languageService.get()).toBeObservable(expected);
+        done();
+      },
+    });
+  });
 });
 
 const ENGLISH_FIXTURE = {
@@ -76,7 +88,7 @@ class Neo4jProviderMock {
 
   onApplicationShutdown() {
     throw new Error(
-      'Neo4jProvider onApplicationShutdown lifecycle method should not be call by LanguageService'
+      'Neo4jProvider onApplicationShutdown lifecycle method should not be call by LanguageService',
     );
   }
 }
