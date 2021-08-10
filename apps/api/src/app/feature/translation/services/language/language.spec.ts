@@ -4,7 +4,7 @@ import { Neo4jProvider } from '../../../../providers/database/neo4j/provider/neo
 import { Observable } from 'rxjs';
 import { Record, Node } from 'neo4j-driver-core';
 import { cold } from 'jest-marbles';
-import { LanguageObject } from '../../models/language.model';
+import { Language } from '../../../../graphql/translations/models/language.model';
 
 const MOCK_RESPONSE_MARBLE = '---(abc|)';
 const RESULT_MARBLE = '---(a|)';
@@ -24,7 +24,7 @@ describe('LanguageService', () => {
     languageService = module.get<LanguageService>(LanguageService);
   });
 
-  it('get method should collect all available languages with [tag, englishName, ownName] properties and return them as a list of LanguageObject', () => {
+  it('get method should collect all available languages with [tag, englishName, ownName] properties and return them as a list of Languages', () => {
     const expected = cold(RESULT_MARBLE, {
       a: [ENGLISH_LANGUAGE_OBJECT, POLISH_LANGUAGE_OBJECT],
     });
@@ -58,12 +58,12 @@ const FAIL_FIXTURE = {
   ownName: 'русский',
 } as const;
 
-const POLISH_LANGUAGE_OBJECT = new LanguageObject();
+const POLISH_LANGUAGE_OBJECT = new Language();
 POLISH_LANGUAGE_OBJECT.tag = POLISH_FIXTURE.tag;
 POLISH_LANGUAGE_OBJECT.englishName = POLISH_FIXTURE.englishName;
 POLISH_LANGUAGE_OBJECT.ownName = POLISH_FIXTURE.ownName;
 
-const ENGLISH_LANGUAGE_OBJECT = new LanguageObject();
+const ENGLISH_LANGUAGE_OBJECT = new Language();
 ENGLISH_LANGUAGE_OBJECT.tag = ENGLISH_FIXTURE.tag;
 ENGLISH_LANGUAGE_OBJECT.englishName = ENGLISH_FIXTURE.englishName;
 ENGLISH_LANGUAGE_OBJECT.ownName = ENGLISH_FIXTURE.ownName;

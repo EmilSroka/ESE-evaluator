@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { join } from 'path';
 import { Neo4jModule } from './providers/database/neo4j/neo4j.module';
 import { GraphQLModule } from '@nestjs/graphql';
-import { TmpResolver } from './graphql/tmp.resolver';
+import { TranslationGQLModule } from './graphql/translations/translation.api.module';
 
 @Module({
   imports: [
@@ -10,7 +10,7 @@ import { TmpResolver } from './graphql/tmp.resolver';
       autoSchemaFile: join(process.cwd(), 'src/app/graphql/schema.gql'),
     }),
     Neo4jModule,
+    TranslationGQLModule,
   ],
-  providers: [TmpResolver],
 })
 export class AppModule {}

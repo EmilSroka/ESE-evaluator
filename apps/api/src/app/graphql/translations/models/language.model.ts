@@ -1,8 +1,8 @@
-import { Language } from '@ese/api-interfaces';
+import { LanguageModel } from '@ese/api-interfaces';
 import { Field, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
-export class LanguageObject implements Language {
+export class Language implements LanguageModel {
   @Field() englishName: string;
 
   @Field() ownName: string;
