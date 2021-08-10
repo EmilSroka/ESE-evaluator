@@ -2,6 +2,12 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Language {
+  englishName: String!
+  ownName: String!
+  tag: String!
+}
+
 type Query {
-  sayHello: String!
+  availableLanguages: [Language!]!
 }
