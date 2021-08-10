@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { Neo4jProvider } from '../../../../providers/database/neo4j/provider/neo4j-provider';
 import { Record } from 'neo4j-driver';
 import { LanguageObject } from '../../models/language.model';
-import { Observable } from 'rxjs';
-import { filter, map, reduce } from 'rxjs/operators';
+import { Observable, ReplaySubject } from 'rxjs';
+import { catchError, filter, first, map, reduce } from 'rxjs/operators';
 import { Language } from '@ese/api-interfaces';
 
 const VARIABLE = 'l';
@@ -12,15 +12,26 @@ const QUERY = `MATCH (${VARIABLE}:Language) RETURN l`;
 
 @Injectable()
 export class LanguageService {
-  constructor(private _neo4j: Neo4jProvider) {}
+  private memo: ReplaySubject<LanguageObject[]> = new ReplaySubject(1);
+
+  constructor(private neo4j: Neo4jProvider) {}
 
   get(): Observable<LanguageObject[]> {
-    return this._neo4j.query(QUERY).pipe(
-      map((record) => extractProperties(record)),
-      filter((props) => hasAllProperties(props)),
-      map((props) => toLanguageObject(props)),
-      reduce(insertToAccumulator, []),
-    );
+    this.update();
+    return this.memo.asObservable().pipe(first());
+  }
+
+  private update(): void {
+    this.neo4j
+      .query(QUERY)
+      .pipe(
+        map((record) => extractProperties(record)),
+        filter((props) => hasAllProperties(props)),
+        map((props) => toLanguageObject(props)),
+        reduce(insertToAccumulator, []),
+        catchError(() => []),
+      )
+      .subscribe(this.memo);
   }
 }
 
