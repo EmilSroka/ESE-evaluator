@@ -1,8 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { LanguagesResolver } from './languages.resolver';
-import { LanguageService } from '../../../feature/translation/services/language/language.service';
+import { LanguageService } from '../../../../feature/translation/services/language/language.service';
 import { Observable } from 'rxjs';
-import { Language } from '../models/language.model';
+import { Language } from '../../models/language.model';
 import { cold } from 'jest-marbles';
 
 const LANGUAGE_MARBLE = '---(a|)';
