@@ -38,7 +38,9 @@ describe('TranslationsResolver', () => {
     languagesResolver.translationsFor('TAG').subscribe({
       next: noCallSpy,
       error: error => {
-        expect(error.message).toMatchInlineSnapshot();
+        expect(error.message).toMatchInlineSnapshot(
+          `"Translations for TAG not found"`,
+        );
         expect(noCallSpy).not.toHaveBeenCalled();
       },
       complete: noCallSpy,

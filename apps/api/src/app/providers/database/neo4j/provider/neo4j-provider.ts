@@ -6,11 +6,12 @@ import { auth, driver, Record } from 'neo4j-driver';
 export class Neo4jProvider implements OnApplicationShutdown {
   private _driver = driver(
     process.env.DB_URL,
-    auth.basic(process.env.DB_LOGIN, process.env.DB_PASSWORD)
+    auth.basic(process.env.DB_LOGIN, process.env.DB_PASSWORD),
   );
   private _session = this._driver.rxSession();
 
   query(query: string): Observable<Record> {
+    this._session = this._driver.rxSession();
     return this._session.run(query).records();
   }
 
