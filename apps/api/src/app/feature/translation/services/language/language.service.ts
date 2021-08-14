@@ -3,7 +3,7 @@ import { Neo4jProvider } from '../../../../providers/database/neo4j/provider/neo
 import { Record } from 'neo4j-driver';
 import { Language } from '../../../../graphql/translations/models/language.model';
 import { Observable, ReplaySubject } from 'rxjs';
-import { catchError, filter, first, map, reduce } from 'rxjs/operators';
+import { catchError, filter, first, map, reduce, tap } from 'rxjs/operators';
 import { LanguageModel } from '@ese/api-interfaces';
 
 const VARIABLE = 'l';
@@ -31,7 +31,9 @@ export class LanguageService {
         reduce(insertToAccumulator, []),
         catchError(() => []),
       )
-      .subscribe(this.memo);
+      .subscribe({
+        next: value => this.memo.next(value),
+      });
   }
 }
 

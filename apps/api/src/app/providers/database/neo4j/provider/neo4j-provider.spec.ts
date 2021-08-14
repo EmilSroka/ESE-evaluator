@@ -8,7 +8,7 @@ const runMock = jest.fn();
 const closeMock = jest.fn();
 const rxSession = () => ({
   run: runMock,
-  close: closeMock,
+  close: jest.fn(),
 });
 jest.mock('neo4j-driver', () => {
   const actual = jest.requireActual('neo4j-driver');
@@ -51,7 +51,8 @@ describe('Neo4jProvider', () => {
     expect(response).toBeObservable(expected);
   });
   it('closes neo4j driver on application shutdown', async () => {
+    expect.assertions(1);
     await module.close();
-    expect(closeMock).toHaveBeenCalledTimes(2);
+    expect(closeMock).toHaveBeenCalledTimes(1);
   });
 });
