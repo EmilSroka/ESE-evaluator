@@ -1,22 +1,24 @@
 import { Injectable, OnApplicationShutdown } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { auth, driver, Record } from 'neo4j-driver';
+import { finalize } from 'rxjs/operators';
 
 @Injectable()
 export class Neo4jProvider implements OnApplicationShutdown {
-  private _driver = driver(
+  private driver = driver(
     process.env.DB_URL,
     auth.basic(process.env.DB_LOGIN, process.env.DB_PASSWORD),
   );
-  private _session = this._driver.rxSession();
 
   query(query: string): Observable<Record> {
-    this._session = this._driver.rxSession();
-    return this._session.run(query).records();
+    const session = this.driver.rxSession();
+    return session
+      .run(query)
+      .records()
+      .pipe(finalize(() => session.close()));
   }
 
   onApplicationShutdown(): void {
-    this._session.close();
-    this._driver.close();
+    this.driver.close();
   }
 }
