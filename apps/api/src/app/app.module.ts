@@ -1,8 +1,8 @@
-import { Module } from '@nestjs/common';
+import { Logger, Module } from '@nestjs/common';
 import { join } from 'path';
 import { Neo4jModule } from './providers/database/neo4j/neo4j.module';
 import { GraphQLModule } from '@nestjs/graphql';
-import { TranslationGQLModule } from './graphql/translations/translation.api.module';
+import { GqlApiModule } from './graphql/gql.api.module';
 
 @Module({
   imports: [
@@ -10,7 +10,7 @@ import { TranslationGQLModule } from './graphql/translations/translation.api.mod
       autoSchemaFile: join(process.cwd(), 'src/app/graphql/schema.gql'),
     }),
     Neo4jModule,
-    TranslationGQLModule,
+    GqlApiModule,
   ],
 })
 export class AppModule {}

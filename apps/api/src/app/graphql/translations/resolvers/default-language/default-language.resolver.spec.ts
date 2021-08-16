@@ -62,7 +62,6 @@ describe('DefaultLanguageResolver', () => {
     expect(
       languagesResolver.defaultLanguage().pipe(
         catchError(error => {
-          console.log(loggerMock.error.mock.calls[0]);
           expect(loggerMock.error).toBeCalledTimes(1);
           expect(loggerMock.error.mock.calls[0][0]).toMatchInlineSnapshot(
             `"DefaultLanguageResolver: Languages list returned from LanguageService is empty"`,

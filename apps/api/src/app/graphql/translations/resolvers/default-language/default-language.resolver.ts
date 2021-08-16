@@ -1,7 +1,7 @@
 import { Query, Resolver } from '@nestjs/graphql';
 import { Language } from '../../models/language.model';
 import { LanguageService } from '../../../../feature/translation/services/language/language.service';
-import { Observable } from 'rxjs';
+import { Observable, Subscriber } from 'rxjs';
 import { Inject, InternalServerErrorException, Logger } from '@nestjs/common';
 import { DEFAULT_LANGUAGE_TOKEN } from './default-language.token';
 
@@ -18,27 +18,49 @@ export class DefaultLanguageResolver {
     return new Observable<Language>(subscriber => {
       this.languages.get().subscribe({
         next: languages => {
-          if (languages.length === 0) {
-            this.logger.error(
-              'DefaultLanguageResolver: Languages list returned from LanguageService is empty',
-            );
-            subscriber.error(
-              new InternalServerErrorException('Internal server error'),
-            );
-          } else if (!languages.find(({ tag }) => tag === this.defaultLang)) {
-            this.logger.warn(
-              `DefaultLanguageResolver: value '${this.defaultLang}' stored under DEFAULT_LANGUAGE_TOKEN is not present in languages list`,
-            );
-            subscriber.next(languages[0]);
-            subscriber.complete();
+          if (isEmpty(languages)) {
+            this.handleError(subscriber);
+          } else if (isNotIn(languages, this.defaultLang)) {
+            this.warnAndPushFirstFromLanguages(subscriber, languages);
           } else {
-            subscriber.next(
-              languages.find(({ tag }) => tag === this.defaultLang),
-            );
-            subscriber.complete();
+            this.pushDefaultValue(subscriber, languages);
           }
         },
       });
     });
   }
+
+  handleError(subscriber: Subscriber<Language>): void {
+    this.logger.error(
+      'DefaultLanguageResolver: Languages list returned from LanguageService is empty',
+    );
+    subscriber.error(new InternalServerErrorException('Internal server error'));
+  }
+
+  warnAndPushFirstFromLanguages(
+    subscriber: Subscriber<Language>,
+    languages: Language[],
+  ): void {
+    this.logger.warn(
+      `DefaultLanguageResolver: value '${this.defaultLang}' stored under DEFAULT_LANGUAGE_TOKEN is not present in languages list`,
+    );
+    subscriber.next(languages[0]);
+    subscriber.complete();
+  }
+
+  pushDefaultValue(
+    subscriber: Subscriber<Language>,
+    languages: Language[],
+  ): void {
+    subscriber.next(languages.find(({ tag }) => tag === this.defaultLang));
+    subscriber.complete();
+  }
+}
+
+function isEmpty(languages: Language[]): boolean {
+  return languages.length === 0;
+}
+
+function isNotIn(languages: Language[], target: string): boolean {
+  return !languages.find(({ tag }) => tag === target);
 }
