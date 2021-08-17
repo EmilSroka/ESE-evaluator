@@ -11,6 +11,7 @@ type Language {
 type Query {
   availableLanguages: [Language!]!
   translationsFor(tag: String!): JSONObject!
+  defaultLanguage: Language!
 }
 
 """JSONObject custom scalar type"""
