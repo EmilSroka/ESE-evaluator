@@ -6,6 +6,9 @@ export const GET_TRANSLATIONS = gql`
     translationsFor(tag: $tag)
   }
 `;
+export type GetTranslationsResult = {
+  translationsFor: Record<string, string>;
+};
 
 export const GET_DEFAULT_LANGUAGE = gql`
   query GetDefaultLanguage {
@@ -27,4 +30,6 @@ export const GET_AVAILABLE_LANGUAGES = gql`
     }
   }
 `;
-export type GetAvailableLanguages = { availableLanguages: LanguageModel[] };
+export type GetAvailableLanguagesResult = {
+  availableLanguages: LanguageModel[];
+};
