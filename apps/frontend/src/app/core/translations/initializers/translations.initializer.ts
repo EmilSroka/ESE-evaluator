@@ -16,7 +16,9 @@ type Configuration = {
   languages: LanguageModel[];
 };
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class TranslationsInitializerService {
   private state = new ReplaySubject<Configuration>(1);
   config = this.state.asObservable();
