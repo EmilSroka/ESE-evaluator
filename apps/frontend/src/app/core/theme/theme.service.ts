@@ -30,9 +30,9 @@ export class ThemeService implements OnDestroy {
     @Inject(INITIAL_THEME)
     private initTheme: Theme = FALLBACK_INIT_THEME,
     @Inject(STORAGE_KEYS) keys: StorageKeys,
-    @Inject(DOCUMENT) document: Document,
+    @Inject(DOCUMENT) private document: Document,
+    private renderer: Renderer2,
     storage: StorageService,
-    renderer: Renderer2,
   ) {
     storage.read<Theme>(keys.theme).subscribe({
       next: theme => this.themeState$.next(theme),
@@ -40,14 +40,7 @@ export class ThemeService implements OnDestroy {
     this.updateTheme = this.themeState$.subscribe({
       next: theme => {
         storage.save(keys.theme, theme);
-        switch (theme) {
-          case 'DARK':
-            renderer.removeClass(document.body, LIGHT_THEME_CLASS_NAME);
-            break;
-          case 'LIGHT':
-            renderer.addClass(document.body, LIGHT_THEME_CLASS_NAME);
-            break;
-        }
+        this.updateStyles(theme);
       },
     });
   }
@@ -58,5 +51,16 @@ export class ThemeService implements OnDestroy {
 
   ngOnDestroy(): void {
     this.updateTheme.unsubscribe();
+  }
+
+  private updateStyles(theme: Theme): void {
+    switch (theme) {
+      case 'DARK':
+        this.renderer.removeClass(this.document.body, LIGHT_THEME_CLASS_NAME);
+        break;
+      case 'LIGHT':
+        this.renderer.addClass(this.document.body, LIGHT_THEME_CLASS_NAME);
+        break;
+    }
   }
 }
