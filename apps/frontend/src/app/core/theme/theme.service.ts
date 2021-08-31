@@ -11,11 +11,14 @@ import { DOCUMENT } from '@angular/common';
 import { STORAGE_KEYS, StorageKeys } from '../storage/storage.keys';
 import { StorageService } from '../storage/storage.service';
 
-export type Theme = 'LIGHT' | 'DARK';
+export enum Theme {
+  LIGHT = 'LIGHT',
+  DARK = 'DARK',
+}
 export const INITIAL_THEME = new InjectionToken<Theme>('INITIAL_THEME');
 
 export const LIGHT_THEME_CLASS_NAME = 'light-theme';
-const FALLBACK_INIT_THEME = 'LIGHT';
+const FALLBACK_INIT_THEME = Theme.LIGHT;
 
 @Injectable({
   providedIn: 'root',
