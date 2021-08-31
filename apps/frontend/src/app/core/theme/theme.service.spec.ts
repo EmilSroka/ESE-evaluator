@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import {
   INITIAL_THEME,
   LIGHT_THEME_CLASS_NAME,
+  Theme,
   ThemeService,
 } from './theme.service';
 import { STORAGE_KEYS } from '../storage/storage.keys';
@@ -29,7 +30,7 @@ describe('ThemeService', () => {
           documentMock.body,
           LIGHT_THEME_CLASS_NAME,
         );
-        service.setTheme('DARK');
+        service.setTheme(Theme.DARK);
       })
       .then(() => {
         expect(renderer.removeClass).toHaveBeenCalledTimes(1);
@@ -41,7 +42,7 @@ describe('ThemeService', () => {
   });
 
   it('saves value to storage', () => {
-    const theme = 'DARK';
+    const theme = Theme.DARK;
     setup(false);
     service.setTheme(theme);
     return new Promise<void>(resolve => {
@@ -62,14 +63,14 @@ describe('ThemeService', () => {
 
   it('allows to access only current theme by exposing theme$ observable', () => {
     setup();
-    service.setTheme('LIGHT');
-    service.setTheme('DARK');
+    service.setTheme(Theme.LIGHT);
+    service.setTheme(Theme.DARK);
     expect(service.theme$).toBeObservable(cold('a', { a: 'DARK' }));
   });
 
   it('allows to change theme value by using setTheme method', () => {
     setup();
-    service.setTheme('LIGHT');
+    service.setTheme(Theme.LIGHT);
     expect(service.theme$).toBeObservable(cold('a', { a: 'LIGHT' }));
   });
 
