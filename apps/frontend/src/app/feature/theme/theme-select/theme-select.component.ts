@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Theme, ThemeService } from '../../../core/theme/theme.service';
+import { Theme, ThemeService } from '../service/theme.service';
 
 @Component({
   selector: 'ese-theme-select',

@@ -8,8 +8,8 @@ import {
 } from '@angular/core';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { DOCUMENT } from '@angular/common';
-import { STORAGE_KEYS, StorageKeys } from '../storage/storage.keys';
-import { StorageService } from '../storage/storage.service';
+import { STORAGE_KEYS, StorageKeys } from '../../storage/storage.keys';
+import { StorageService } from '../../storage/storage.service';
 
 export enum Theme {
   LIGHT = 'LIGHT',

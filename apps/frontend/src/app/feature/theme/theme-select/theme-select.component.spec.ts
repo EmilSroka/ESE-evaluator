@@ -7,7 +7,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { Theme, ThemeService } from '../../../core/theme/theme.service';
+import { Theme, ThemeService } from '../service/theme.service';
 import { Subject } from 'rxjs';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
@@ -73,8 +73,8 @@ class ThemeServiceMock {
 
 const themes = [Theme.DARK, Theme.LIGHT];
 const themeToName = {
-  [Theme.DARK]: 'dark_theme',
-  [Theme.LIGHT]: 'light_theme',
+  [Theme.DARK]: 'theme_dark',
+  [Theme.LIGHT]: 'theme_light',
 };
 
 @Pipe({
