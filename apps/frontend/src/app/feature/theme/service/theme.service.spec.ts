@@ -5,9 +5,9 @@ import {
   Theme,
   ThemeService,
 } from './theme.service';
-import { STORAGE_KEYS } from '../storage/storage.keys';
+import { STORAGE_KEYS } from '../../storage/storage.keys';
 import { DOCUMENT } from '@angular/common';
-import { StorageService } from '../storage/storage.service';
+import { StorageService } from '../../storage/storage.service';
 import { Renderer2 } from '@angular/core';
 import { cold } from 'jest-marbles';
 import { EMPTY, of } from 'rxjs';

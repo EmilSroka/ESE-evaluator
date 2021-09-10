@@ -1,15 +1,15 @@
 <button mat-icon-button [matMenuTriggerFor]="menu"
-        [attr.aria-live]="'select_theme' | translate"
-        [matTooltip]="'select_theme' | translate">
+        [attr.aria-live]="'theme_select' | translate"
+        [matTooltip]="'theme_select' | translate">
   <mat-icon>format_color_fill</mat-icon>
 </button>
 <mat-menu #menu="matMenu">
   <button mat-menu-item (click)="select(themes.DARK)">
     <mat-icon>{{ (theme$ | async) === themes.DARK ? 'radio_button_checked' : 'radio_button_unchecked' }}</mat-icon>
-    {{ 'dark_theme' | translate }} 🌚
+    {{ 'theme_dark' | translate }} 🌚
   </button>
   <button mat-menu-item (click)="select(themes.LIGHT)">
     <mat-icon>{{ (theme$ | async) === themes.LIGHT ? 'radio_button_checked' : 'radio_button_unchecked' }}</mat-icon>
-    {{ 'light_theme' | translate }} 🌞
+    {{ 'theme_light' | translate }} 🌞
   </button>
 </mat-menu>

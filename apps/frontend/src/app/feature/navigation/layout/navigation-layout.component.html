@@ -1,0 +1,23 @@
+<div class="container">
+  <mat-toolbar color="primary">
+    <button mat-icon-button (click)="navigationService.toggle()"
+            *ngIf="(isOpen ? 'menu_close' : 'menu_open') | translate as actionDescription"
+            [attr.aria-label]="actionDescription"
+            [matTooltip]="actionDescription">
+      <mat-icon>{{ isOpen ? 'close' : 'menu' }}</mat-icon>
+    </button>
+    <ng-content select="[ese-nav-title]"></ng-content>
+    <span class="spacer"></span>
+    <ng-content select="[ese-nav-toolbar]"></ng-content>
+  </mat-toolbar>
+  <mat-drawer-container class="drawer">
+    <mat-drawer mode="side" [opened]="isOpen">
+      <ng-content select="[ese-nav-menu]"></ng-content>
+    </mat-drawer>
+    <mat-drawer-content>
+      <ng-content select="[ese-nav-content]"></ng-content>
+    </mat-drawer-content>
+  </mat-drawer-container>
+</div>
+
+

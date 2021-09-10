@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { LanguageSelectComponent } from './language-select.component';
 import { fireEvent, screen } from '@testing-library/dom';
 import { TranslateService } from '@ngx-translate/core';
-import { TranslationsInitializerService } from '../../../core/translations/initializers/translations.initializer';
+import { TranslationsService } from '../service/translations.service';
 import { of } from 'rxjs';
 import userEvent from '@testing-library/user-event';
 import { Pipe, PipeTransform } from '@angular/core';
@@ -27,7 +27,7 @@ describe('LanguageSelectComponent', () => {
       providers: [
         { provide: TranslateService, useClass: TranslateServiceMock },
         {
-          provide: TranslationsInitializerService,
+          provide: TranslationsService,
           useClass: TranslationsInitializerServiceMock,
         },
       ],

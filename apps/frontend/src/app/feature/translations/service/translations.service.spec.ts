@@ -1,7 +1,7 @@
 import {
-  TranslationsInitializerService,
+  TranslationsService,
   translationsInitializerFactory,
-} from './translations.initializer';
+} from './translations.service';
 import {
   ApolloTestingController,
   ApolloTestingModule,
@@ -18,7 +18,7 @@ import {
 
 describe('TranslationsInitializerService', () => {
   let controller: ApolloTestingController;
-  let loader: TranslationsInitializerService;
+  let loader: TranslationsService;
   let translateServiceMock: TranslateService;
 
   let getDefaultLanguageQuery: TestOperation | null;
@@ -27,14 +27,14 @@ describe('TranslationsInitializerService', () => {
   beforeEach(async () => {
     TestBed.configureTestingModule({
       providers: [
-        TranslationsInitializerService,
+        TranslationsService,
         { provide: TranslateService, useClass: TranslateServiceMock },
       ],
       imports: [ApolloTestingModule],
     });
 
     controller = TestBed.inject(ApolloTestingController);
-    loader = TestBed.inject(TranslationsInitializerService);
+    loader = TestBed.inject(TranslationsService);
     translateServiceMock = TestBed.inject(TranslateService);
 
     getDefaultLanguageQuery = null;

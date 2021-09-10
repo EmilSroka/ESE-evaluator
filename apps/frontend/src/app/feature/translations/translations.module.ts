@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
-import { TranslateModule } from '@ngx-translate/core';
-import { ThemeSelectComponent } from './theme-select/theme-select.component';
+import { SharedModule } from '../../shared/shared.module';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
-import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatMenuModule } from '@angular/material/menu';
+import { LanguageSelectComponent } from './language-select/language-select.component';
+import { FlagPipe } from './language-select/flag/flag.pipe';
 
 const materialComponents = [
   MatIconModule,
@@ -17,8 +17,8 @@ const materialComponents = [
 ];
 
 @NgModule({
-  imports: [...materialComponents, TranslateModule, CommonModule],
-  exports: [ThemeSelectComponent],
-  declarations: [ThemeSelectComponent],
+  imports: [SharedModule, ...materialComponents],
+  declarations: [LanguageSelectComponent, FlagPipe],
+  exports: [LanguageSelectComponent],
 })
-export class ThemesModule {}
+export class TranslationsModule {}

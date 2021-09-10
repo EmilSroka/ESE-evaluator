@@ -19,7 +19,7 @@ type Configuration = {
 @Injectable({
   providedIn: 'root',
 })
-export class TranslationsInitializerService {
+export class TranslationsService {
   private state = new ReplaySubject<Configuration>(1);
   config = this.state.asObservable();
 
@@ -27,6 +27,7 @@ export class TranslationsInitializerService {
     this.state.pipe(first()).subscribe({
       next: config => {
         this.langService.setDefaultLang(config.defaultLanguage);
+        this.langService.use(config.defaultLanguage);
         this.langService.addLangs(config.languages.map(({ tag }) => tag));
       },
     });
@@ -49,8 +50,6 @@ export class TranslationsInitializerService {
   }
 }
 
-export function translationsInitializerFactory(
-  service: TranslationsInitializerService,
-) {
+export function translationsInitializerFactory(service: TranslationsService) {
   return () => service.init();
 }

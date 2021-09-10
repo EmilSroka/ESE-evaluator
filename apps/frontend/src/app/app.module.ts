@@ -1,27 +1,23 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
-import { HttpClientModule } from '@angular/common/http';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { MatGridListModule } from '@angular/material/grid-list';
-import { MatSidenavModule } from '@angular/material/sidenav';
+import { SharedModule } from './shared/shared.module';
+import { NavigationModule } from './feature/navigation/navigation.module';
+import { AppRotingModule } from './app-routing.module';
+import { TranslationsModule } from './feature/translations/translations.module';
+import { ThemeModule } from './feature/theme/theme.module';
 import { CoreModule } from './core/core.module';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     CoreModule,
-    BrowserModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatButtonModule,
-    MatGridListModule,
-    MatSidenavModule,
+    AppRotingModule,
+    SharedModule,
+    NavigationModule,
+    TranslationsModule,
+    ThemeModule,
+    MatListModule,
   ],
   bootstrap: [AppComponent],
 })
