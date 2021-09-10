@@ -16,7 +16,7 @@ import {
   GetDefaultLanguageResult,
 } from '../queries/languages.queries';
 
-describe('TranslationsInitializerService', () => {
+describe('TranslationsService', () => {
   let controller: ApolloTestingController;
   let loader: TranslationsService;
   let translateServiceMock: TranslateService;
@@ -91,12 +91,17 @@ describe('TranslationsInitializerService', () => {
   });
 
   it('passes fetched data to TranslateService', done => {
-    expect.assertions(4);
+    expect.assertions(6);
     loader.init().subscribe({
       complete: () => {
         try {
           expect(translateServiceMock.setDefaultLang).toHaveBeenCalledTimes(1);
           expect(translateServiceMock.setDefaultLang).toHaveBeenCalledWith(
+            defaultLanguageFixture.defaultLanguage.tag,
+          );
+
+          expect(translateServiceMock.use).toHaveBeenCalledTimes(1);
+          expect(translateServiceMock.use).toHaveBeenCalledWith(
             defaultLanguageFixture.defaultLanguage.tag,
           );
 
@@ -133,6 +138,7 @@ describe('translationsInitializerFactory', () => {
 
 class TranslateServiceMock {
   setDefaultLang = jest.fn();
+  use = jest.fn();
   addLangs = jest.fn();
 }
 
