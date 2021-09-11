@@ -5,6 +5,10 @@ import { UserGateway } from './gateways/user/user.gateway';
 import { UserService } from './services/user/user.service';
 import { ID_SERVICE } from './services/id/id-service.interface';
 import { Uuid4Service } from './services/id/uuid4.service';
+import { GetByEmailService } from './services/user/helpers/get-by-email.service';
+import { CreateService } from './services/user/helpers/create.service';
+
+const userServiceHelpers = [GetByEmailService, CreateService];
 
 @Module({
   imports: [Neo4jModule, CacheModule.register()],
@@ -14,6 +18,7 @@ import { Uuid4Service } from './services/id/uuid4.service';
     UserService,
     Logger,
     { provide: ID_SERVICE, useClass: Uuid4Service },
+    ...userServiceHelpers,
   ],
   exports: [UserService],
 })

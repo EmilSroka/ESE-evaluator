@@ -1,18 +1,16 @@
 import { CACHE_MANAGER, Inject, Injectable, Logger } from '@nestjs/common';
 import { Neo4jProvider } from '../../../../providers/database/neo4j/provider/neo4j-provider';
 import { from, Observable, of } from 'rxjs';
-import { reduce, switchMap, tap } from 'rxjs/operators';
+import { switchMap, tap } from 'rxjs/operators';
 import { UserValidator } from '../../validators/user/user.validator';
 import { UserGateway } from '../../gateways/user/user.gateway';
 import { User, UserCreate } from '../../models/user.model';
 import { Cache } from 'cache-manager';
+import { GetByEmailService } from './helpers/get-by-email.service';
+import { CreateService } from './helpers/create.service';
 
 const CACHE_TTL = 10 /* min */ * 60 * 1000;
 const CACHE_KEY_PREFIX = 'email->';
-
-class UserWithEmailDoesAlreadyExistError extends Error {}
-class UserWithEmailDoesNotExistError extends Error {}
-class CreatedEntityIsNotOfTypeUser extends Error {}
 
 @Injectable()
 export class UserService {
@@ -22,11 +20,15 @@ export class UserService {
     private validator: UserValidator,
     private gateway: UserGateway,
     private logger: Logger,
+    private getByEmailHelper: GetByEmailService,
+    private createHelper: CreateService,
   ) {}
 
   getByEmail(email: string): Observable<User> {
     return from(this.cacheManager.get(`${CACHE_KEY_PREFIX}${email}`)).pipe(
-      switchMap(cache => this.ifCacheEmptyGetFromDb(email, cache)),
+      switchMap(cache =>
+        this.getByEmailHelper.ifCacheEmptyGetFromDb(email, cache),
+      ),
       tap(user => this.updateCache(user)),
     );
   }
@@ -39,52 +41,23 @@ export class UserService {
             this.gateway.create(data).subscribe({
               next: response => {
                 if (!this.validator.isUser(response)) {
-                  this.logger.log(
-                    `UserService: Unable to create user -> created entity is not of type User, entity: ${response}`,
-                  );
-                  subscriber.error(
-                    new CreatedEntityIsNotOfTypeUser(
-                      `Created value does not satisfy User type constraints`,
-                    ),
-                  );
+                  this.createHelper.handleWrongType(subscriber, response);
+                } else {
+                  this.updateCache(response);
+                  subscriber.next(response.id);
                 }
-                this.updateCache(response);
-                subscriber.next(response.id);
               },
-              error: error => {
-                this.logger.error(
-                  `UserService: Unable to create user -> db error: ${error}`,
-                );
-                subscriber.error(error);
-              },
+              error: error =>
+                this.createHelper.handleCreationError(subscriber, error),
             });
           } else {
-            this.logger.error(
-              `UserService: Unable to create user -> when checking email availability, error: ${error}`,
-            );
-            subscriber.error(error);
+            this.createHelper.handleUnexpectedError(subscriber, error);
           }
         },
-        complete: () => {
-          this.logger.warn(
-            `UserService: Unable to create user -> email already taken, email: ${data.email}`,
-          );
-          subscriber.error(
-            new UserWithEmailDoesAlreadyExistError(
-              `Cannot create user because email "${data.email}" is already taken`,
-            ),
-          );
-        },
+        complete: () =>
+          this.createHelper.handleEmailTaken(subscriber, data.email),
       });
     });
-  }
-
-  private ifCacheEmptyGetFromDb(email: string, cache: any): Observable<User> {
-    if (this.validator.isUser(cache)) {
-      return of(cache);
-    } else {
-      return this.getFromDb(email);
-    }
   }
 
   private updateCache(user: User): void {
@@ -102,20 +75,8 @@ export class UserService {
       },
     });
   }
-
-  private getFromDb(email: string): Observable<User> {
-    return this.gateway.getByEmail(email).pipe(
-      reduce((_, value) => value, null),
-      tap(value => {
-        if (!this.validator.isUser(value)) {
-          this.logger.log(
-            `UserService: Unable to find user -> email "${email}" does not exist`,
-          );
-          throw new UserWithEmailDoesNotExistError(
-            `User with given email "${email}" does not exist`,
-          );
-        }
-      }),
-    );
-  }
 }
+
+export class UserWithEmailDoesAlreadyExistError extends Error {}
+export class UserWithEmailDoesNotExistError extends Error {}
+export class CreatedEntityIsNotOfTypeUser extends Error {}
