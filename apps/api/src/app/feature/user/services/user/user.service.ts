@@ -4,11 +4,15 @@ import { from, Observable, of } from 'rxjs';
 import { reduce, switchMap, tap } from 'rxjs/operators';
 import { UserValidator } from '../../validators/user/user.validator';
 import { UserGateway } from '../../gateways/user/user.gateway';
-import { User } from '../../models/user.model';
+import { User, UserCreate } from '../../models/user.model';
 import { Cache } from 'cache-manager';
 
 const CACHE_TTL = 10 /* min */ * 60 * 1000;
 const CACHE_KEY_PREFIX = 'email->';
+
+class UserWithEmailDoesAlreadyExistError extends Error {}
+class UserWithEmailDoesNotExistError extends Error {}
+class CreatedEntityIsNotOfTypeUser extends Error {}
 
 @Injectable()
 export class UserService {
@@ -27,6 +31,54 @@ export class UserService {
     );
   }
 
+  create(data: UserCreate): Observable<string> {
+    return new Observable(subscriber => {
+      this.getByEmail(data.email).subscribe({
+        error: error => {
+          if (error instanceof UserWithEmailDoesNotExistError) {
+            this.gateway.create(data).subscribe({
+              next: response => {
+                if (!this.validator.isUser(response)) {
+                  this.logger.log(
+                    `UserService: Unable to create user -> created entity is not of type User, entity: ${response}`,
+                  );
+                  subscriber.error(
+                    new CreatedEntityIsNotOfTypeUser(
+                      `Created value does not satisfy User type constraints`,
+                    ),
+                  );
+                }
+                this.updateCache(response);
+                subscriber.next(response.id);
+              },
+              error: error => {
+                this.logger.error(
+                  `UserService: Unable to create user -> db error: ${error}`,
+                );
+                subscriber.error(error);
+              },
+            });
+          } else {
+            this.logger.error(
+              `UserService: Unable to create user -> when checking email availability, error: ${error}`,
+            );
+            subscriber.error(error);
+          }
+        },
+        complete: () => {
+          this.logger.warn(
+            `UserService: Unable to create user -> email already taken, email: ${data.email}`,
+          );
+          subscriber.error(
+            new UserWithEmailDoesAlreadyExistError(
+              `Cannot create user because email "${data.email}" is already taken`,
+            ),
+          );
+        },
+      });
+    });
+  }
+
   private ifCacheEmptyGetFromDb(email: string, cache: any): Observable<User> {
     if (this.validator.isUser(cache)) {
       return of(cache);
@@ -43,9 +95,9 @@ export class UserService {
         CACHE_TTL,
       ),
     ).subscribe({
-      error: () => {
+      error: error => {
         this.logger.warn(
-          `UserService: unable to store user in cache [email = ${user.email}]`,
+          `UserService: Unable to store user in cache -> email: "${user.email}", error: "${error}"`,
         );
       },
     });
@@ -57,9 +109,11 @@ export class UserService {
       tap(value => {
         if (!this.validator.isUser(value)) {
           this.logger.log(
-            `UserService: requested for non existed user [email = ${email}]`,
+            `UserService: Unable to find user -> email "${email}" does not exist`,
           );
-          throw new Error(`User with given email (${email}) does not exist`);
+          throw new UserWithEmailDoesNotExistError(
+            `User with given email "${email}" does not exist`,
+          );
         }
       }),
     );
