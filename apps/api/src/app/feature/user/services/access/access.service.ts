@@ -1,29 +1,27 @@
 import { CACHE_MANAGER, Inject, Injectable, Logger } from '@nestjs/common';
-import { Observable, of } from 'rxjs';
-import { User } from '../../../models/user.model';
-import { reduce, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { catchError, reduce, tap } from 'rxjs/operators';
+import { UserValidator } from '../../validators/user/user.validator';
+import { UserGateway } from '../../gateways/user/user.gateway';
+import { User } from '../../models/user.model';
 import { Cache } from 'cache-manager';
-import { Neo4jProvider } from '../../../../../providers/database/neo4j/provider/neo4j-provider';
-import { UserValidator } from '../../../validators/user/user.validator';
-import { UserGateway } from '../../../gateways/user/user.gateway';
-import { UserWithEmailDoesNotExistError } from '../user.service';
+import { UserCacheService } from '../cache/cache.service';
 
 @Injectable()
-export class GetByEmailService {
+export class AccessUserService {
   constructor(
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
-    private neo4j: Neo4jProvider,
     private validator: UserValidator,
     private gateway: UserGateway,
     private logger: Logger,
+    private cache: UserCacheService,
   ) {}
 
-  ifCacheEmptyGetFromDb(email: string, cache: any): Observable<User> {
-    if (this.validator.isUser(cache)) {
-      return of(cache);
-    } else {
-      return this.getFromDb(email);
-    }
+  getByEmail(email: string): Observable<User> {
+    return this.cache.get(email).pipe(
+      catchError(() => this.getFromDb(email)),
+      tap(user => this.cache.update(user)),
+    );
   }
 
   private getFromDb(email: string): Observable<User> {
@@ -42,3 +40,5 @@ export class GetByEmailService {
     );
   }
 }
+
+export class UserWithEmailDoesNotExistError extends Error {}

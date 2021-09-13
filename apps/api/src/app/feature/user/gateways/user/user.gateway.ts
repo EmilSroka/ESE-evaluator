@@ -32,7 +32,7 @@ export class UserGateway {
 
   private createQuery(user: User): string {
     const asString = propsStringify(user);
-    return `CREATE (:${DB_TYPE} ${asString})`;
+    return `CREATE (${VARIABLE}:${DB_TYPE} ${asString}) RETURN ${VARIABLE}`;
   }
 
   private selectQuery(email: string): string {
