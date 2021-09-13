@@ -1,10 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { Neo4jProvider } from '../../../../providers/database/neo4j/provider/neo4j-provider';
+import { Neo4jProvider } from '../../../providers/database/neo4j/provider/neo4j-provider';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { User, UserCreate } from '../../models/user.model';
-import { ID_SERVICE, IdService } from '../../services/id/id-service.interface';
-import { propsStringify } from '../../../../utils/neo4j/props-stringify';
+import { User, UserCreate } from '../models/user.model';
+import { ID_SERVICE, IdService } from '../services/id/id-service.interface';
+import { propsStringify } from '../../../utils/neo4j/props-stringify';
 
 const VARIABLE = 'user';
 const DB_TYPE = 'User';

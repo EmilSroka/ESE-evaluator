@@ -1,6 +1,6 @@
 import { CACHE_MANAGER, Inject, Injectable, Logger } from '@nestjs/common';
 import { Cache } from 'cache-manager';
-import { UserValidator } from '../../validators/user/user.validator';
+import { UserValidator } from '../../validators/user.validator';
 import { from, Observable, of } from 'rxjs';
 import { User } from '../../models/user.model';
 import { map } from 'rxjs/operators';

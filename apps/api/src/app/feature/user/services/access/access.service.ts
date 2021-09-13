@@ -1,8 +1,8 @@
 import { CACHE_MANAGER, Inject, Injectable, Logger } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { catchError, reduce, tap } from 'rxjs/operators';
-import { UserValidator } from '../../validators/user/user.validator';
-import { UserGateway } from '../../gateways/user/user.gateway';
+import { UserValidator } from '../../validators/user.validator';
+import { UserGateway } from '../../gateways/user.gateway';
 import { User } from '../../models/user.model';
 import { Cache } from 'cache-manager';
 import { UserCacheService } from '../cache/cache.service';
