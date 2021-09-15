@@ -1,9 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { Observable } from 'rxjs';
-import { User, UserCredentials, UserRegister } from './models/user.model';
 import { AccessUserService } from './services/access/access.service';
 import { RegisterService } from './services/registration/registration.service';
 import { AuthUserService } from './services/auth/auth.service';
+import {
+  CredentialsModel,
+  RegistrationModel,
+  UserDbModel,
+} from '@ese/api-interfaces';
 
 @Injectable()
 export class UserService {
@@ -13,15 +17,15 @@ export class UserService {
     private auth: AuthUserService,
   ) {}
 
-  getByEmail(email: string): Observable<User> {
+  getByEmail(email: string): Observable<UserDbModel> {
     return this.access.getByEmail(email);
   }
 
-  register(user: UserRegister): Observable<string> {
+  register(user: RegistrationModel): Observable<string> {
     return this.registration.register(user);
   }
 
-  verify(credentials: UserCredentials): Observable<boolean> {
+  verify(credentials: CredentialsModel): Observable<boolean> {
     return this.auth.verify(credentials);
   }
 }

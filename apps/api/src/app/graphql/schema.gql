@@ -8,6 +8,16 @@ type Language {
   tag: String!
 }
 
+type User {
+  email: String!
+  username: String!
+}
+
+type UserWithToken {
+  token: String!
+  user: User!
+}
+
 type Query {
   availableLanguages: [Language!]!
   translationsFor(tag: String!): JSONObject!
@@ -16,3 +26,7 @@ type Query {
 
 """JSONObject custom scalar type"""
 scalar JSONObject
+
+type Mutation {
+  login(password: String!, email: String!): UserWithToken!
+}

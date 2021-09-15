@@ -2,8 +2,8 @@ import { CACHE_MANAGER, Inject, Injectable, Logger } from '@nestjs/common';
 import { Cache } from 'cache-manager';
 import { UserValidator } from '../../validators/user.validator';
 import { from, Observable, of } from 'rxjs';
-import { User } from '../../models/user.model';
 import { map } from 'rxjs/operators';
+import { UserDbModel } from '@ese/api-interfaces';
 
 const CACHE_TTL = 10 /* min */ * 60 * 1000;
 const CACHE_KEY_PREFIX = 'email->';
@@ -16,9 +16,9 @@ export class UserCacheService {
     private logger: Logger,
   ) {}
 
-  get(email: string): Observable<User> {
+  get(email: string): Observable<UserDbModel> {
     return from(this.cacheManager.get(`${CACHE_KEY_PREFIX}${email}`)).pipe(
-      map<unknown, User>(cache => {
+      map<unknown, UserDbModel>(cache => {
         if (!this.validator.isUser(cache)) {
           this.logger.warn(
             `UserCacheService: Unable to retrieve user from cache -> email: "${email}"`,
@@ -32,7 +32,7 @@ export class UserCacheService {
     );
   }
 
-  update(user: User): void {
+  update(user: UserDbModel): void {
     of(
       this.cacheManager.set(
         `${CACHE_KEY_PREFIX}${user.email}`,

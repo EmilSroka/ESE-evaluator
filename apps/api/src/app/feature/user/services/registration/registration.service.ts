@@ -1,13 +1,13 @@
 import { CACHE_MANAGER, Inject, Injectable, Logger } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
-import { UserCreate, UserRegister } from '../../models/user.model';
 import { Cache } from 'cache-manager';
 import {
   PASSWORD_SERVICE,
   PasswordService,
 } from '../password/password.interface';
 import { CreateUserService } from '../create/create.service';
+import { RegistrationModel, UserBackendModel } from '@ese/api-interfaces';
 
 @Injectable()
 export class RegisterService {
@@ -18,7 +18,7 @@ export class RegisterService {
     private create: CreateUserService,
   ) {}
 
-  register(user: UserRegister): Observable<string> {
+  register(user: RegistrationModel): Observable<string> {
     return this.passwordService.hash(user.password).pipe(
       catchError(error => {
         this.logger.error(
@@ -26,8 +26,8 @@ export class RegisterService {
         );
         throw error;
       }),
-      map<string, UserCreate>(hash => {
-        const userWithHash: UserCreate & UserRegister = {
+      map<string, UserBackendModel>(hash => {
+        const userWithHash: UserBackendModel & RegistrationModel = {
           ...user,
           passwordHash: hash,
         };
