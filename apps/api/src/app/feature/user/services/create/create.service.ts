@@ -74,7 +74,11 @@ export class CreateUserService {
       `UserService: Unable to create user -> email already taken, email: ${email}`,
     );
     subscriber.error(
-      new Error(`Cannot create user because email "${email}" is already taken`),
+      new EmailTakenError(
+        `Cannot create user because email "${email}" is already taken`,
+      ),
     );
   }
 }
+
+export class EmailTakenError extends Error {}

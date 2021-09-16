@@ -16,7 +16,7 @@ export class UserValidator {
     const keySet = new Set(Object.keys(value));
 
     for (const { key, required, type } of PROPERTIES) {
-      if (required && keySet.has(key)) return false;
+      if (required && !keySet.has(key)) return false;
       if (keySet.has(key) && typeof value[key] !== type) return false;
       keySet.delete(key);
     }
@@ -40,11 +40,6 @@ const PROPERTIES: KeyValidators[] = [
   },
   {
     key: 'username',
-    required: true,
-    type: 'string',
-  },
-  {
-    key: 'name',
     required: true,
     type: 'string',
   },

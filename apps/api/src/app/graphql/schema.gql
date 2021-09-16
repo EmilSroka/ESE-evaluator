@@ -9,8 +9,9 @@ type Language {
 }
 
 type User {
-  email: String!
   username: String!
+  organization: String
+  email: String!
 }
 
 type UserWithToken {
@@ -29,4 +30,10 @@ scalar JSONObject
 
 type Mutation {
   login(password: String!, email: String!): UserWithToken!
+  register(data: UserData!, password: String!, email: String!): UserWithToken!
+}
+
+input UserData {
+  username: String!
+  organization: String
 }
