@@ -2,13 +2,13 @@ import { CACHE_MANAGER, Inject, Injectable, Logger } from '@nestjs/common';
 import { Observable, Subscriber } from 'rxjs';
 import { UserValidator } from '../../validators/user.validator';
 import { UserGateway } from '../../gateways/user.gateway';
-import { UserCreate } from '../../models/user.model';
 import { Cache } from 'cache-manager';
 import { UserCacheService } from '../cache/cache.service';
 import {
   AccessUserService,
   UserWithEmailDoesNotExistError,
 } from '../access/access.service';
+import { UserBackendModel } from '@ese/api-interfaces';
 
 @Injectable()
 export class CreateUserService {
@@ -21,7 +21,7 @@ export class CreateUserService {
     private access: AccessUserService,
   ) {}
 
-  create(data: UserCreate): Observable<string> {
+  create(data: UserBackendModel): Observable<string> {
     return new Observable(subscriber => {
       this.access.getByEmail(data.email).subscribe({
         error: error => {
@@ -74,7 +74,11 @@ export class CreateUserService {
       `UserService: Unable to create user -> email already taken, email: ${email}`,
     );
     subscriber.error(
-      new Error(`Cannot create user because email "${email}" is already taken`),
+      new EmailTakenError(
+        `Cannot create user because email "${email}" is already taken`,
+      ),
     );
   }
 }
+
+export class EmailTakenError extends Error {}

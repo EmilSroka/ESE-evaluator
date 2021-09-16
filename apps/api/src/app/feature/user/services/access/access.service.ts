@@ -3,9 +3,9 @@ import { Observable } from 'rxjs';
 import { catchError, reduce, tap } from 'rxjs/operators';
 import { UserValidator } from '../../validators/user.validator';
 import { UserGateway } from '../../gateways/user.gateway';
-import { User } from '../../models/user.model';
 import { Cache } from 'cache-manager';
 import { UserCacheService } from '../cache/cache.service';
+import { UserDbModel } from '@ese/api-interfaces';
 
 @Injectable()
 export class AccessUserService {
@@ -17,14 +17,14 @@ export class AccessUserService {
     private cache: UserCacheService,
   ) {}
 
-  getByEmail(email: string): Observable<User> {
+  getByEmail(email: string): Observable<UserDbModel> {
     return this.cache.get(email).pipe(
       catchError(() => this.getFromDb(email)),
       tap(user => this.cache.update(user)),
     );
   }
 
-  private getFromDb(email: string): Observable<User> {
+  private getFromDb(email: string): Observable<UserDbModel> {
     return this.gateway.getByEmail(email).pipe(
       reduce((_, value) => value, null),
       tap(value => {

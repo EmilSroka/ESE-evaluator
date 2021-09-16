@@ -1,12 +1,12 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Observable, of } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
-import { UserCredentials } from '../../models/user.model';
 import { AccessUserService } from '../access/access.service';
 import {
   PASSWORD_SERVICE,
   PasswordService,
 } from '../password/password.interface';
+import { CredentialsModel } from '@ese/api-interfaces';
 
 @Injectable()
 export class AuthUserService {
@@ -15,7 +15,7 @@ export class AuthUserService {
     private access: AccessUserService,
   ) {}
 
-  verify({ email, password }: UserCredentials): Observable<boolean> {
+  verify({ email, password }: CredentialsModel): Observable<boolean> {
     return this.access.getByEmail(email).pipe(
       switchMap(({ passwordHash }) =>
         this.passwordService.compare(password, passwordHash),
