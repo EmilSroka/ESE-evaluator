@@ -5,6 +5,7 @@ import { TranslationsResolver } from './resolvers/translations/translations.reso
 import { JSONObjectScalar } from './scalars/jsonobject.scalar';
 import { DEFAULT_LANGUAGE_TOKEN } from './resolvers/default-language/default-language.token';
 import { DefaultLanguageResolver } from './resolvers/default-language/default-language.resolver';
+import { AuthModule } from '../../feature/auth/auth.module';
 
 const resolvers = [
   LanguagesResolver,
@@ -20,7 +21,7 @@ const config = [
 ];
 
 @Module({
-  imports: [TranslationModule],
+  imports: [TranslationModule, AuthModule],
   providers: [JSONObjectScalar, Logger, ...resolvers, ...config],
   exports: [...resolvers],
 })
