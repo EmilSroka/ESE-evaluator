@@ -21,4 +21,11 @@ export class StorageService {
     if (result == null) return EMPTY;
     return of(JSON.parse(result));
   }
+
+  delete<T>(key: string): Observable<T> {
+    const value$ = this.read<T>(key);
+    sessionStorage.removeItem(key);
+    localStorage.removeItem(key);
+    return value$;
+  }
 }

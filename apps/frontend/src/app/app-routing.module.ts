@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { LoginGuard } from './feature/auth/guards/login.guard';
+import { LogoutGuard } from './feature/auth/guards/logout.guard';
 
 export enum Path {
   public = '',
@@ -14,11 +16,13 @@ const routes: Routes = [
         path: Path.public,
         loadChildren: () =>
           import('./views/public/public.module').then(m => m.PublicModule),
+        canActivate: [LogoutGuard],
       },
       {
         path: Path.private,
         loadChildren: () =>
           import('./views/private/private.module').then(m => m.PrivateModule),
+        canActivate: [LoginGuard],
       },
     ],
   },

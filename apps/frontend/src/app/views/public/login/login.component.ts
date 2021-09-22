@@ -1,5 +1,10 @@
 import { Component } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
+import { UserService } from '../../../feature/user/user.service';
+import { partition } from 'rxjs';
+import { Router } from '@angular/router';
+import { Path } from '../../../app-routing.module';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'ese-login-view',
@@ -12,10 +17,27 @@ export class LoginComponent {
     password: [''],
   });
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private userService: UserService,
+    private router: Router,
+    private snackBar: MatSnackBar,
+  ) {}
 
   login() {
-    // todo: delete console log
-    // todo: add odd login service
+    const [success$, fail$] = partition(
+      this.userService.login(this.form.value),
+      isLoggedIn => isLoggedIn,
+    );
+
+    success$.subscribe(() => {
+      this.router.navigateByUrl(Path.private);
+    });
+
+    fail$.subscribe(() => {
+      this.snackBar.open('Cannot log in', 'ok', {
+        duration: 6000,
+      });
+    });
   }
 }

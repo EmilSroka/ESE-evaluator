@@ -17,13 +17,15 @@ export class AuthService {
     this.storage.sessionSave(this.keys.token, token);
   }
 
+  clearToken(): void {
+    this.storage.delete(this.keys.token);
+  }
+
   getToken(): Observable<string> {
     return this.storage.read<string>(this.keys.token);
   }
 
   isAuthenticated(): Observable<boolean> {
-    return this.storage.read(this.keys.token).pipe(
-      reduce(() => true, false)
-    );
+    return this.storage.read(this.keys.token).pipe(reduce(() => true, false));
   }
 }

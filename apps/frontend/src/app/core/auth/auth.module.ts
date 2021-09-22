@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { AuthInterceptor } from '../../feature/auth/auth.interceptor';
-import { UnauthorizedInterceptor } from '../../feature/auth/unauthorized.interceptor';
+import { AuthInterceptor } from '../../feature/auth/interceptors/auth.interceptor';
+import { UnauthorizedInterceptor } from '../../feature/auth/interceptors/unauthorized.interceptor';
 
 @NgModule({
   providers: [
