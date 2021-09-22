@@ -13,6 +13,7 @@ import { AuthService } from '../auth.service';
 import { UserService } from '../../user/user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { filter, shareReplay, switchMap } from 'rxjs/operators';
+import { TranslateService } from '@ngx-translate/core';
 
 const UNAUTHENTICATED_CODE = 'Unauthorized';
 
@@ -23,6 +24,7 @@ export class UnauthorizedInterceptor implements HttpInterceptor {
     private auth: AuthService,
     private userService: UserService,
     private snackBar: MatSnackBar,
+    private translate: TranslateService,
   ) {}
 
   intercept(
@@ -42,11 +44,8 @@ export class UnauthorizedInterceptor implements HttpInterceptor {
           this.userService.logout();
           this.router.navigateByUrl(Path.public);
           this.snackBar.open(
-            'You have been logged out due to inactivity',
-            'ok',
-            {
-              duration: 6000,
-            },
+            this.translate.instant('toast_logout'),
+            this.translate.instant('toast_ok'),
           );
         },
       });

@@ -5,6 +5,7 @@ import { partition } from 'rxjs';
 import { Router } from '@angular/router';
 import { Path } from '../../../app-routing.module';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'ese-login-view',
@@ -22,6 +23,7 @@ export class LoginComponent {
     private userService: UserService,
     private router: Router,
     private snackBar: MatSnackBar,
+    private translate: TranslateService,
   ) {}
 
   login() {
@@ -35,9 +37,10 @@ export class LoginComponent {
     });
 
     fail$.subscribe(() => {
-      this.snackBar.open('Cannot log in', 'ok', {
-        duration: 6000,
-      });
+      this.snackBar.open(
+        this.translate.instant('toast_cannot_login'),
+        this.translate.instant('toast_ok'),
+      );
     });
   }
 }

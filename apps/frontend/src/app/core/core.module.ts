@@ -3,19 +3,18 @@ import { GraphQLModule } from './graphql/graphql.module';
 import { RendererModule } from './renderer/renderer.module';
 import { TranslationsModule } from './translations/translations.module';
 import { AuthModule } from './auth/auth.module';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { ToastModule } from './toast/toast.module';
+import { environment } from '../../environments/environment';
 
-// TODO: move to env
-export const GRAPHQL_PATH = 'graphql';
-const API_URL = `http://localhost:3333/${GRAPHQL_PATH}`;
+export const GRAPHQL_PATH = environment.api.graphQL;
 
 @NgModule({
   imports: [
-    GraphQLModule.forRoot(API_URL),
+    GraphQLModule.forRoot(`${environment.api.base}${GRAPHQL_PATH}`),
     TranslationsModule,
     RendererModule,
     AuthModule,
-    MatSnackBarModule,
+    ToastModule,
   ],
 })
 export class CoreModule {}
