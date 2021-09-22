@@ -22,6 +22,10 @@ export class PublicShellComponent {
         link: PublicPath.login,
         text: this.translate.instant('menu_login'),
       },
+      {
+        link: PublicPath.register,
+        text: this.translate.instant('menu_register'),
+      },
     ]);
   }
 }
