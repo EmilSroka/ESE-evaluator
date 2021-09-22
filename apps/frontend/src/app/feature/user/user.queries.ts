@@ -17,3 +17,29 @@ export type LoginResult = {
   token: string;
   user: UserModel;
 };
+
+export const REGISTER = gql`
+  mutation Register($email: String!, $password: String!, $username: String!) {
+    register(
+      email: $email
+      password: $password
+      data: { username: $username }
+    ) {
+      token
+      user {
+        email
+        username
+        organization
+      }
+    }
+  }
+`;
+export type RegisterResult = {
+  token: string;
+  user: UserModel;
+};
+export type RegisterInput = {
+  email: string;
+  password: string;
+  username: string;
+};

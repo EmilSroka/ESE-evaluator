@@ -68,10 +68,11 @@ export class RegisterComponent {
   }
 
   register() {
-    // todo: update for registration
+    const { email, password, username } = this.form.value;
+
     const [success$, fail$] = partition(
-      this.userService.login(this.form.value),
-      isLoggedIn => isLoggedIn,
+      this.userService.register({ email, password, username }),
+      isSuccess => isSuccess,
     );
 
     success$.subscribe(() => {
@@ -80,7 +81,7 @@ export class RegisterComponent {
 
     fail$.subscribe(() => {
       this.snackBar.open(
-        this.translate.instant('toast_cannot_login'),
+        this.translate.instant('toast_cannot_register'),
         this.translate.instant('toast_ok'),
       );
     });
