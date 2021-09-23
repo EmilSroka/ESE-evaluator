@@ -8,4 +8,8 @@ import { MenuOptionsService } from './feature/navigation/service/menu-options.se
 })
 export class AppComponent {
   constructor(public menuOptionsService: MenuOptionsService) {}
+
+  conditionalCall(maybeFunction: undefined | (() => void)): void {
+    maybeFunction?.();
+  }
 }

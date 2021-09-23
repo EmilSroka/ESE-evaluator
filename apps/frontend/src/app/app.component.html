@@ -8,7 +8,8 @@
     <nav ese-nav-menu>
       <mat-nav-list>
         <a mat-list-item *ngFor="let option of (menuOptionsService.option$ | async)"
-           [routerLink]="option.link"
+           [routerLink]="option?.link"
+           (click)="conditionalCall(option?.callback)"
            routerLinkActive="selected"
         > {{ option.text }} </a>
       </mat-nav-list>

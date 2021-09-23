@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 type Option = {
-  link: string;
+  link?: string;
+  callback?: () => void;
   text: string;
 };
 

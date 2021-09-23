@@ -4,6 +4,15 @@
 
 export const environment = {
   production: false,
+  api: {
+    base: 'http://localhost:3333',
+    graphQL: '/graphql',
+  },
+  config: {
+    toast: {
+      duration: 6000,
+    },
+  },
 };
 
 /*
