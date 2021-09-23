@@ -43,6 +43,7 @@ export class UserService {
 
   logout() {
     this.user$.next(null);
+    this.auth.clearToken();
   }
 
   private handleAuth(input$: Observable<LoginResult>): void {

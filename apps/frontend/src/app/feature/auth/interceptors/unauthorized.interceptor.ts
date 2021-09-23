@@ -40,7 +40,6 @@ export class UnauthorizedInterceptor implements HttpInterceptor {
       )
       .subscribe({
         next: () => {
-          this.auth.clearToken();
           this.userService.logout();
           this.router.navigateByUrl(Path.public);
           this.snackBar.open(
