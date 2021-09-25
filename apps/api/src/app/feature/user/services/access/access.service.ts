@@ -1,11 +1,12 @@
 import { CACHE_MANAGER, Inject, Injectable, Logger } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { catchError, reduce, tap } from 'rxjs/operators';
-import { UserValidator } from '../../validators/user.validator';
 import { UserGateway } from '../../gateways/user.gateway';
 import { Cache } from 'cache-manager';
 import { UserCacheService } from '../cache/cache.service';
 import { UserDbModel } from '@ese/api-interfaces';
+import { UserValidator } from '../../validators/user.validator';
+import { ExceptionFactory } from '../../../errors/exception.factory';
 
 @Injectable()
 export class AccessUserService {
@@ -15,30 +16,56 @@ export class AccessUserService {
     private gateway: UserGateway,
     private logger: Logger,
     private cache: UserCacheService,
+    private exceptionFactory: ExceptionFactory,
   ) {}
 
   getByEmail(email: string): Observable<UserDbModel> {
-    return this.cache.get(email).pipe(
-      catchError(() => this.getFromDb(email)),
+    return this.cache.getByEmail(email).pipe(
+      catchError(() => this.getFromDbByEmail(email)),
       tap(user => this.cache.update(user)),
     );
   }
 
-  private getFromDb(email: string): Observable<UserDbModel> {
+  getByUsername(username: string): Observable<UserDbModel> {
+    return this.cache.getByUsername(username).pipe(
+      catchError(() => this.getFromDbByUsername(username)),
+      tap(user => this.cache.update(user)),
+    );
+  }
+
+  private getFromDbByEmail(email: string): Observable<UserDbModel> {
     return this.gateway.getByEmail(email).pipe(
       reduce((_, value) => value, null),
       tap(value => {
         if (!this.validator.isUser(value)) {
           this.logger.log(
-            `UserService: Unable to find user -> email "${email}" does not exist`,
+            `AccessUserService#getByEmail => Cannot find user with given email -> email: "${email}"`,
           );
-          throw new UserWithEmailDoesNotExistError(
-            `User with given email "${email}" does not exist`,
+          throw this.exceptionFactory.internal({
+            place: 'AccessUserService#getByEmail',
+            msg: 'Cannot find user with given email',
+            extra: `email: "${email}"`,
+          });
+        }
+      }),
+    );
+  }
+
+  private getFromDbByUsername(username: string): Observable<UserDbModel> {
+    return this.gateway.getByUsername(username).pipe(
+      reduce((_, value) => value, null),
+      tap(value => {
+        if (!this.validator.isUser(value)) {
+          this.logger.log(
+            `AccessUserService#getByUsername => Cannot find user with given username -> username: "${username}"`,
           );
+          throw this.exceptionFactory.internal({
+            place: 'AccessUserService#getByUsername',
+            msg: 'Cannot find user with given username',
+            extra: `username: "${username}"`,
+          });
         }
       }),
     );
   }
 }
-
-export class UserWithEmailDoesNotExistError extends Error {}

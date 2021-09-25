@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { UserDbModel } from '@ese/api-interfaces';
+import { UserDbModel, UserModel } from '@ese/api-interfaces';
+import validator from 'validator';
 
 type KeyValidators = {
   key: string;
@@ -24,6 +25,26 @@ export class UserValidator {
     if (keySet.size > 0) return false;
 
     return value;
+  }
+
+  sanitize<T extends UserModel>(user: T): T {
+    const copy = { ...user };
+
+    for (const key of ['username', 'organization', 'about']) {
+      if (copy[key] != null) {
+        const trimmed = validator.trim(copy[key]);
+        copy[key] = validator.escape(trimmed);
+      }
+    }
+
+    copy.email = this.sanitizeEmail(copy.email);
+
+    return copy;
+  }
+
+  sanitizeEmail(email: string): string {
+    const normalized = validator.normalizeEmail(email);
+    return normalized ? normalized : email;
   }
 }
 
@@ -50,6 +71,11 @@ const PROPERTIES: KeyValidators[] = [
   },
   {
     key: 'organization',
+    required: false,
+    type: 'string',
+  },
+  {
+    key: 'about',
     required: false,
     type: 'string',
   },
