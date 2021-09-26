@@ -18,6 +18,10 @@ const routes: Routes = [
         path: PublicPath.register,
         component: RegisterComponent,
       },
+      {
+        path: PublicPath.base,
+        redirectTo: PublicPath.login,
+      },
     ],
   },
 ];

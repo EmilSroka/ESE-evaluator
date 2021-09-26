@@ -8,10 +8,10 @@ import { PASSWORD_SERVICE } from './services/password/password.interface';
 import { BcryptService } from './services/password/bcrypt.service';
 import { UserCacheService } from './services/cache/cache.service';
 import { AccessUserService } from './services/access/access.service';
-import { CreateUserService } from './services/create/create.service';
 import { UserService } from './user.service';
 import { RegisterService } from './services/registration/registration.service';
 import { AuthUserService } from './services/auth/auth.service';
+import { RegistrationValidator } from './validators/registration.validator';
 
 const privateFeatureServices = [
   Logger,
@@ -24,7 +24,7 @@ const privateUserServices = [
   RegisterService,
   AccessUserService,
   UserCacheService,
-  CreateUserService,
+  RegistrationValidator,
   UserValidator,
   UserGateway,
 ];

@@ -5,6 +5,7 @@ export interface UserIdentity {
 export interface UserDataModel {
   username: string;
   organization?: string;
+  about?: string;
 }
 
 export interface UserAuthentication {

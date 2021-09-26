@@ -18,7 +18,13 @@ export class UserGateway {
 
   getByEmail(email: string): Observable<any> {
     return this.neo4j
-      .query(this.selectQuery(email))
+      .query(this.selectByEmailQuery(email))
+      .pipe(map(record => record.get(VARIABLE).properties));
+  }
+
+  getByUsername(username: string): Observable<any> {
+    return this.neo4j
+      .query(this.selectByUsernameQuery(username))
       .pipe(map(record => record.get(VARIABLE).properties));
   }
 
@@ -35,7 +41,11 @@ export class UserGateway {
     return `CREATE (${VARIABLE}:${DB_TYPE} ${asString}) RETURN ${VARIABLE}`;
   }
 
-  private selectQuery(email: string): string {
+  private selectByEmailQuery(email: string): string {
     return `MATCH (${VARIABLE}:${DB_TYPE} { email: '${email}' }) RETURN ${VARIABLE}`;
+  }
+
+  private selectByUsernameQuery(username: string): string {
+    return `MATCH (${VARIABLE}:${DB_TYPE} { username: '${username}' }) RETURN ${VARIABLE}`;
   }
 }
