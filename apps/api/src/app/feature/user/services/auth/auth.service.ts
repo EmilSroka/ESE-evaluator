@@ -7,18 +7,18 @@ import {
   PasswordService,
 } from '../password/password.interface';
 import { CredentialsModel } from '@ese/api-interfaces';
-import { UserValidator } from '../../validators/user.validator';
+import { UserSanitizer } from '../../validators/user.sanitizer';
 
 @Injectable()
 export class AuthUserService {
   constructor(
     @Inject(PASSWORD_SERVICE) private passwordService: PasswordService,
     private access: AccessUserService,
-    private validator: UserValidator,
+    private sanitizer: UserSanitizer,
   ) {}
 
   verify({ email, password }: CredentialsModel): Observable<boolean> {
-    email = this.validator.sanitizeEmail(email);
+    email = this.sanitizer.fieldSanitization('email', email);
     return this.access.getByEmail(email).pipe(
       switchMap(({ passwordHash }) =>
         this.passwordService.compare(password, passwordHash),
