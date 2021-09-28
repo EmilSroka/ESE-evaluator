@@ -1,10 +1,10 @@
 import { CACHE_MANAGER, Inject, Injectable, Logger } from '@nestjs/common';
 import { Cache } from 'cache-manager';
-import { UserValidator } from '../../validators/user.validator';
-import { from, Observable, of } from 'rxjs';
+import { from, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { UserDbModel } from '@ese/api-interfaces';
 import { ExceptionFactory } from '../../../errors/exception.factory';
+import { DbUserModelValidator } from '../../validators/db-user-model.validator';
 
 const CACHE_TTL = 10 /* min */ * 60 * 1000;
 const EMAIL_KEY_PREFIX = 'email->';
@@ -14,7 +14,7 @@ const USERNAME_TO_EMAIL_KEY_PREFIX = 'username_to_email->';
 export class UserCacheService {
   constructor(
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
-    private validator: UserValidator,
+    private validator: DbUserModelValidator,
     private logger: Logger,
     private exceptionFactory: ExceptionFactory,
   ) {}
@@ -58,7 +58,7 @@ export class UserCacheService {
   }
 
   update(user: UserDbModel): void {
-    of(
+    from(
       this.cacheManager.set(
         `${USERNAME_TO_EMAIL_KEY_PREFIX}${user.username}`,
         user.email,
@@ -72,7 +72,7 @@ export class UserCacheService {
       },
     });
 
-    of(
+    from(
       this.cacheManager.set(
         `${EMAIL_KEY_PREFIX}${user.email}`,
         user,

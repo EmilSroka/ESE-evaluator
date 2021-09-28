@@ -7,18 +7,29 @@ import {
   CredentialsModel,
   RegistrationModel,
   UserDbModel,
+  UserUpdateModel,
 } from '@ese/api-interfaces';
+import { UpdateUserService } from './services/update/update.service';
 
 @Injectable()
 export class UserService {
   constructor(
     private access: AccessUserService,
+    private updateService: UpdateUserService,
     private registration: RegisterService,
     private auth: AuthUserService,
   ) {}
 
+  getByUsername(username: string): Observable<UserDbModel> {
+    return this.access.getByUsername(username);
+  }
+
   getByEmail(email: string): Observable<UserDbModel> {
     return this.access.getByEmail(email);
+  }
+
+  update(email: string, data: UserUpdateModel): Observable<UserDbModel> {
+    return this.updateService.update(email, data);
   }
 
   register(user: RegistrationModel): Observable<string> {

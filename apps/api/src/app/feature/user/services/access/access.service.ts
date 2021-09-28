@@ -5,14 +5,14 @@ import { UserGateway } from '../../gateways/user.gateway';
 import { Cache } from 'cache-manager';
 import { UserCacheService } from '../cache/cache.service';
 import { UserDbModel } from '@ese/api-interfaces';
-import { UserValidator } from '../../validators/user.validator';
 import { ExceptionFactory } from '../../../errors/exception.factory';
+import { DbUserModelValidator } from '../../validators/db-user-model.validator';
 
 @Injectable()
 export class AccessUserService {
   constructor(
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
-    private validator: UserValidator,
+    private validator: DbUserModelValidator,
     private gateway: UserGateway,
     private logger: Logger,
     private cache: UserCacheService,

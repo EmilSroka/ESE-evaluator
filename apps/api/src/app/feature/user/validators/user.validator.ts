@@ -1,82 +1,100 @@
-import { Injectable } from '@nestjs/common';
-import { UserDbModel, UserModel } from '@ese/api-interfaces';
-import validator from 'validator';
-
-type KeyValidators = {
-  key: string;
-  required: boolean;
-  type: string;
-};
+import { Injectable, Logger } from '@nestjs/common';
+import {
+  RegistrationModel,
+  UserUpdateModel,
+  ValidationErrors,
+} from '@ese/api-interfaces';
+import { forkJoin, Observable, of } from 'rxjs';
+import {
+  isEmailValid,
+  isPasswordValid,
+  isUsernameValid,
+} from '@ese/validators';
+import { catchError, map } from 'rxjs/operators';
+import { AccessUserService } from '../services/access/access.service';
+import { ExceptionFactory } from '../../errors/exception.factory';
 
 @Injectable()
 export class UserValidator {
-  isUser(value: any): value is UserDbModel {
-    if (value == null) return false;
-    if (typeof value !== 'object') return false;
+  constructor(
+    private access: AccessUserService,
+    private logger: Logger,
+    private exceptionFactor: ExceptionFactory,
+  ) {}
 
-    const keySet = new Set(Object.keys(value));
-
-    for (const { key, required, type } of PROPERTIES) {
-      if (required && !keySet.has(key)) return false;
-      if (keySet.has(key) && typeof value[key] !== type) return false;
-      keySet.delete(key);
-    }
-
-    if (keySet.size > 0) return false;
-
-    return value;
-  }
-
-  sanitize<T extends UserModel>(user: T): T {
-    const copy = { ...user };
-
-    for (const key of ['username', 'organization', 'about']) {
-      if (copy[key] != null) {
-        const trimmed = validator.trim(copy[key]);
-        copy[key] = validator.escape(trimmed);
+  canUpdate(user: UserUpdateModel): Observable<true> {
+    const handleError = (): true => {
+      if (errors.length > 0) {
+        throw this.exceptionFactor.validation({
+          place: 'UserValidator#canUpdate',
+          msg: 'Invalid update data',
+          extra: `user: "${JSON.stringify(user)}", errors: "${errors}"`,
+          codes: errors,
+        });
       }
-    }
 
-    copy.email = this.sanitizeEmail(copy.email);
+      return true;
+    };
 
-    return copy;
+    const errors = [];
+
+    if (user.username != undefined && !isUsernameValid(user.username))
+      errors.push(ValidationErrors.InvalidUsername);
+    if (user.password != undefined && !isPasswordValid(user.password))
+      errors.push(ValidationErrors.InvalidPassword);
+
+    if (user.username == undefined)
+      of('NO MATTER').pipe(map(() => handleError()));
+
+    return this.access
+      .getByUsername(user.username)
+      .pipe(
+        map(() => true),
+        catchError(() => of(false)),
+      )
+      .pipe(
+        map(isUsernameTaken => {
+          if (isUsernameTaken) errors.push(ValidationErrors.UsernameTaken);
+
+          return handleError();
+        }),
+      );
   }
 
-  sanitizeEmail(email: string): string {
-    const normalized = validator.normalizeEmail(email);
-    return normalized ? normalized : email;
+  canBeRegistered(user: RegistrationModel): Observable<true> {
+    const errors = [];
+
+    if (!isEmailValid(user.email)) errors.push(ValidationErrors.InvalidEmail);
+    if (!isUsernameValid(user.username))
+      errors.push(ValidationErrors.InvalidUsername);
+    if (!isPasswordValid(user.password))
+      errors.push(ValidationErrors.InvalidPassword);
+
+    return forkJoin({
+      isEmailTaken: this.access.getByEmail(user.email).pipe(
+        map(() => true),
+        catchError(() => of(false)),
+      ),
+      isUsernameTaken: this.access.getByUsername(user.username).pipe(
+        map(() => true),
+        catchError(() => of(false)),
+      ),
+    }).pipe(
+      map(({ isEmailTaken, isUsernameTaken }) => {
+        if (isEmailTaken) errors.push(ValidationErrors.EmailTaken);
+        if (isUsernameTaken) errors.push(ValidationErrors.UsernameTaken);
+
+        if (errors.length > 0) {
+          throw this.exceptionFactor.validation({
+            place: 'UserValidator#canBeRegistered',
+            msg: 'Invalid registration data',
+            extra: `user: "${JSON.stringify(user)}", errors: "${errors}"`,
+            codes: errors,
+          });
+        }
+
+        return true;
+      }),
+    );
   }
 }
-
-const PROPERTIES: KeyValidators[] = [
-  {
-    key: 'id',
-    required: true,
-    type: 'string',
-  },
-  {
-    key: 'email',
-    required: true,
-    type: 'string',
-  },
-  {
-    key: 'username',
-    required: true,
-    type: 'string',
-  },
-  {
-    key: 'passwordHash',
-    required: true,
-    type: 'string',
-  },
-  {
-    key: 'organization',
-    required: false,
-    type: 'string',
-  },
-  {
-    key: 'about',
-    required: false,
-    type: 'string',
-  },
-];

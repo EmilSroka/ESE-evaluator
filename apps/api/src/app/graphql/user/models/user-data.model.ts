@@ -6,4 +6,5 @@ import { UserDataModel } from '@ese/api-interfaces';
 export class UserData implements UserDataModel {
   @Field() username: string;
   @Field({ nullable: true }) organization?: string;
+  @Field({ nullable: true }) about?: string;
 }

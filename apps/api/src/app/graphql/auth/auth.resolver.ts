@@ -2,7 +2,7 @@ import { Args, Mutation, Resolver } from '@nestjs/graphql';
 import { AuthService } from '../../feature/auth/services/auth.service';
 import { Observable } from 'rxjs';
 import { UserWithToken } from './models/user-with-token.model';
-import { UserData } from './models/user-data.model';
+import { UserData } from '../user/models/user-data.model';
 
 @Resolver()
 export class AuthResolver {

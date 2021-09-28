@@ -11,11 +11,11 @@ export function propsStringify(object: Record<string, any>): string {
   return `{ ${items.join(', ')} }`;
 }
 
-function isObjectOrFunction(value: any): boolean {
+export function isObjectOrFunction(value: any): boolean {
   if (value != null && typeof value === 'object') return true;
   return typeof value === 'function';
 }
 
-function hasSpace(value: string): boolean {
+export function hasSpace(value: string): boolean {
   return / /.test(value);
 }

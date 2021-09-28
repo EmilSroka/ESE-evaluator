@@ -15,7 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@ese/api-interfaces": ["libs/api-interfaces/src/index.ts"]
+      "@ese/api-interfaces": ["libs/api-interfaces/src/index.ts"],
+      "@ese/validators": ["libs/validators/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

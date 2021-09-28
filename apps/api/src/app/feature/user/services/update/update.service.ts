@@ -1,19 +1,23 @@
 import { CACHE_MANAGER, Inject, Injectable, Logger } from '@nestjs/common';
 import { forkJoin, Observable, of } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
+import { UserGateway } from '../../gateways/user.gateway';
 import { Cache } from 'cache-manager';
+import { UserCacheService } from '../cache/cache.service';
+import {
+  UserDbModel,
+  UserDbUpdateModel,
+  UserUpdateModel,
+} from '@ese/api-interfaces';
 import {
   PASSWORD_SERVICE,
   PasswordService,
 } from '../password/password.interface';
-import { RegistrationModel, UserBackendModel } from '@ese/api-interfaces';
 import { UserValidator } from '../../validators/user.validator';
-import { UserGateway } from '../../gateways/user.gateway';
-import { UserCacheService } from '../cache/cache.service';
 import { UserSanitizer } from '../../validators/user.sanitizer';
 
 @Injectable()
-export class RegisterService {
+export class UpdateUserService {
   constructor(
     @Inject(PASSWORD_SERVICE) private passwordService: PasswordService,
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
@@ -25,28 +29,28 @@ export class RegisterService {
     private gateway: UserGateway,
   ) {}
 
-  register(user: RegistrationModel): Observable<string> {
-    return of(this.sanitizer.registrationSanitization(user)).pipe(
+  update(email: string, props: UserUpdateModel): Observable<UserDbModel> {
+    return of(this.sanitizer.updateSanitization(props)).pipe(
       switchMap(sanitized => this.checkValidity(sanitized)),
       switchMap(sanitized => this.mapToDbFormat(sanitized)),
-      switchMap(dbUser => this.gateway.create(dbUser)),
+      switchMap(dbUser => this.gateway.updateUser(email, dbUser)),
       tap(newUser => this.cache.update(newUser)),
     );
   }
 
-  private checkValidity(
-    data: RegistrationModel,
-  ): Observable<RegistrationModel> {
+  private checkValidity(data: UserUpdateModel): Observable<UserUpdateModel> {
     return forkJoin({
       sanitized: of(data),
-      isValid: this.validator.canBeRegistered(data),
+      isValid: this.validator.canUpdate(data),
     }).pipe(map(({ sanitized }) => sanitized));
   }
 
-  private mapToDbFormat(user: RegistrationModel) {
+  private mapToDbFormat(user: UserUpdateModel) {
+    if (user.password == undefined) return of({ ...user });
+
     return this.passwordService.hash(user.password).pipe(
-      map<string, UserBackendModel>(hash => {
-        const userWithHash: UserBackendModel & RegistrationModel = {
+      map<string, UserDbUpdateModel>(hash => {
+        const userWithHash: UserUpdateModel & UserDbUpdateModel = {
           ...user,
           passwordHash: hash,
         };
