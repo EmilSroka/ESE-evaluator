@@ -4,7 +4,12 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ID_SERVICE, IdService } from '../services/id/id-service.interface';
 import { propsStringify } from '../../../utils/neo4j/props-stringify';
-import { UserBackendModel, UserDbModel } from '@ese/api-interfaces';
+import {
+  UserBackendModel,
+  UserDbModel,
+  UserDbUpdateModel,
+} from '@ese/api-interfaces';
+import { propsUpdateStringify } from '../../../utils/neo4j/props-update-stringify';
 
 const VARIABLE = 'user';
 const DB_TYPE = 'User';
@@ -28,12 +33,23 @@ export class UserGateway {
       .pipe(map(record => record.get(VARIABLE).properties));
   }
 
+  updateUser(email: string, props: UserDbUpdateModel): Observable<any> {
+    return this.neo4j
+      .query(this.updateQuery(email, props))
+      .pipe(map(record => record.get(VARIABLE).properties));
+  }
+
   create(data: UserBackendModel): Observable<any> {
     const id = this.idService.generate();
     const user = { ...data, id };
     return this.neo4j
       .query(this.createQuery(user))
       .pipe(map(record => record.get(VARIABLE).properties));
+  }
+
+  private updateQuery(email: string, props: UserDbUpdateModel): string {
+    const asString = propsUpdateStringify(VARIABLE, props);
+    return `MERGE (${VARIABLE}:${DB_TYPE} { email: '${email}'}) SET ${asString} RETURN ${VARIABLE}`;
   }
 
   private createQuery(user: UserDbModel): string {

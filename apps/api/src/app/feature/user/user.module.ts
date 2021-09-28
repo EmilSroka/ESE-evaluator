@@ -11,7 +11,9 @@ import { AccessUserService } from './services/access/access.service';
 import { UserService } from './user.service';
 import { RegisterService } from './services/registration/registration.service';
 import { AuthUserService } from './services/auth/auth.service';
-import { RegistrationValidator } from './validators/registration.validator';
+import { UserSanitizer } from './validators/user.sanitizer';
+import { UpdateUserService } from './services/update/update.service';
+import { DbUserModelValidator } from './validators/db-user-model.validator';
 
 const privateFeatureServices = [
   Logger,
@@ -20,11 +22,13 @@ const privateFeatureServices = [
 ];
 
 const privateUserServices = [
+  DbUserModelValidator,
   AuthUserService,
   RegisterService,
   AccessUserService,
+  UpdateUserService,
   UserCacheService,
-  RegistrationValidator,
+  UserSanitizer,
   UserValidator,
   UserGateway,
 ];

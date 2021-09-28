@@ -12,6 +12,15 @@ export interface UserAuthentication {
   password: string;
 }
 
+interface UserDbPassword {
+  passwordHash: string;
+}
+
+export type UserDbUpdateModel = Partial<UserDataModel> &
+  Partial<UserDbPassword>;
+export type UserUpdateModel = Partial<UserDataModel> &
+  Partial<UserAuthentication>;
+
 export interface UserModel extends UserIdentity, UserDataModel {}
 
 export interface CredentialsModel extends UserIdentity, UserAuthentication {}
@@ -21,9 +30,11 @@ export interface RegistrationModel
     UserDataModel,
     UserAuthentication {}
 
-export interface UserBackendModel extends UserIdentity, UserDataModel {
-  passwordHash: string;
-}
+export interface UserBackendModel
+  extends UserIdentity,
+    UserDataModel,
+    UserDbPassword {}
+
 export interface UserDbModel extends UserBackendModel {
   id: string;
 }
