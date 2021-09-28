@@ -21,7 +21,7 @@ export class ExceptionFactory {
     codes: ValidationErrors[];
   }): Exception {
     return new Exception(BadRequestException, {
-      internalMessage: `${place} => ${msg} -> data: ${extra}`,
+      internalMessage: `${place} => ${msg} -> ${extra}`,
       externalMessage: msg,
       validationCodes: codes,
       errorCode: ErrorCodes.Validation,
@@ -38,8 +38,8 @@ export class ExceptionFactory {
     extra: string;
   }): Exception {
     return new Exception(InternalServerErrorException, {
-      internalMessage: `${place} => ${msg} -> data: ${extra}`,
-      externalMessage: msg,
+      internalMessage: `${place} => ${msg} -> ${extra}`,
+      externalMessage: 'Internal error',
       validationCodes: [],
       errorCode: ErrorCodes.Internal,
     });
