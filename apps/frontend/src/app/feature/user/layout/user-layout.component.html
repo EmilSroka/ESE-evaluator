@@ -1,0 +1,4 @@
+<ese-display-user *ngIf="isDisplayMode; else edit" [isEditable]="isEditable" [data]="data" (edit)="isDisplayMode = false"></ese-display-user>
+<ng-template #edit>
+  <ese-edit-user [initial]="data" (discard)="isDisplayMode = true" (save)="save($event)"></ese-edit-user>
+</ng-template>

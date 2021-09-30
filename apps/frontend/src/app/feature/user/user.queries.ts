@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client/core';
-import { UserModel } from '@ese/api-interfaces';
+import { UserAuthModel } from '@ese/api-interfaces';
 
 export const LOGIN = gql`
   mutation Login($email: String!, $password: String!) {
@@ -15,7 +15,7 @@ export const LOGIN = gql`
 `;
 export type LoginResult = {
   token: string;
-  user: UserModel;
+  user: UserAuthModel;
 };
 
 export const REGISTER = gql`
@@ -36,7 +36,7 @@ export const REGISTER = gql`
 `;
 export type RegisterResult = {
   token: string;
-  user: UserModel;
+  user: UserAuthModel;
 };
 export type RegisterInput = {
   email: string;

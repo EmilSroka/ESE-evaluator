@@ -11,13 +11,13 @@ import {
 import { catchError, map, pluck, shareReplay } from 'rxjs/operators';
 import { AuthService } from '../auth/auth.service';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { UserModel } from '@ese/api-interfaces';
+import { UserAuthModel } from '@ese/api-interfaces';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  private user$ = new BehaviorSubject<UserModel | null>(null);
+  private user$ = new BehaviorSubject<UserAuthModel | null>(null);
 
   constructor(private apollo: Apollo, private auth: AuthService) {}
 
