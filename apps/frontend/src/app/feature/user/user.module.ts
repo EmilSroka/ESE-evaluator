@@ -10,6 +10,7 @@ import { CommonModule } from '@angular/common';
 import { SharedModule } from '../../shared/shared.module';
 import { EditUserLayoutComponent } from './layout/edit/edit-user-layout.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 const internalComponents = [
   DisplayUserLayoutComponent,
@@ -17,6 +18,7 @@ const internalComponents = [
 ];
 
 const materialModules = [
+  MatProgressSpinnerModule,
   MatCardModule,
   MatButtonModule,
   MatIconModule,

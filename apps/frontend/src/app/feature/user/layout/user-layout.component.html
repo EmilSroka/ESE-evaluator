@@ -1,4 +1,6 @@
-<ese-display-user *ngIf="isDisplayMode; else edit" [isEditable]="isEditable" [data]="data" (edit)="isDisplayMode = false"></ese-display-user>
-<ng-template #edit>
-  <ese-edit-user [initial]="data" (discard)="isDisplayMode = true" (save)="save($event)"></ese-edit-user>
-</ng-template>
+<ng-container [ngSwitch]="state">
+  <mat-spinner *ngSwitchCase="'LOADING'"></mat-spinner>
+  <ese-display-user *ngSwitchCase="'DISPLAY'" [isEditable]="isEditable" [data]="data" (edit)="changeToEditMode()"></ese-display-user>
+  <ese-edit-user *ngSwitchCase="'EDIT'" [initial]="data" (discard)="discard()" (save)="save($event)"></ese-edit-user>
+</ng-container>
+

@@ -9,11 +9,12 @@ const USERNAME_SEPARATOR = ' ';
   styleUrls: ['display-user-layout.component.scss'],
 })
 export class DisplayUserLayoutComponent {
-  @Input() data: UserModel = { username: '' };
+  @Input() data?: UserModel;
   @Input() isEditable = false;
   @Output() edit = new EventEmitter<undefined>();
 
   get initials(): string {
+    if (this.data == undefined) return '';
     return this.data.username
       .split(USERNAME_SEPARATOR)
       .map(word => word.charAt(0))

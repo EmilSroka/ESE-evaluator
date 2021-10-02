@@ -4,10 +4,11 @@ import { MenuOptionsService } from '../../feature/navigation/service/menu-option
 import { UserService } from '../../feature/user/user.service';
 import { Router } from '@angular/router';
 import { Path } from '../../app-routing.module';
+import { PrivatePath } from './private-routes';
 
 @Component({
   selector: 'ese-private-shell',
-  template: 'PRIVATE PART',
+  template: '<router-outlet></router-outlet>',
 })
 export class PrivateShellComponent {
   constructor(
@@ -22,6 +23,10 @@ export class PrivateShellComponent {
 
   updateMenu(): void {
     this.menu.setOptions([
+      {
+        text: this.translate.instant('menu_me'),
+        link: `${Path.private}/${PrivatePath.me}`,
+      },
       {
         text: this.translate.instant('menu_logout'),
         callback: () => {

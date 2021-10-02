@@ -1,13 +1,13 @@
 <mat-card>
   <mat-card-header>
     <div mat-card-avatar class="avatar" role="presentation">{{initials}}</div>
-    <mat-card-title>{{data.username}}</mat-card-title>
-    <mat-card-subtitle>{{data.organization}}</mat-card-subtitle>
+    <mat-card-title>{{data?.username}}</mat-card-title>
+    <mat-card-subtitle>{{data?.organization}}</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
-    <p *ngIf="data.email">{{'profile_display_email' | translate}}{{data.email}}</p>
+    <p *ngIf="data?.email" class="email">{{'profile_display_email' | translate}}{{data?.email}}</p>
     <p>
-      {{data.about}}
+      {{data?.about}}
     </p>
   </mat-card-content>
   <mat-card-actions>
