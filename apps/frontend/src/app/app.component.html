@@ -9,12 +9,12 @@
       <mat-nav-list>
         <a mat-list-item *ngFor="let option of (menuOptionsService.option$ | async)"
            [routerLink]="option?.link ?? '#'"
-           (click)="conditionalCall(option?.callback)"
+           (click)="click(option?.callback)"
            routerLinkActive="selected"
         > {{ option.text }} </a>
       </mat-nav-list>
     </nav>
-    <div ese-nav-content>
+    <div ese-nav-content class="content">
       <router-outlet></router-outlet>
     </div>
   </ese-navigation-layout>

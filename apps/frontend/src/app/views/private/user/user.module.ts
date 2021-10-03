@@ -7,20 +7,17 @@ import { SharedModule } from '../../../shared/shared.module';
 import { UserComponent } from './user.component';
 import { UserModule as UsersModule } from '../../../feature/user/user.module';
 import { CommonModule } from '@angular/common';
-import { UserProfileIllustrationComponent } from './profile-illustration.component';
 import { UserErrorIllustrationComponent } from './error-illustration.component';
+import { IllustrationsModule } from '../../../shared/illustrations/illustrations.module';
 
 const materialComponents = [MatCardModule, MatInputModule, MatButtonModule];
 
 @NgModule({
-  declarations: [
-    UserComponent,
-    UserProfileIllustrationComponent,
-    UserErrorIllustrationComponent,
-  ],
+  declarations: [UserComponent, UserErrorIllustrationComponent],
   exports: [UserComponent],
   imports: [
     ...materialComponents,
+    IllustrationsModule,
     CommonModule,
     ReactiveFormsModule,
     SharedModule,

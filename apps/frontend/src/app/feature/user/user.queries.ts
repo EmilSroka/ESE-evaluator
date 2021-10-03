@@ -8,6 +8,7 @@ export const LOGIN = gql`
       user {
         email
         username
+        about
         organization
       }
     }
@@ -29,6 +30,7 @@ export const REGISTER = gql`
       user {
         email
         username
+        about
         organization
       }
     }
@@ -47,6 +49,31 @@ export type RegisterInput = {
 export const GET_USER = gql`
   query GetUser($username: String!) {
     user(username: $username) {
+      email
+      username
+      about
+      organization
+    }
+  }
+`;
+
+export const ME = gql`
+  query Me {
+    me {
+      username
+      about
+      email
+      organization
+    }
+  }
+`;
+export type MeOutput = {
+  me: UserAuthModel;
+};
+
+export const UPDATE_USER = gql`
+  mutation ChangeUser($data: UpdateUser!) {
+    updateUser(data: $data) {
       email
       username
       organization

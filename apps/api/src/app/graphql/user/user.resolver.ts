@@ -39,10 +39,10 @@ export class UserResolver {
           .can(UserAction.FullRead, wrapUser(requestedUser));
 
         if (!canAccessEmail) {
-          delete user.email;
+          delete requestedUser.email;
         }
 
-        return user;
+        return requestedUser;
       }),
     );
   }
