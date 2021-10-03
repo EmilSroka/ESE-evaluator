@@ -21,7 +21,9 @@ export type UserDbUpdateModel = Partial<UserDataModel> &
 export type UserUpdateModel = Partial<UserDataModel> &
   Partial<UserAuthentication>;
 
-export interface UserModel extends UserIdentity, UserDataModel {}
+export interface UserModel extends Partial<UserIdentity>, UserDataModel {}
+
+export interface UserAuthModel extends UserIdentity, UserDataModel {}
 
 export interface CredentialsModel extends UserIdentity, UserAuthentication {}
 
@@ -40,6 +42,6 @@ export interface UserDbModel extends UserBackendModel {
 }
 
 export interface UserWithTokenModel {
-  user: UserModel;
+  user: UserAuthModel;
   token: string;
 }

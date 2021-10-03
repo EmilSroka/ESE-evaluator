@@ -1,0 +1,22 @@
+.avatar {
+  background: var(--primary);
+  color: var(--on-primary);
+  letter-spacing: 1px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.edit {
+  text-transform: uppercase;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.email {
+  padding-top: 16px;
+}

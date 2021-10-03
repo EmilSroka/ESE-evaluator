@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { MenuOptionsService } from './feature/navigation/service/menu-options.service';
+import { NavigationService } from './feature/navigation/service/navigation.service';
 
 @Component({
   selector: 'ese-root',
@@ -7,9 +8,13 @@ import { MenuOptionsService } from './feature/navigation/service/menu-options.se
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  constructor(public menuOptionsService: MenuOptionsService) {}
+  constructor(
+    public menuOptionsService: MenuOptionsService,
+    public navigation: NavigationService,
+  ) {}
 
-  conditionalCall(maybeFunction: undefined | (() => void)): void {
-    maybeFunction?.();
+  click(action: undefined | (() => void)): void {
+    this.navigation.close();
+    action?.();
   }
 }

@@ -7,10 +7,16 @@ import { Path } from '../../../app-routing.module';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
 import {
+  invalidPasswordErrorName,
   passwordsMatch,
   passwordsMatchErrorName,
-} from './forms/password.validator';
-import { ConfirmPasswordMatcher } from './forms/confirm-password.matcher';
+  validPassword,
+} from '../../../shared/forms/password.validator';
+import { ConfirmPasswordMatcher } from '../../../shared/forms/confirm-password.matcher';
+import {
+  invalidUserErrorName,
+  validUsername,
+} from '../../../shared/forms/username.validator';
 
 @Component({
   selector: 'ese-register-view',
@@ -19,8 +25,8 @@ import { ConfirmPasswordMatcher } from './forms/confirm-password.matcher';
 })
 export class RegisterComponent {
   email = new FormControl('', [Validators.required, Validators.email]);
-  username = new FormControl('', [Validators.required]);
-  password = new FormControl('', [Validators.required]);
+  username = new FormControl('', [Validators.required, validUsername()]);
+  password = new FormControl('', [Validators.required, validPassword()]);
   repeatPassword = new FormControl('');
 
   form = this.formBuilder.group(
@@ -51,9 +57,19 @@ export class RegisterComponent {
     return '';
   }
 
-  getErrorMessage(control: FormControl): string {
-    if (control.hasError('required'))
+  get usernameErrorMessage(): string {
+    if (this.username.hasError('required'))
       return this.translate.instant('forms_required_error');
+    if (this.username.hasError(invalidUserErrorName))
+      return this.translate.instant('forms_username_error');
+    return '';
+  }
+
+  get passwordErrorMessage(): string {
+    if (this.password.hasError('required'))
+      return this.translate.instant('forms_required_error');
+    if (this.password.hasError(invalidPasswordErrorName))
+      return this.translate.instant('forms_password_error');
     return '';
   }
 

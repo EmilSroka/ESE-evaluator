@@ -1,25 +1,51 @@
 import { Injectable } from '@angular/core';
-import { CredentialsModel } from '@ese/api-interfaces';
+import { CredentialsModel, UserUpdateModel } from '@ese/api-interfaces';
 import { Apollo } from 'apollo-angular';
 import {
   LOGIN,
   LoginResult,
+  ME,
+  MeOutput,
   REGISTER,
   RegisterInput,
   RegisterResult,
+  UPDATE_USER,
 } from './user.queries';
-import { catchError, map, pluck, shareReplay } from 'rxjs/operators';
+import {
+  catchError,
+  filter,
+  map,
+  observeOn,
+  pluck,
+  shareReplay,
+  switchMap,
+} from 'rxjs/operators';
 import { AuthService } from '../auth/auth.service';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { UserModel } from '@ese/api-interfaces';
+import { asyncScheduler, BehaviorSubject, Observable, of } from 'rxjs';
+import { UserAuthModel } from '@ese/api-interfaces';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  private user$ = new BehaviorSubject<UserModel | null>(null);
+  private user$ = new BehaviorSubject<UserAuthModel | undefined>(undefined);
 
-  constructor(private apollo: Apollo, private auth: AuthService) {}
+  constructor(private apollo: Apollo, private auth: AuthService) {
+    this.auth
+      .isAuthenticated()
+      .pipe(
+        observeOn(asyncScheduler),
+        filter(isAuth => isAuth),
+        switchMap(() => this.me()),
+      )
+      .subscribe({
+        next: data => this.user$.next(data),
+      });
+  }
+
+  get(): Observable<UserAuthModel | undefined> {
+    return this.user$.asObservable();
+  }
 
   login(credentials: CredentialsModel): Observable<boolean> {
     const responseData$ = this.apollo
@@ -42,8 +68,26 @@ export class UserService {
   }
 
   logout() {
-    this.user$.next(null);
+    this.user$.next(undefined);
     this.auth.clearToken();
+  }
+
+  update(data: UserUpdateModel): Observable<boolean> {
+    const responseData$ = this.apollo
+      .mutate({
+        mutation: UPDATE_USER,
+        variables: { data },
+      })
+      .pipe(
+        pluck<unknown, UserAuthModel>('data', 'updateUser'),
+        shareReplay(1),
+      );
+
+    responseData$.subscribe({
+      next: updated => this.user$.next(updated),
+    });
+
+    return this.isSuccess(responseData$);
   }
 
   private handleAuth(input$: Observable<LoginResult>): void {
@@ -56,11 +100,17 @@ export class UserService {
     });
   }
 
-  private isSuccess(input$: Observable<LoginResult>): Observable<boolean> {
+  private isSuccess<T>(input$: Observable<T>): Observable<boolean> {
     return input$.pipe(
       map(() => true),
       catchError(() => of(false)),
     );
+  }
+
+  private me(): Observable<UserAuthModel> {
+    return this.apollo
+      .query<MeOutput>({ query: ME })
+      .pipe(pluck('data', 'me'), shareReplay(1));
   }
 }
 

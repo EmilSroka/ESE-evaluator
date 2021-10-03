@@ -1,8 +1,8 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { UserModel } from '@ese/api-interfaces';
+import { UserAuthModel } from '@ese/api-interfaces';
 
 @ObjectType()
-export class AuthUser implements UserModel {
+export class AuthUser implements UserAuthModel {
   @Field() email: string;
   @Field() username: string;
   @Field({ nullable: true }) organization?: string;

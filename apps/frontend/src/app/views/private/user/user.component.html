@@ -1,0 +1,10 @@
+<div *ngIf="!isError; else error" class="wrapper">
+  <ese-user [data]="user" class="profile"></ese-user>
+  <ese-user-profile-illustration class="illustration"></ese-user-profile-illustration>
+</div>
+<ng-template #error>
+  <div class="error">
+    <ese-user-error-illustration></ese-user-error-illustration>
+    <h1>{{'user_cannot_find' | translate}}</h1>
+  </div>
+</ng-template>
