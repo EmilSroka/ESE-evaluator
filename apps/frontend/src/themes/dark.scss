@@ -155,6 +155,14 @@ $light-theme: mat.define-light-theme((
 ));
 
 @include mat.all-component-themes($dark-theme);
+body {
+  --primary: #029a8a;
+  --on-primary: #002419;
+}
 .light-theme {
   @include mat.all-component-themes($light-theme);
+  --primary: #007c6c;
+  --on-primary: #f1f4f2;
 }
+
+

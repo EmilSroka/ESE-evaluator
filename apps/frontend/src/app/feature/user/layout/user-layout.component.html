@@ -1,0 +1,6 @@
+<ng-container [ngSwitch]="state">
+  <mat-spinner *ngSwitchCase="'LOADING'"></mat-spinner>
+  <ese-display-user *ngSwitchCase="'DISPLAY'" [isEditable]="isEditable" [data]="data" (edit)="changeToEditMode()"></ese-display-user>
+  <ese-edit-user *ngSwitchCase="'EDIT'" [initial]="data" (discard)="discard()" (save)="save($event)"></ese-edit-user>
+</ng-container>
+

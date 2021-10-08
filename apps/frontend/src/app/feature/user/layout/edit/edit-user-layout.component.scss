@@ -1,0 +1,12 @@
+.save,
+.discard {
+  text-transform: uppercase;
+}
+
+.edit-form {
+  display: flex;
+  flex-direction: column;
+  > * {
+    margin-top: 12px;
+  }
+}

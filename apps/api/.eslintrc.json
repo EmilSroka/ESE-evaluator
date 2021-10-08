@@ -3,6 +3,12 @@
   "ignorePatterns": ["!**/*"],
   "overrides": [
     {
+      "files": ["*.resolver.ts", "*.scalar.ts"],
+      "rules": {
+        "@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^(returns|of|type)$" }]
+      }
+    },
+    {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
       "rules": {}
     },

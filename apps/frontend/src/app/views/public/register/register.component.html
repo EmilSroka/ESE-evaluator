@@ -1,0 +1,34 @@
+<div class="wrapper">
+  <main class="register">
+    <mat-card class="card">
+      <h1>{{'register_title' | translate}}</h1>
+      <form class="form" [formGroup]="form">
+        <mat-form-field appearance="fill">
+          <mat-label>{{'register_email_label' | translate}}</mat-label>
+          <input matInput formControlName="email">
+          <mat-error *ngIf="email.invalid">{{emailErrorMessage}}</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>{{'register_username_label' | translate}}</mat-label>
+          <input matInput formControlName="username">
+          <mat-error *ngIf="username.invalid">{{usernameErrorMessage}}</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>{{'register_password_label' | translate}}</mat-label>
+          <input matInput type="password" formControlName="password">
+          <mat-error *ngIf="password.invalid">{{passwordErrorMessage}}</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>{{'register_repeat_password_label' | translate}}</mat-label>
+          <input matInput type="password" formControlName="repeatPassword" [errorStateMatcher]="repeatPasswordErrorMatcher">
+          <mat-error *ngIf="isRepeatPasswordInvalid">{{repeatPasswordErrorMessage}}</mat-error>
+        </mat-form-field>
+      </form>
+      <button mat-flat-button color="primary" (click)="register()" [disabled]="form.invalid">{{'register_submit' | translate}}</button>
+    </mat-card>
+  </main>
+  <div class="illustration">
+    <ese-register-illustration></ese-register-illustration>
+  </div>
+</div>
+

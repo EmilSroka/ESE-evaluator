@@ -1,0 +1,22 @@
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.illustration {
+  padding: 24px;
+  flex: 0.5 1 600px;
+}
+
+.ui {
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  flex: 0 1 300px;
+}
+
+.title {
+  text-align: center;
+}

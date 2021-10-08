@@ -1,0 +1,11 @@
+<button mat-icon-button [matMenuTriggerFor]="menu"
+        [attr.aria-live]="'language_select' | translate"
+        [matTooltip]="'language_select' | translate">
+  <mat-icon>language</mat-icon>
+</button>
+<mat-menu #menu="matMenu">
+  <button mat-menu-item *ngFor="let language of languages | async" (click)="select(language.tag)">
+    <mat-icon>{{ language.tag === currentLanguage ? 'radio_button_checked' : 'radio_button_unchecked' }}</mat-icon>
+    {{ language.ownName }} {{ language.tag | flag }}
+  </button>
+</mat-menu>

@@ -1,0 +1,58 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Language {
+  englishName: String!
+  ownName: String!
+  tag: String!
+}
+
+type AuthUser {
+  email: String!
+  username: String!
+  organization: String
+  about: String
+}
+
+type UserWithToken {
+  token: String!
+  user: AuthUser!
+}
+
+type GetUser {
+  email: String
+  username: String!
+  organization: String
+  about: String
+}
+
+type Query {
+  availableLanguages: [Language!]!
+  translationsFor(tag: String!): JSONObject!
+  defaultLanguage: Language!
+  me: AuthUser!
+  user(username: String!): GetUser!
+}
+
+"""JSONObject custom scalar type"""
+scalar JSONObject
+
+type Mutation {
+  login(password: String!, email: String!): UserWithToken!
+  register(data: UserData!, password: String!, email: String!): UserWithToken!
+  updateUser(data: UpdateUser!): AuthUser!
+}
+
+input UserData {
+  username: String!
+  organization: String
+  about: String
+}
+
+input UpdateUser {
+  about: String
+  organization: String
+  password: String
+  username: String
+}
