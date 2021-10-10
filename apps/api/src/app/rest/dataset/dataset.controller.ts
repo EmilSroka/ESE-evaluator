@@ -4,6 +4,7 @@ import {
   Post,
   UploadedFile,
   UseInterceptors,
+  ValidationPipe,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { CreateDatasetDto } from './models/dataset-info.model';
@@ -17,7 +18,10 @@ type File = Express.Multer.File;
 export class DatasetController {
   @Post('create')
   @UseInterceptors(FileInterceptor('file'))
-  uploadFile(@UploadedFile() file: File, @Body() data: CreateDatasetDto) {
+  uploadFile(
+    @UploadedFile() file: File,
+    @Body(new ValidationPipe({ whitelist: true })) data: CreateDatasetDto,
+  ) {
     console.log(file.buffer);
     console.log(data);
   }
