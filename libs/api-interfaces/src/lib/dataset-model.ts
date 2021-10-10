@@ -3,6 +3,10 @@ export interface DatasetInfoModel {
   description: string;
 }
 
+export interface DatasetInfoDbModel extends DatasetInfoModel {
+  id: string;
+}
+
 export interface CategoryModel {
   name: string;
   description?: string;
