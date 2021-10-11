@@ -7,3 +7,9 @@ export const CurrentUser = createParamDecorator(
     return ctx.getContext().req.user;
   },
 );
+
+export const CurrentUserRest = createParamDecorator(
+  (data: string, ctx: ExecutionContext) => {
+    return ctx.switchToHttp().getRequest().user;
+  },
+);

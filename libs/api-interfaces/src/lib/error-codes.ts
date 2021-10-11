@@ -4,6 +4,7 @@ export enum ValidationErrors {
   InvalidUsername = 'validation_invalid_username',
   UsernameTaken = 'validation_username_taken',
   InvalidPassword = 'validation_invalid_password',
+  InvalidDataset = 'validation_invalid_dataset',
 }
 
 export enum ErrorCodes {

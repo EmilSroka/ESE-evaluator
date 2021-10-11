@@ -9,3 +9,6 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     return ctx.getContext().req;
   }
 }
+
+@Injectable()
+export class JwtAuthRestGuard extends AuthGuard('jwt') {}

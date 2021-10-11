@@ -1,9 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Neo4jProvider } from '../../../providers/database/neo4j/provider/neo4j-provider';
 import { propsStringify } from '../../../utils/neo4j/props-stringify';
-import {
-  DatasetInfoDbModel,
-} from '@ese/api-interfaces';
+import { DatasetInfoDbModel } from '@ese/api-interfaces';
 import { ID_SERVICE, IdService } from '../../../shared/id/id-service.interface';
 import { map, tap } from 'rxjs/operators';
 

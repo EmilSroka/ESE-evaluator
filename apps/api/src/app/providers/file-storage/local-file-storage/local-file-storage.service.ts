@@ -13,7 +13,7 @@ export class LocalFileStorageService implements FileStorage {
 
   read(name: string): Observable<Buffer> {
     return new Observable<Buffer>(subscriber => {
-      fs.readFile(`${this.path}${name}`, {}, (err, content) => {
+      fs.readFile(`${this.path}/${name}`, {}, (err, content) => {
         if (err != null) {
           subscriber.error(
             this.exceptionFactory.internal({
