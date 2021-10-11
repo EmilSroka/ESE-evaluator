@@ -1,5 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { DatasetInfoDbModel, DatasetInfoModel } from '@ese/api-interfaces';
+import {
+  DatasetInfoDbModel,
+  DatasetInfoModel,
+  UserDbModel,
+} from '@ese/api-interfaces';
 import { CreateDatasetService } from './services/create.service';
 import { Observable } from 'rxjs';
 
@@ -10,8 +14,8 @@ export class DatasetService {
   create(
     info: DatasetInfoModel,
     file: Buffer,
-    ownerEmail: string,
+    owner: UserDbModel,
   ): Observable<DatasetInfoDbModel> {
-    return this.createDatasetService.create(info, file, ownerEmail);
+    return this.createDatasetService.create(info, file, owner);
   }
 }

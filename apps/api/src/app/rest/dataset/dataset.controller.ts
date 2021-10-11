@@ -41,7 +41,7 @@ export class DatasetController {
     @Body(new ValidationPipe({ whitelist: true })) data: CreateDatasetDto,
   ): Observable<DatasetInfoModel> {
     return user.pipe(
-      switchMap(({ email }) => this.dataset.create(data, file.buffer, email)),
+      switchMap(user => this.dataset.create(data, file.buffer, user)),
       map(info => deleteId(info)),
     );
   }

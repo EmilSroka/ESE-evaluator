@@ -3,6 +3,7 @@ import { DatasetGateway } from '../gateways/dataset.gateway';
 import {
   DatasetInfoDbModel,
   DatasetInfoModel,
+  UserDbModel,
   ValidationErrors,
 } from '@ese/api-interfaces';
 import { DatasetValidator } from '../validator/dataset.validator';
@@ -11,9 +12,10 @@ import {
   FILE_STORAGE,
   FileStorage,
 } from '../../../providers/file-storage/file-storage';
-import { switchMap } from 'rxjs/operators';
-import { Observable, of, throwError } from 'rxjs';
+import { switchMap, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { ExceptionFactory } from '../../errors/exception.factory';
+import { DatasetInfoCache } from './cache.service';
 
 @Injectable()
 export class CreateDatasetService {
@@ -23,32 +25,50 @@ export class CreateDatasetService {
     private exceptionFactory: ExceptionFactory,
     private gateway: DatasetGateway,
     private validator: DatasetValidator,
+    private cache: DatasetInfoCache,
   ) {}
 
   create(
     info: DatasetInfoModel,
     file: Buffer,
-    ownerEmail: string,
+    owner: UserDbModel,
   ): Observable<DatasetInfoDbModel> {
     const id = this.idService.generate();
-    return this.validate(file, ownerEmail).pipe(
-      switchMap(() => this.storage.save(`${id}.json`, file)),
-      switchMap(() => this.gateway.create({ ...info, id }, ownerEmail)),
+    const date = getDateProps();
+    this.handleValidity(info, file, owner.email);
+    return this.storage.save(`${id}.json`, file).pipe(
+      switchMap(() => this.gateway.create({ ...info, ...date, id }, owner)),
+      tap(datasetInfo =>
+        this.cache.add({ ...datasetInfo, username: owner.username }),
+      ),
     );
   }
 
-  private validate(file: Buffer, ownerEmail: string): Observable<null> {
+  private handleValidity(
+    info: DatasetInfoModel,
+    file: Buffer,
+    ownerEmail: string,
+  ): void {
     const asObject = JSON.parse(file.toString());
     if (!this.validator.isValid(asObject)) {
-      return throwError(
-        this.exceptionFactory.validation({
-          place: 'CreateDatasetService#create',
-          msg: 'Invalid dataset file structure',
-          extra: `owner: "${ownerEmail}"`,
-          codes: [ValidationErrors.InvalidDataset],
-        }),
-      );
+      throw this.exceptionFactory.validation({
+        place: 'CreateDatasetService#create',
+        msg: 'Invalid dataset file structure',
+        extra: `owner: "${ownerEmail}"`,
+        codes: [ValidationErrors.InvalidDataset],
+      });
     }
-    return of(null);
+    if (this.cache.has(info.name)) {
+      throw this.exceptionFactory.validation({
+        place: 'CreateDatasetService#create',
+        msg: 'Dataset name taken',
+        extra: `info: "${JSON.stringify(info)}"`,
+        codes: [ValidationErrors.DatasetNameTaken],
+      });
+    }
   }
+}
+
+function getDateProps(): { createdAt: number } {
+  return { createdAt: new Date().getTime() };
 }

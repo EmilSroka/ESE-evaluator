@@ -8,6 +8,7 @@ export class Neo4jProvider implements OnApplicationShutdown {
   private driver = driver(
     process.env.DB_URL,
     auth.basic(process.env.DB_LOGIN, process.env.DB_PASSWORD),
+    { disableLosslessIntegers: true },
   );
 
   query(query: string): Observable<Record> {

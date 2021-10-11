@@ -5,6 +5,11 @@ export interface DatasetInfoModel {
 
 export interface DatasetInfoDbModel extends DatasetInfoModel {
   id: string;
+  createdAt: number;
+}
+
+export interface DatasetInfoWithOwnerModel extends DatasetInfoDbModel {
+  username: string;
 }
 
 export interface CategoryModel {

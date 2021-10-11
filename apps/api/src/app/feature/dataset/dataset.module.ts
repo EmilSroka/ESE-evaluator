@@ -5,6 +5,7 @@ import { DatasetGateway } from './gateways/dataset.gateway';
 import { IdModule } from '../../shared/id/id.module';
 import { Neo4jModule } from '../../providers/database/neo4j/neo4j.module';
 import { CreateDatasetService } from './services/create.service';
+import { DatasetInfoCache } from './services/cache.service';
 
 @Module({
   imports: [IdModule, Neo4jModule],
@@ -13,6 +14,7 @@ import { CreateDatasetService } from './services/create.service';
     DatasetService,
     DatasetGateway,
     CreateDatasetService,
+    DatasetInfoCache,
   ],
   exports: [DatasetService],
 })
