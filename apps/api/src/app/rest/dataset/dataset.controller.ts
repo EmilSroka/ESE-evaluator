@@ -14,8 +14,8 @@ import { DatasetService } from '../../feature/dataset/dataset.service';
 import { CurrentUserRest } from '../../feature/auth/decorators/current-user.decorator';
 import { Observable } from 'rxjs';
 import {
-  DatasetInfoDbModel,
-  DatasetInfoModel,
+  DatasetInfoDbWithOwnerModel,
+  DatasetInfoWithOwnerModel,
   UserDbModel,
 } from '@ese/api-interfaces';
 import { map, switchMap } from 'rxjs/operators';
@@ -39,16 +39,19 @@ export class DatasetController {
     @CurrentUserRest() user: Observable<UserDbModel>,
     @UploadedFile() file: File,
     @Body(new ValidationPipe({ whitelist: true })) data: CreateDatasetDto,
-  ): Observable<DatasetInfoModel> {
+  ): Observable<DatasetInfoWithOwnerModel> {
     return user.pipe(
       switchMap(user => this.dataset.create(data, file.buffer, user)),
-      map(info => deleteId(info)),
+      map(info => toDatasetInfoWithOwner(info)),
     );
   }
 }
 
-function deleteId(datasetInfo: DatasetInfoDbModel): DatasetInfoModel {
+function toDatasetInfoWithOwner(
+  datasetInfo: DatasetInfoDbWithOwnerModel,
+): DatasetInfoWithOwnerModel {
   const copy = { ...datasetInfo };
   delete copy.id;
+  delete copy.createdAt;
   return copy;
 }

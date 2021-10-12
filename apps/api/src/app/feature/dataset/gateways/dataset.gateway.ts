@@ -3,7 +3,7 @@ import { Neo4jProvider } from '../../../providers/database/neo4j/provider/neo4j-
 import { propsStringify } from '../../../utils/neo4j/props-stringify';
 import {
   DatasetInfoDbModel,
-  DatasetInfoWithOwnerModel,
+  DatasetInfoDbWithOwnerModel,
   UserDbModel,
 } from '@ese/api-interfaces';
 import { ID_SERVICE, IdService } from '../../../shared/id/id-service.interface';
@@ -29,7 +29,7 @@ export class DatasetGateway {
       .pipe(map(record => record.get(VARIABLE).properties));
   }
 
-  getAll(): Observable<DatasetInfoWithOwnerModel> {
+  getAll(): Observable<DatasetInfoDbWithOwnerModel> {
     return this.neo4j.query(this.getAllQuery()).pipe(
       map(record => ({
         ...record.get(VARIABLE).properties,

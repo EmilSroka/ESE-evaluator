@@ -27,12 +27,19 @@ type GetUser {
   about: String
 }
 
+type DatasetInfo {
+  description: String!
+  name: String!
+  username: String!
+}
+
 type Query {
   availableLanguages: [Language!]!
   translationsFor(tag: String!): JSONObject!
   defaultLanguage: Language!
   me: AuthUser!
   user(username: String!): GetUser!
+  listDataSets: [DatasetInfo!]!
 }
 
 """JSONObject custom scalar type"""

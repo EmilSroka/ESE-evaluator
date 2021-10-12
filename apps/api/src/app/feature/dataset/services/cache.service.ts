@@ -1,11 +1,11 @@
 import { Injectable, OnApplicationBootstrap } from '@nestjs/common';
-import { DatasetInfoWithOwnerModel } from '@ese/api-interfaces';
+import { DatasetInfoDbWithOwnerModel } from '@ese/api-interfaces';
 import { DatasetGateway } from '../gateways/dataset.gateway';
 
 @Injectable()
 export class DatasetInfoCache implements OnApplicationBootstrap {
-  private entriesOrderedByCreateTime: DatasetInfoWithOwnerModel[] = [];
-  private nameToEntry = new Map<string, DatasetInfoWithOwnerModel>();
+  private entriesOrderedByCreateTime: DatasetInfoDbWithOwnerModel[] = [];
+  private nameToEntry = new Map<string, DatasetInfoDbWithOwnerModel>();
 
   constructor(private gateway: DatasetGateway) {}
 
@@ -16,7 +16,11 @@ export class DatasetInfoCache implements OnApplicationBootstrap {
     });
   }
 
-  getByName(name: string): DatasetInfoWithOwnerModel | null {
+  getAll(): DatasetInfoDbWithOwnerModel[] {
+    return [...this.entriesOrderedByCreateTime];
+  }
+
+  getByName(name: string): DatasetInfoDbWithOwnerModel | null {
     return this.nameToEntry.has(name) ? this.nameToEntry.get(name) : null;
   }
 
@@ -24,15 +28,15 @@ export class DatasetInfoCache implements OnApplicationBootstrap {
     return this.nameToEntry.has(name);
   }
 
-  add(entry: DatasetInfoWithOwnerModel): void {
+  add(entry: DatasetInfoDbWithOwnerModel): void {
     this.nameToEntry.set(entry.name, entry);
     this.entriesOrderedByCreateTime.push(entry);
   }
 }
 
 function compareByName(
-  info1: DatasetInfoWithOwnerModel,
-  info2: DatasetInfoWithOwnerModel,
+  info1: DatasetInfoDbWithOwnerModel,
+  info2: DatasetInfoDbWithOwnerModel,
 ): number {
   return info1.createdAt - info2.createdAt;
 }

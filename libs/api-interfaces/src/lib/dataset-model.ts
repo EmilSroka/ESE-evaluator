@@ -8,7 +8,11 @@ export interface DatasetInfoDbModel extends DatasetInfoModel {
   createdAt: number;
 }
 
-export interface DatasetInfoWithOwnerModel extends DatasetInfoDbModel {
+export interface DatasetInfoDbWithOwnerModel extends DatasetInfoDbModel {
+  username: string;
+}
+
+export interface DatasetInfoWithOwnerModel extends DatasetInfoModel {
   username: string;
 }
 

@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { DatasetGateway } from '../gateways/dataset.gateway';
 import {
-  DatasetInfoDbModel,
+  DatasetInfoDbWithOwnerModel,
   DatasetInfoModel,
   UserDbModel,
   ValidationErrors,
@@ -12,7 +12,7 @@ import {
   FILE_STORAGE,
   FileStorage,
 } from '../../../providers/file-storage/file-storage';
-import { switchMap, tap } from 'rxjs/operators';
+import { map, switchMap, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { ExceptionFactory } from '../../errors/exception.factory';
 import { DatasetInfoCache } from './cache.service';
@@ -32,15 +32,14 @@ export class CreateDatasetService {
     info: DatasetInfoModel,
     file: Buffer,
     owner: UserDbModel,
-  ): Observable<DatasetInfoDbModel> {
+  ): Observable<DatasetInfoDbWithOwnerModel> {
     const id = this.idService.generate();
     const date = getDateProps();
     this.handleValidity(info, file, owner.email);
     return this.storage.save(`${id}.json`, file).pipe(
       switchMap(() => this.gateway.create({ ...info, ...date, id }, owner)),
-      tap(datasetInfo =>
-        this.cache.add({ ...datasetInfo, username: owner.username }),
-      ),
+      map(datasetInfo => ({ ...datasetInfo, username: owner.username })),
+      tap(datasetInfo => this.cache.add(datasetInfo)),
     );
   }
 
