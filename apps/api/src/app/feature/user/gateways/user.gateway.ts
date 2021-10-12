@@ -2,7 +2,6 @@ import { Inject, Injectable } from '@nestjs/common';
 import { Neo4jProvider } from '../../../providers/database/neo4j/provider/neo4j-provider';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ID_SERVICE, IdService } from '../services/id/id-service.interface';
 import { propsStringify } from '../../../utils/neo4j/props-stringify';
 import {
   UserBackendModel,
@@ -10,6 +9,7 @@ import {
   UserDbUpdateModel,
 } from '@ese/api-interfaces';
 import { propsUpdateStringify } from '../../../utils/neo4j/props-update-stringify';
+import { ID_SERVICE, IdService } from '../../../shared/id/id-service.interface';
 
 const VARIABLE = 'user';
 const DB_TYPE = 'User';

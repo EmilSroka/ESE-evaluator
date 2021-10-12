@@ -1,5 +1,5 @@
 import type { HttpException } from '@nestjs/common';
-import { ValidationErrors } from '@angular/forms';
+import { ValidationErrors } from '@ese/api-interfaces';
 
 type Payload = {
   internalMessage: string;

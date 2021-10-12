@@ -6,7 +6,6 @@ import { ExceptionFactory } from '../../../feature/errors/exception.factory';
 @Module({})
 export class LocalFileStorageModule {
   static forRoot(path: string): DynamicModule {
-    console.log(path);
     return {
       module: LocalFileStorageModule,
       providers: [
