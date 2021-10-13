@@ -4,6 +4,7 @@ import { PrivateShellComponent } from './private-shell.component';
 import { PrivatePath, USERNAME_PATH_PARAM_NAME } from './private-routes';
 import { UserComponent } from './user/user.component';
 import { MeComponent } from './me/me.component';
+import { DatasetsComponent } from './datasets/datasets.component';
 
 const routes: Routes = [
   {
@@ -17,6 +18,10 @@ const routes: Routes = [
       {
         path: PrivatePath.me,
         component: MeComponent,
+      },
+      {
+        path: PrivatePath.datasets,
+        component: DatasetsComponent,
       },
       {
         path: `${PrivatePath.user}/:${USERNAME_PATH_PARAM_NAME}`,
