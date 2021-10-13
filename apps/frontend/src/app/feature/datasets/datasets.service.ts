@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { DatasetInfoWithOwnerModel } from '@ese/api-interfaces';
 import { Apollo } from 'apollo-angular';
-import { LIST_DATASETS_INFO } from './datasets.queries';
+import { LIST_DATASETS_INFO, ListDatasetsInfoResult } from './datasets.queries';
 
 @Injectable({
   providedIn: 'root',
@@ -15,11 +15,11 @@ export class DatasetsService {
 
   update() {
     this.apollo
-      .query<DatasetInfoWithOwnerModel[]>({
+      .query<ListDatasetsInfoResult>({
         query: LIST_DATASETS_INFO,
       })
       .subscribe({
-        next: value => console.log(value.data),
+        next: value => this.datasets.next(value.data.listDataSets),
       });
   }
 }

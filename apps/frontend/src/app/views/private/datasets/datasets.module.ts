@@ -4,10 +4,20 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { DatasetsIllustrationComponent } from './datasets-illustrations.component';
 import { SharedModule } from '../../../shared/shared.module';
 import { DatasetModule } from '../../../feature/datasets/dataset.module';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
+
+const materialComponents = [
+  MatTabsModule,
+  MatButtonModule,
+  MatIconModule,
+  MatTooltipModule,
+];
 
 @NgModule({
   declarations: [DatasetsComponent, DatasetsIllustrationComponent],
   exports: [DatasetsComponent],
-  imports: [SharedModule, DatasetModule, MatTabsModule],
+  imports: [SharedModule, DatasetModule, ...materialComponents],
 })
 export class DatasetsModule {}

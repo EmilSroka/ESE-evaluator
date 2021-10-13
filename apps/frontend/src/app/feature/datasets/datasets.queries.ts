@@ -1,4 +1,5 @@
 import { gql } from '@apollo/client/core';
+import { DatasetInfoWithOwnerModel } from '@ese/api-interfaces';
 
 export const LIST_DATASETS_INFO = gql`
   query List {
@@ -9,3 +10,6 @@ export const LIST_DATASETS_INFO = gql`
     }
   }
 `;
+export type ListDatasetsInfoResult = {
+  listDataSets: DatasetInfoWithOwnerModel[];
+};

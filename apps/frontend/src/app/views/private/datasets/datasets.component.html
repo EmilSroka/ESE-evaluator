@@ -2,9 +2,16 @@
   <div class="content">
     <h1 class="mat-h1">{{ 'datasets_title' | translate }}</h1>
     <mat-tab-group>
-      <mat-tab [label]="'datasets_tab_all' | translate"> Content 1 </mat-tab>
-      <mat-tab [label]="'datasets_tab_my' | translate"> Content 2 </mat-tab>
+      <mat-tab [label]="'datasets_tab_all' | translate">
+        <ese-datasets-layout [data]="(datasets$ | async) ?? []"></ese-datasets-layout>
+      </mat-tab>
+      <mat-tab [label]="'datasets_tab_my' | translate">
+        <ese-datasets-layout [data]="(myDatasets$ | async) ?? []"></ese-datasets-layout>
+      </mat-tab>
     </mat-tab-group>
   </div>
   <ese-datasets-illustration class="illustration"></ese-datasets-illustration>
 </div>
+<button class="add" mat-fab color="primary" aria-label="TODO" matTooltip="TODO">
+  <mat-icon>add</mat-icon>
+</button>

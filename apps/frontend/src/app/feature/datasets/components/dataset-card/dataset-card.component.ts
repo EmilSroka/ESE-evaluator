@@ -13,8 +13,8 @@ import { DatasetInfoWithOwnerModel } from '@ese/api-interfaces';
   styleUrls: ['dataset-card.component.scss'],
 })
 export class DatasetCardComponent {
-  @Input() displayUser = true;
   @Input() info?: DatasetInfoWithOwnerModel;
+  @Input() displayUser = true;
   @Output() interaction = new EventEmitter<DatasetInfoWithOwnerModel>();
 
   @HostListener('click')
