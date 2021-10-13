@@ -3,11 +3,11 @@ import { DatasetsComponent } from './datasets.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { DatasetsIllustrationComponent } from './datasets-illustrations.component';
 import { SharedModule } from '../../../shared/shared.module';
-import { UserModule } from '../../../feature/user/user.module';
+import { DatasetModule } from '../../../feature/datasets/dataset.module';
 
 @NgModule({
   declarations: [DatasetsComponent, DatasetsIllustrationComponent],
   exports: [DatasetsComponent],
-  imports: [MatTabsModule, SharedModule, UserModule],
+  imports: [SharedModule, DatasetModule, MatTabsModule],
 })
 export class DatasetsModule {}
