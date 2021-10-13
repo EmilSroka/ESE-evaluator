@@ -11,6 +11,10 @@ import { SharedModule } from '../../shared/shared.module';
 import { EditUserLayoutComponent } from './layout/edit/edit-user-layout.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { UserLinkComponent } from './components/user-link/user-link.component';
+import { RouterModule } from '@angular/router';
+
+const externalComponents = [UserLinkComponent, UserLayoutComponent];
 
 const internalComponents = [
   DisplayUserLayoutComponent,
@@ -27,13 +31,14 @@ const materialModules = [
 ];
 
 @NgModule({
-  declarations: [...internalComponents, UserLayoutComponent],
-  exports: [UserLayoutComponent],
+  declarations: [...internalComponents, ...externalComponents],
+  exports: [...externalComponents],
   imports: [
     ...materialModules,
     CommonModule,
     SharedModule,
     ReactiveFormsModule,
+    RouterModule,
   ],
 })
 export class UserModule {}
