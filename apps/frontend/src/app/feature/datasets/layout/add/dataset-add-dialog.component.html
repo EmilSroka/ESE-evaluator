@@ -1,0 +1,30 @@
+<h1 mat-dialog-title>{{'datasets_upload' | translate}}</h1>
+<form [formGroup]="form">
+  <mat-form-field class="full-width" appearance="fill">
+    <mat-label>{{'datasets_name' | translate}}</mat-label>
+    <input matInput [formControl]="name">
+    <mat-error *ngIf="name.invalid">{{'forms_required_error' | translate}}</mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="full-width" appearance="fill">
+    <mat-label>{{'datasets_description' | translate}}</mat-label>
+    <textarea matInput rows="6" [formControl]="description"></textarea>
+    <mat-error *ngIf="description.invalid">{{'forms_required_error' | translate}}</mat-error>
+  </mat-form-field>
+
+  <div class="inline">
+    <button type="button" mat-button (click)="fileInput.click()">
+      <mat-icon>attach_file</mat-icon>
+      {{'datasets_choose' | translate}}
+    </button>
+    <input hidden type="file" accept=".json" (change)="refresh()" #fileInput>
+    <p *ngIf="hasFile" class="filename">Filename: {{this.fileName}}</p>
+  </div>
+
+  <p class="align-right">
+    <button mat-raised-button class="upload" color="primary" [disabled]="!canSubmit" (click)="close()">
+      <mat-icon>cloud_upload</mat-icon>
+      <span class="upload-text">{{'datasets_send' | translate}}</span>
+    </button>
+  </p>
+</form>

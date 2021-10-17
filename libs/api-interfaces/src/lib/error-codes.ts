@@ -5,6 +5,7 @@ export enum ValidationErrors {
   UsernameTaken = 'validation_username_taken',
   InvalidPassword = 'validation_invalid_password',
   InvalidDataset = 'validation_invalid_dataset',
+  NotJSONFile = 'not_a_json_file',
   DatasetNameTaken = 'validation_dataset_name_taken',
 }
 

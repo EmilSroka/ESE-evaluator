@@ -1,0 +1,26 @@
+.full-width {
+  width: 100%;
+}
+
+.inline {
+  display: flex;
+  align-items: baseline;
+}
+
+.filename {
+  padding-left: 16px;
+}
+
+.align-right {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.upload {
+  margin-top: 8px;
+  text-transform: uppercase;
+}
+
+.upload-text {
+  padding-left: 8px;
+}

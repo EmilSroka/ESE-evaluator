@@ -3,15 +3,15 @@
     <h1 class="mat-h1">{{ 'datasets_title' | translate }}</h1>
     <mat-tab-group>
       <mat-tab [label]="'datasets_tab_all' | translate">
-        <ese-datasets-layout [data]="(datasets$ | async) ?? []"></ese-datasets-layout>
+        <ese-datasets-list-layout [data]="(datasets$ | async) ?? []"></ese-datasets-list-layout>
       </mat-tab>
       <mat-tab [label]="'datasets_tab_my' | translate">
-        <ese-datasets-layout [data]="(myDatasets$ | async) ?? []"></ese-datasets-layout>
+        <ese-datasets-list-layout [data]="(myDatasets$ | async) ?? []"></ese-datasets-list-layout>
       </mat-tab>
     </mat-tab-group>
   </div>
   <ese-datasets-illustration class="illustration"></ese-datasets-illustration>
 </div>
-<button class="add" mat-fab color="primary" aria-label="TODO" matTooltip="TODO">
+<button class="add" mat-fab color="primary" [attr.aria-label]="'datasets_add' | translate" [matTooltip]="'datasets_add' | translate" (click)="add()">
   <mat-icon>add</mat-icon>
 </button>

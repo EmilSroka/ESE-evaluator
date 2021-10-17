@@ -7,8 +7,10 @@ import { DatasetModule } from '../../../feature/datasets/dataset.module';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDialogModule } from '@angular/material/dialog';
 
 const materialComponents = [
+  MatDialogModule,
   MatTabsModule,
   MatButtonModule,
   MatIconModule,
