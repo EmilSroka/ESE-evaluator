@@ -22,6 +22,13 @@ export class StorageService {
     return of(JSON.parse(result));
   }
 
+  readWithDefault<T>(key: string, whenEmpty: T | Observable<T>): Observable<T> {
+    const result = sessionStorage.getItem(key) ?? localStorage.getItem(key);
+    if (result != null) return of(JSON.parse(result));
+    if (whenEmpty instanceof Observable) return whenEmpty;
+    return of(whenEmpty);
+  }
+
   delete<T>(key: string): Observable<T> {
     const value$ = this.read<T>(key);
     sessionStorage.removeItem(key);
