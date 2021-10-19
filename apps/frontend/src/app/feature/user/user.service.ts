@@ -92,8 +92,26 @@ export class UserService {
     responseData$.subscribe({
       next: updated => this.user$.next(updated),
     });
+    const isSuccess$ = this.isSuccess(responseData$);
+    this.handleOptimisticUpdate(data, isSuccess$);
+    return isSuccess$;
+  }
 
-    return this.isSuccess(responseData$);
+  private handleOptimisticUpdate(
+    data: UserUpdateModel,
+    isSuccess$: Observable<boolean>,
+  ): void {
+    if (this.user$.value == null) return;
+    const userDataCopy = { ...this.user$.value };
+    const updated = { ...userDataCopy };
+    if (data.username) updated.username = data.username;
+    if (data.organization) updated.organization = data.organization;
+    if (data.about) updated.about = data.about;
+    this.user$.next(updated);
+
+    isSuccess$
+      .pipe(filter(isSuccess => !isSuccess))
+      .subscribe(() => this.user$.next(userDataCopy));
   }
 
   private handleAuth(input$: Observable<LoginResult>): void {
