@@ -23,6 +23,7 @@ import {
 import { AuthService } from '../auth/auth.service';
 import { asyncScheduler, BehaviorSubject, Observable, of } from 'rxjs';
 import { UserAuthModel } from '@ese/api-interfaces';
+import { DatasetsService } from '../datasets/datasets.service';
 
 @Injectable({
   providedIn: 'root',
@@ -30,7 +31,11 @@ import { UserAuthModel } from '@ese/api-interfaces';
 export class UserService {
   private user$ = new BehaviorSubject<UserAuthModel | undefined>(undefined);
 
-  constructor(private apollo: Apollo, private auth: AuthService) {
+  constructor(
+    private apollo: Apollo,
+    private auth: AuthService,
+    private datasets: DatasetsService,
+  ) {
     this.auth
       .isAuthenticated()
       .pipe(
@@ -70,6 +75,7 @@ export class UserService {
   logout() {
     this.user$.next(undefined);
     this.auth.clearToken();
+    this.datasets.clear();
   }
 
   update(data: UserUpdateModel): Observable<boolean> {

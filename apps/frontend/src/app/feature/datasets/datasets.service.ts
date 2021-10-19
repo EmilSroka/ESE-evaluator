@@ -47,4 +47,8 @@ export class DatasetsService {
         catchError(() => of(false)),
       );
   }
+
+  clear(): void {
+    this.datasets.next([]);
+  }
 }

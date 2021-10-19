@@ -8,6 +8,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { ReactiveFormsModule } from '@angular/forms';
+import { DatasetsListComponent } from './list/datasets-list.component';
 
 const materialComponents = [
   MatDialogModule,
@@ -15,11 +19,22 @@ const materialComponents = [
   MatButtonModule,
   MatIconModule,
   MatTooltipModule,
+  MatFormFieldModule,
+  MatInputModule,
 ];
 
 @NgModule({
-  declarations: [DatasetsComponent, DatasetsIllustrationComponent],
+  declarations: [
+    DatasetsComponent,
+    DatasetsListComponent,
+    DatasetsIllustrationComponent,
+  ],
   exports: [DatasetsComponent],
-  imports: [SharedModule, DatasetModule, ...materialComponents],
+  imports: [
+    ...materialComponents,
+    SharedModule,
+    DatasetModule,
+    ReactiveFormsModule,
+  ],
 })
 export class DatasetsModule {}

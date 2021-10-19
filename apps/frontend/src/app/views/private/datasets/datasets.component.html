@@ -3,10 +3,10 @@
     <h1 class="mat-h1">{{ 'datasets_title' | translate }}</h1>
     <mat-tab-group>
       <mat-tab [label]="'datasets_tab_all' | translate">
-        <ese-datasets-list-layout [data]="(datasets$ | async) ?? []"></ese-datasets-list-layout>
+        <ese-datasets-list [datasets]="datasets$"></ese-datasets-list>
       </mat-tab>
       <mat-tab [label]="'datasets_tab_my' | translate">
-        <ese-datasets-list-layout [data]="(myDatasets$ | async) ?? []"></ese-datasets-list-layout>
+        <ese-datasets-list [datasets]="myDatasets$"></ese-datasets-list>
       </mat-tab>
     </mat-tab-group>
   </div>
