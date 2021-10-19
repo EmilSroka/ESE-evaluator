@@ -1,0 +1,27 @@
+.wrapper {
+  display: flex;
+  text-decoration: none;
+  align-items: baseline;
+}
+
+.text {
+  color: var(--primary);
+  padding-left: 8px;
+  font-weight: bold;
+}
+
+.avatar {
+  background: var(--primary);
+  color: var(--on-primary);
+  letter-spacing: 1px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  object-fit: cover;
+}

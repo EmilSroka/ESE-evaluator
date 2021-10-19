@@ -28,6 +28,10 @@ export class PrivateShellComponent {
         link: `${Path.private}/${PrivatePath.me}`,
       },
       {
+        text: this.translate.instant('menu_datasets'),
+        link: `${Path.private}/${PrivatePath.datasets}`,
+      },
+      {
         text: this.translate.instant('menu_logout'),
         callback: () => {
           this.userService.logout();

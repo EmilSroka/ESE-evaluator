@@ -1,0 +1,7 @@
+<mat-card>
+  <h2>{{ info?.name ?? '' }}</h2>
+  <p>{{ info?.description ?? '' }}</p>
+  <div *ngIf="displayUser && !!info?.username" class="user">
+    <ese-user-link [username]="info?.username ?? ''"></ese-user-link>
+  </div>
+</mat-card>

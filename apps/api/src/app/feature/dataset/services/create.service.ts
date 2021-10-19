@@ -12,7 +12,7 @@ import {
   FILE_STORAGE,
   FileStorage,
 } from '../../../providers/file-storage/file-storage';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { ExceptionFactory } from '../../errors/exception.factory';
 import { DatasetInfoCache } from './cache.service';
@@ -39,7 +39,11 @@ export class CreateDatasetService {
     return this.storage.save(`${id}.json`, file).pipe(
       switchMap(() => this.gateway.create({ ...info, ...date, id }, owner)),
       map(datasetInfo => ({ ...datasetInfo, username: owner.username })),
-      tap(datasetInfo => this.cache.add(datasetInfo)),
+      map(datasetInfo => {
+        // todo: race condition
+        this.cache.add(datasetInfo);
+        return datasetInfo;
+      }),
     );
   }
 
@@ -48,21 +52,31 @@ export class CreateDatasetService {
     file: Buffer,
     ownerEmail: string,
   ): void {
-    const asObject = JSON.parse(file.toString());
-    if (!this.validator.isValid(asObject)) {
-      throw this.exceptionFactory.validation({
-        place: 'CreateDatasetService#create',
-        msg: 'Invalid dataset file structure',
-        extra: `owner: "${ownerEmail}"`,
-        codes: [ValidationErrors.InvalidDataset],
-      });
-    }
     if (this.cache.has(info.name)) {
       throw this.exceptionFactory.validation({
         place: 'CreateDatasetService#create',
         msg: 'Dataset name taken',
         extra: `info: "${JSON.stringify(info)}"`,
         codes: [ValidationErrors.DatasetNameTaken],
+      });
+    }
+    let asObject;
+    try {
+      asObject = JSON.parse(file.toString());
+    } catch {
+      throw this.exceptionFactory.validation({
+        place: 'CreateDatasetService#create',
+        msg: 'Cannot parse file',
+        extra: `owner: "${ownerEmail}", invalid JSON format`,
+        codes: [ValidationErrors.NotJSONFile],
+      });
+    }
+    if (!this.validator.isValid(asObject)) {
+      throw this.exceptionFactory.validation({
+        place: 'CreateDatasetService#create',
+        msg: 'Invalid dataset file structure',
+        extra: `owner: "${ownerEmail}"`,
+        codes: [ValidationErrors.InvalidDataset],
       });
     }
   }

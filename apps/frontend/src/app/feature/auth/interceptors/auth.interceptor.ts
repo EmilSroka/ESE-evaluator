@@ -7,8 +7,8 @@ import {
 } from '@angular/common/http';
 import { AuthService } from '../auth.service';
 import { Observable, of } from 'rxjs';
-import { GRAPHQL_PATH } from '../../../core/core.module';
 import { map, switchMap } from 'rxjs/operators';
+import { environment } from '../../../../environments/environment';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -18,7 +18,7 @@ export class AuthInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler,
   ): Observable<HttpEvent<any>> {
-    if (!req.url.includes(GRAPHQL_PATH)) return next.handle(req);
+    if (!req.url.includes(environment.api.base)) return next.handle(req);
 
     return this.auth.isAuthenticated().pipe(
       switchMap(isAuth => (isAuth ? this.getAuthHeaders() : of({}))),

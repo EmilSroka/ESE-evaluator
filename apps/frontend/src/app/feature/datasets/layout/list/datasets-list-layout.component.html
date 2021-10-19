@@ -1,0 +1,9 @@
+<div *ngIf="isEmpty else list" class="no-data">
+  <ese-no-datasets-illustration></ese-no-datasets-illustration>
+  <h1 class="no-data-info">{{'datasets_no_data' | translate}}</h1>
+</div>
+<ng-template #list>
+  <div class="wrapper">
+    <ese-dataset-card *ngFor="let dataset of data" [info]="dataset"></ese-dataset-card>
+  </div>
+</ng-template>
