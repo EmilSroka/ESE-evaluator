@@ -27,6 +27,7 @@ export class DatasetsService {
     this.apollo
       .query<ListDatasetsInfoResult>({
         query: LIST_DATASETS_INFO,
+        fetchPolicy: 'no-cache',
       })
       .subscribe({
         next: value => this.datasets.next(value.data.listDataSets),
