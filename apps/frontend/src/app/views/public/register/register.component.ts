@@ -88,18 +88,26 @@ export class RegisterComponent {
 
     const [success$, fail$] = partition(
       this.userService.register({ email, password, username }),
-      isSuccess => isSuccess,
+      errors => errors.length === 0,
     );
 
     success$.subscribe(() => {
       this.router.navigateByUrl(Path.private);
     });
 
-    fail$.subscribe(() => {
+    fail$.subscribe(codes => {
       this.snackBar.open(
-        this.translate.instant('toast_cannot_register'),
+        this.getErrorMessage(codes as string[]),
         this.translate.instant('toast_ok'),
       );
     });
+  }
+
+  private getErrorMessage(codes: string[]): string {
+    const base = this.translate.instant('toast_cannot_register');
+    const details = codes
+      .map(code => `${code}_error`)
+      .map(key => this.translate.instant(key));
+    return `${base}: ${details.join(', ')}`;
   }
 }

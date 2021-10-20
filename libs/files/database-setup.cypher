@@ -119,7 +119,13 @@ CREATE (:Translations {
   forms_email_error: 'Email is not valid',
   forms_username_error: 'Username is not valid',
   forms_password_error: 'Password is not valid',
-  forms_match_passwords_error: 'Passwords do not match'
+  forms_match_passwords_error: 'Passwords do not match',
+  validation_invalid_email_error: 'invalid email address',
+  validation_email_taken_error: 'email address taken',
+  validation_invalid_username_error: 'invalid user name',
+  validation_username_taken_error: 'username taken',
+  validation_invalid_password_error: 'invalid password',
+  unknown_error: 'unknown error'
 })-[:OF]->(en);
 
 MATCH (pl:Language { tag: 'pl' }) WITH pl
@@ -128,7 +134,13 @@ CREATE (:Translations {
   forms_email_error: 'Niepoprawny adres email',
   forms_username_error: 'Niepoprawna nazwa użytkownika',
   forms_password_error: 'Niepoprawne hasło',
-  forms_match_passwords_error: 'Podano dwa różne hasła'
+  forms_match_passwords_error: 'Podano dwa różne hasła',
+  validation_invalid_email_error: 'niepoprawny adres email',
+  validation_email_taken_error: 'użytkownik z podanym adresem już istneje',
+  validation_invalid_username_error: 'niepoprawna nazwa użytkownika',
+  validation_username_taken_error: 'użytkownik z podaną nazwą już istneje',
+  validation_invalid_password_error: 'niepoprawne hasło',
+  unknown_error: 'nieznany błąd'
 })-[:OF]->(pl);
 
 MATCH (en:Language { tag: 'en-US' }) WITH en
