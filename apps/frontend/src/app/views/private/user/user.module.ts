@@ -9,8 +9,16 @@ import { UserModule as UsersModule } from '../../../feature/user/user.module';
 import { CommonModule } from '@angular/common';
 import { UserErrorIllustrationComponent } from './error-illustration.component';
 import { IllustrationsModule } from '../../../shared/illustrations/illustrations.module';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
-const materialComponents = [MatCardModule, MatInputModule, MatButtonModule];
+const materialComponents = [
+  MatCardModule,
+  MatInputModule,
+  MatButtonModule,
+  MatIconModule,
+  MatTooltipModule,
+];
 
 @NgModule({
   declarations: [UserComponent, UserErrorIllustrationComponent],
