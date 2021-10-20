@@ -23,6 +23,7 @@ import {
 import { AuthService } from '../auth/auth.service';
 import { asyncScheduler, BehaviorSubject, Observable, of } from 'rxjs';
 import { UserAuthModel } from '@ese/api-interfaces';
+import { DatasetsService } from '../datasets/datasets.service';
 
 @Injectable({
   providedIn: 'root',
@@ -30,7 +31,11 @@ import { UserAuthModel } from '@ese/api-interfaces';
 export class UserService {
   private user$ = new BehaviorSubject<UserAuthModel | undefined>(undefined);
 
-  constructor(private apollo: Apollo, private auth: AuthService) {
+  constructor(
+    private apollo: Apollo,
+    private auth: AuthService,
+    private datasets: DatasetsService,
+  ) {
     this.auth
       .isAuthenticated()
       .pipe(
@@ -70,6 +75,7 @@ export class UserService {
   logout() {
     this.user$.next(undefined);
     this.auth.clearToken();
+    this.datasets.clear();
   }
 
   update(data: UserUpdateModel): Observable<boolean> {
@@ -86,8 +92,26 @@ export class UserService {
     responseData$.subscribe({
       next: updated => this.user$.next(updated),
     });
+    const isSuccess$ = this.isSuccess(responseData$);
+    this.handleOptimisticUpdate(data, isSuccess$);
+    return isSuccess$;
+  }
 
-    return this.isSuccess(responseData$);
+  private handleOptimisticUpdate(
+    data: UserUpdateModel,
+    isSuccess$: Observable<boolean>,
+  ): void {
+    if (this.user$.value == null) return;
+    const userDataCopy = { ...this.user$.value };
+    const updated = { ...userDataCopy };
+    if (data.username) updated.username = data.username;
+    if (data.organization) updated.organization = data.organization;
+    if (data.about) updated.about = data.about;
+    this.user$.next(updated);
+
+    isSuccess$
+      .pipe(filter(isSuccess => !isSuccess))
+      .subscribe(() => this.user$.next(userDataCopy));
   }
 
   private handleAuth(input$: Observable<LoginResult>): void {

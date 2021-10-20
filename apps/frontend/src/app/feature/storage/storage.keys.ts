@@ -1,6 +1,7 @@
 import { InjectionToken } from '@angular/core';
 
 const KEYS = {
+  language: 'language',
   theme: 'theme',
   token: 'token',
 };

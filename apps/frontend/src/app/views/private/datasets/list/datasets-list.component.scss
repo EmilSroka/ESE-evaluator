@@ -1,0 +1,12 @@
+.page {
+  width: 100%;
+}
+
+.search {
+  margin-top: 1.25em;
+  width: 100%;
+}
+
+.search ::ng-deep .mat-form-field-wrapper{
+  margin-bottom: -1.25em;
+}

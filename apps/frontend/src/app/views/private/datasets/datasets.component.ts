@@ -11,6 +11,8 @@ import { DatasetAddDialogComponent } from '../../../feature/datasets/layout/add/
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
 
+const MODAL_WIDTH = '400px';
+
 @Component({
   selector: 'ese-datasets-view',
   templateUrl: 'datasets.component.html',
@@ -39,7 +41,7 @@ export class DatasetsComponent implements OnInit {
 
   add(): void {
     const dialogRef = this.dialog.open(DatasetAddDialogComponent, {
-      width: '400px',
+      width: MODAL_WIDTH,
     });
 
     dialogRef

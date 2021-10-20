@@ -20,7 +20,7 @@ export class LanguageSelectComponent {
   ) {}
 
   select(tag: string): void {
-    this.translateService.use(tag);
+    this.translationsService.use(tag);
   }
 
   get currentLanguage(): string {
