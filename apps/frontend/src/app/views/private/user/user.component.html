@@ -1,7 +1,14 @@
-<div *ngIf="!isError; else error" class="wrapper">
-  <ese-user [data]="user" class="profile"></ese-user>
-  <ese-user-profile-illustration class="illustration"></ese-user-profile-illustration>
+<div class="wrapper">
+  <button mat-icon-button class="back" (click)="goBack()"
+          [attr.aria-label]="'user_go_back' | translate" [matTooltip]="'user_go_back' | translate">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <div *ngIf="!isError; else error" class="content">
+    <ese-user [data]="user" class="profile"></ese-user>
+    <ese-user-profile-illustration class="illustration"></ese-user-profile-illustration>
+  </div>
 </div>
+
 <ng-template #error>
   <div class="error">
     <ese-user-error-illustration></ese-user-error-illustration>

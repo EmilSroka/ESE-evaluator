@@ -62,14 +62,14 @@ export class UserService {
     return this.isSuccess(responseData$);
   }
 
-  register(data: RegisterInput): Observable<boolean> {
+  register(data: RegisterInput): Observable<string[]> {
     const responseData$ = this.apollo
       .mutate({ mutation: REGISTER, variables: data })
       .pipe(pluck<unknown, RegisterResult>('data', 'register'), shareReplay(1));
 
     this.handleAuth(responseData$);
 
-    return this.isSuccess(responseData$);
+    return this.getErrorCodes(responseData$);
   }
 
   logout() {
@@ -124,6 +124,22 @@ export class UserService {
     });
   }
 
+  private getErrorCodes<T>(input$: Observable<T>): Observable<string[]> {
+    return input$.pipe(
+      map(() => []),
+      catchError(error => {
+        let data: string[];
+        try {
+          data = (JSON.parse(error.message) as RegistrationError)
+            .validationCodes;
+        } catch {
+          data = ['unknown_error'];
+        }
+        return of(data);
+      }),
+    );
+  }
+
   private isSuccess<T>(input$: Observable<T>): Observable<boolean> {
     return input$.pipe(
       map(() => true),
@@ -139,3 +155,9 @@ export class UserService {
 }
 
 const ignoreError = () => null;
+
+type RegistrationError = {
+  errorCode: string;
+  message: string;
+  validationCodes: string[];
+};

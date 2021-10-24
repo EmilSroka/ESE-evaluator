@@ -1,4 +1,14 @@
 .wrapper {
+  position: relative;
+}
+
+.back {
+  position: absolute;
+  left: 16px;
+  top: 16px;
+}
+
+.content {
   min-height: 90vh;
   max-width: 1250px;
   margin: 0 auto;

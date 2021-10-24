@@ -5,6 +5,7 @@ import { map, switchMap, takeUntil } from 'rxjs/operators';
 import { UsersService } from '../../../feature/user/users.service';
 import { UserModel } from '@ese/api-interfaces';
 import { Disposable } from '../../../shared/disposable/disposable.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'ese-user-view',
@@ -17,6 +18,7 @@ export class UserComponent {
   isError = false;
 
   constructor(
+    private location: Location,
     private route: ActivatedRoute,
     private users: UsersService,
     private dispose$: Disposable,
@@ -34,5 +36,9 @@ export class UserComponent {
         },
         error: () => (this.isError = true),
       });
+  }
+
+  goBack() {
+    this.location.back();
   }
 }

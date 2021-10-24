@@ -10,6 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DatasetAddDialogComponent } from '../../../feature/datasets/layout/add/dataset-add-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
+import { MarkdownDialogComponent } from '../../../shared/markdown-dialog/markdown-dialog.component';
 
 const MODAL_WIDTH = '400px';
 
@@ -60,6 +61,13 @@ export class DatasetsComponent implements OnInit {
           this.displayUploadFailureMessage();
         }
       });
+  }
+
+  openHelpInfo(): void {
+    this.dialog.open(MarkdownDialogComponent, {
+      data: this.translate.instant('modal_dataset'),
+      width: MODAL_WIDTH,
+    });
   }
 
   private displayUploadStartMessage(): void {

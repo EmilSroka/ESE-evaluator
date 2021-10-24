@@ -17,6 +17,10 @@ import {
   invalidUserErrorName,
   validUsername,
 } from '../../../shared/forms/username.validator';
+import { MatDialog } from '@angular/material/dialog';
+import { MarkdownDialogComponent } from '../../../shared/markdown-dialog/markdown-dialog.component';
+
+const MODAL_WIDTH = '400px';
 
 @Component({
   selector: 'ese-register-view',
@@ -47,6 +51,7 @@ export class RegisterComponent {
     private router: Router,
     private snackBar: MatSnackBar,
     private translate: TranslateService,
+    private dialog: MatDialog,
   ) {}
 
   get emailErrorMessage(): string {
@@ -88,18 +93,33 @@ export class RegisterComponent {
 
     const [success$, fail$] = partition(
       this.userService.register({ email, password, username }),
-      isSuccess => isSuccess,
+      errors => errors.length === 0,
     );
 
     success$.subscribe(() => {
       this.router.navigateByUrl(Path.private);
     });
 
-    fail$.subscribe(() => {
+    fail$.subscribe(codes => {
       this.snackBar.open(
-        this.translate.instant('toast_cannot_register'),
+        this.getErrorMessage(codes as string[]),
         this.translate.instant('toast_ok'),
       );
     });
+  }
+
+  openHelpInfo(): void {
+    this.dialog.open(MarkdownDialogComponent, {
+      data: this.translate.instant('modal_registration'),
+      width: MODAL_WIDTH,
+    });
+  }
+
+  private getErrorMessage(codes: string[]): string {
+    const base = this.translate.instant('toast_cannot_register');
+    const details = codes
+      .map(code => `${code}_error`)
+      .map(key => this.translate.instant(key));
+    return `${base}: ${details.join(', ')}`;
   }
 }

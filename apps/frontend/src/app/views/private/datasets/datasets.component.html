@@ -12,6 +12,13 @@
   </div>
   <ese-datasets-illustration class="illustration"></ese-datasets-illustration>
 </div>
-<button class="add" mat-fab color="primary" [attr.aria-label]="'datasets_add' | translate" [matTooltip]="'datasets_add' | translate" (click)="add()">
-  <mat-icon>add</mat-icon>
-</button>
+<div class="buttons">
+  <button color="basic" class="info" mat-fab (click)='openHelpInfo()'
+          [attr.aria-label]="'datasets_help' | translate" [matTooltip]="'datasets_help' | translate">
+    <mat-icon color="primary">help</mat-icon>
+  </button>
+  <button mat-fab color="primary" (click)="add()"
+          [attr.aria-label]="'datasets_add' | translate" [matTooltip]="'datasets_add' | translate">
+    <mat-icon>add</mat-icon>
+  </button>
+</div>
