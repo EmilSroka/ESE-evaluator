@@ -151,7 +151,8 @@ CREATE (:Translations {
   register_username_label: 'Username',
   register_password_label: 'Password',
   register_repeat_password_label: 'Repeat password',
-  register_submit: 'Register'
+  register_submit: 'Register',
+  register_help: 'More info'
 })-[:OF]->(en);
 
 MATCH (pl:Language { tag: 'pl' }) WITH pl
@@ -162,7 +163,8 @@ CREATE (:Translations {
   register_username_label: 'Nazwa użytkownika',
   register_password_label: 'Hasło',
   register_repeat_password_label: 'Powtórz hasło',
-  register_submit: 'Utwórz konto'
+  register_submit: 'Utwórz konto',
+  register_help: 'Pomoc'
 })-[:OF]->(pl);
 
 MATCH (en:Language { tag: 'en-US' }) WITH en
@@ -221,7 +223,8 @@ CREATE (:Translations {
   datasets_send: 'Upload',
   datasets_search: 'Search',
   datasets_page: 'Page',
-  datasets_invalid_page: 'Incorrext value, current page: {{ page }}'
+  datasets_invalid_page: 'Incorrext value, current page: {{ page }}',
+  datasets_help: 'More info'
 })-[:OF]->(en);
 
 MATCH (pl:Language { tag: 'pl' }) WITH pl
@@ -240,5 +243,20 @@ CREATE (:Translations {
   datasets_send: 'Wgraj',
   datasets_search: 'Szukaj',
   datasets_page: 'Strona',
-  datasets_invalid_page: 'Niepoprawna strona, obecnie: {{ page }}'
+  datasets_invalid_page: 'Niepoprawna strona, obecnie: {{ page }}',
+  datasets_help: 'Pomoc'
 })-[:OF]->(pl);
+
+MATCH (pl:Language { tag: 'pl' }) WITH pl
+CREATE (:Translations {
+  modal_ok: 'Ok',
+  modal_registration: '# Rejestracja \nAby utworzyć konto należy podać: \n* **adres e-mail** \n* **nazwę użytkownika** składającą się z jednego lub dwóch członów rozdzielonych spacją. Człon może zawierać jedynie litery oraz może mieć maksymalnie 20 znaków \n* **hasło**, spełniające poniższe warunki: \n  * przynajmniej jedna duża litera \n  * przynajmniej jedna mała litera \n  * przynajmniej jedna liczba \n  * minimalnie 8 znaków',
+  modal_dataset: '# Format\nZbiór danych przechowywany jest jako plik `json`. Pod unikalnymi kluczami można przechowywać obiekt reprezentujący zbiór napisów posiadających wspólną cechę. Struktura takiego obiektu wygląda następująco:\n```\n{\n\t"name": string,\n\t"description": string,\n\t"items": string[]\n}\n```'
+})-[:OF]->(pl);
+
+MATCH (en:Language { tag: 'en-US' }) WITH en
+CREATE (:Translations {
+  modal_ok: 'Ok',
+  modal_registration: '# Registration\nTo create an account, please provide:\n* an **email address**\n* a **user name** that consists of one or two parts separated by space. Each part can have only letters and cannot be longer than 20 characters.\n* **password**, that meets below conditions:\n  * have at least one upper letter\n  * have at least one lower letter\n  * have at least one digit\n  * have at least 8 characters',
+  modal_dataset: '# Format\nDataset is stored as a `json` file. Under unique keys, one can store an object that represents a set of strings with common property. The structure of such an object looks like this:\n```\n{\n "name": string,\n "description": string,\n "items": string[]\n}\n```'
+})-[:OF]->(en);

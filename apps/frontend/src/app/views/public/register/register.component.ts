@@ -17,6 +17,10 @@ import {
   invalidUserErrorName,
   validUsername,
 } from '../../../shared/forms/username.validator';
+import { MatDialog } from '@angular/material/dialog';
+import { MarkdownDialogComponent } from '../../../shared/markdown-dialog/markdown-dialog.component';
+
+const MODAL_WIDTH = '400px';
 
 @Component({
   selector: 'ese-register-view',
@@ -47,6 +51,7 @@ export class RegisterComponent {
     private router: Router,
     private snackBar: MatSnackBar,
     private translate: TranslateService,
+    private dialog: MatDialog,
   ) {}
 
   get emailErrorMessage(): string {
@@ -100,6 +105,13 @@ export class RegisterComponent {
         this.getErrorMessage(codes as string[]),
         this.translate.instant('toast_ok'),
       );
+    });
+  }
+
+  openHelpInfo(): void {
+    this.dialog.open(MarkdownDialogComponent, {
+      data: this.translate.instant('modal_registration'),
+      width: MODAL_WIDTH,
     });
   }
 
