@@ -14,6 +14,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 describe('LanguageSelectComponent', () => {
   let fixture: ComponentFixture<LanguageSelectComponent>;
   let translateService: TranslateService;
+  let translationsService: TranslationsService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -37,6 +38,7 @@ describe('LanguageSelectComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(LanguageSelectComponent);
     translateService = TestBed.inject(TranslateService);
+    translationsService = TestBed.inject(TranslationsService);
     fixture.detectChanges();
   });
 
@@ -61,8 +63,8 @@ describe('LanguageSelectComponent', () => {
       new RegExp(anotherLanguageName),
     );
     fireEvent.click(changeButton);
-    expect(translateService.use).toHaveBeenCalledTimes(1);
-    expect(translateService.use).toHaveBeenCalledWith(anotherLanguageTag);
+    expect(translationsService.use).toHaveBeenCalledTimes(1);
+    expect(translationsService.use).toHaveBeenCalledWith(anotherLanguageTag);
   });
 });
 
@@ -72,6 +74,7 @@ class TranslateServiceMock {
 
 class TranslationsInitializerServiceMock {
   config = of(langConfigFixture);
+  use = jest.fn();
 }
 
 const langConfigFixture = {
