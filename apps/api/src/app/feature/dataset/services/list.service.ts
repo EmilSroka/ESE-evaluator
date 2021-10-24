@@ -5,13 +5,20 @@ import {
   DatasetInfoWithOwnerModel,
 } from '@ese/api-interfaces';
 import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable()
-export class ListDatasetInfoService {
+export class AccessDatasetInfoService {
   constructor(private cache: DatasetInfoCache) {}
 
   list(): Observable<DatasetInfoWithOwnerModel[]> {
     return of(this.cache.getAll().map(toDatasetWithOwner));
+  }
+
+  getByName(name: string): Observable<DatasetInfoWithOwnerModel> {
+    return of(this.cache.getByName(name)).pipe(
+      map(dataset => toDatasetWithOwner(dataset)),
+    );
   }
 }
 

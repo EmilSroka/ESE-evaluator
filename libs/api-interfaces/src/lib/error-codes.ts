@@ -12,4 +12,5 @@ export enum ValidationErrors {
 export enum ErrorCodes {
   Internal = 'internal',
   Validation = 'validation',
+  Forbidden = 'forbidden',
 }

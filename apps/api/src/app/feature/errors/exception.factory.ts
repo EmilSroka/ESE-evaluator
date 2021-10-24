@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  ForbiddenException,
   Injectable,
   InternalServerErrorException,
 } from '@nestjs/common';
@@ -8,6 +9,15 @@ import { ErrorCodes, ValidationErrors } from '@ese/api-interfaces';
 
 @Injectable()
 export class ExceptionFactory {
+  notAuthorized({ place, msg, extra }): Exception {
+    return new Exception(ForbiddenException, {
+      internalMessage: `${place} => ${msg} -> ${extra}`,
+      externalMessage: 'Action forbidden',
+      validationCodes: [],
+      errorCode: ErrorCodes.Forbidden,
+    });
+  }
+
   validation({
     place,
     msg,

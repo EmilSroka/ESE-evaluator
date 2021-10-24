@@ -3,6 +3,10 @@ export interface DatasetInfoModel {
   description: string;
 }
 
+export interface DatasetInfoEditModel extends DatasetInfoModel {
+  oldName: string;
+}
+
 export interface DatasetInfoDbModel extends DatasetInfoModel {
   id: string;
   createdAt: number;

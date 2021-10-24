@@ -1,5 +1,8 @@
 import { Injectable, OnApplicationBootstrap } from '@nestjs/common';
-import { DatasetInfoDbWithOwnerModel } from '@ese/api-interfaces';
+import {
+  DatasetInfoDbWithOwnerModel,
+  DatasetInfoModel,
+} from '@ese/api-interfaces';
 import { DatasetGateway } from '../gateways/dataset.gateway';
 
 @Injectable()
@@ -20,8 +23,11 @@ export class DatasetInfoCache implements OnApplicationBootstrap {
     return [...this.entriesOrderedByCreateTime];
   }
 
-  getByName(name: string): DatasetInfoDbWithOwnerModel | null {
-    return this.nameToEntry.has(name) ? this.nameToEntry.get(name) : null;
+  update(oldName: string, info: DatasetInfoModel): void {
+    const target = this.getByName(oldName);
+    if (target == null) return;
+    target.name = info.name;
+    target.description = info.description;
   }
 
   has(name: string): boolean {
@@ -31,6 +37,10 @@ export class DatasetInfoCache implements OnApplicationBootstrap {
   add(entry: DatasetInfoDbWithOwnerModel): void {
     this.nameToEntry.set(entry.name, entry);
     this.entriesOrderedByCreateTime.push(entry);
+  }
+
+  getByName(name: string): DatasetInfoDbWithOwnerModel | null {
+    return this.nameToEntry.has(name) ? this.nameToEntry.get(name) : null;
   }
 }
 

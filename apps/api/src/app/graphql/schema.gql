@@ -40,10 +40,17 @@ type Query {
   me: AuthUser!
   user(username: String!): GetUser!
   listDataSets: [DatasetInfo!]!
+  updateDataSets(data: EditDataset!): DatasetInfo!
 }
 
 """JSONObject custom scalar type"""
 scalar JSONObject
+
+input EditDataset {
+  description: String!
+  name: String!
+  oldName: String!
+}
 
 type Mutation {
   login(password: String!, email: String!): UserWithToken!
