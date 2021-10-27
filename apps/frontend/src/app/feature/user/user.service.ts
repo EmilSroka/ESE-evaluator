@@ -133,7 +133,7 @@ export class UserService {
           data = (JSON.parse(error.message) as RegistrationError)
             .validationCodes;
         } catch {
-          data = ['unknown_error'];
+          data = ['unknown'];
         }
         return of(data);
       }),

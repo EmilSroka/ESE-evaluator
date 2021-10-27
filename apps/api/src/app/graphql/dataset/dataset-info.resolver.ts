@@ -1,4 +1,4 @@
-import { Args, Query, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../../feature/auth/guards/jwt-auth.guard';
 import { forkJoin, Observable } from 'rxjs';
@@ -29,7 +29,7 @@ export class DatasetInfoResolver {
     return this.datasets.list();
   }
 
-  @Query(() => DatasetInfo)
+  @Mutation(() => DatasetInfo)
   @UseGuards(JwtAuthGuard)
   updateDataSets(
     @CurrentUser() user: Observable<UserDbModel>,

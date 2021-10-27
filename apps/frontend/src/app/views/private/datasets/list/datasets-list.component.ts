@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { debounceTime, filter, map, startWith, tap } from 'rxjs/operators';
 import { combineLatest, Observable, of } from 'rxjs';
 import { FormControl, Validators } from '@angular/forms';
@@ -16,6 +16,8 @@ export class DatasetsListComponent implements OnInit {
   @Input() coolDown = 500;
   @Input() perPage = 3;
   @Input() datasets!: Observable<DatasetInfoWithOwnerModel[]>;
+  @Input() isEditable = false;
+  @Output() edit = new EventEmitter<DatasetInfoWithOwnerModel>();
   search = new FormControl('');
   page = new FormControl(
     INIT_PAGE_NUMBER,

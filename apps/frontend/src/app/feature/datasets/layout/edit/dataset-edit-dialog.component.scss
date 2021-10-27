@@ -1,0 +1,17 @@
+.full-width {
+  width: 100%;
+}
+
+.inline {
+  display: flex;
+  align-items: baseline;
+}
+
+.align-right {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.edit-text {
+  padding-left: 8px;
+}

@@ -15,10 +15,10 @@ type DialogData = {
 
 @Component({
   selector: 'ese-datasets-add-dialog',
-  templateUrl: 'dataset-add-dialog.component.html',
-  styleUrls: ['dataset-add-dialog.component.scss'],
+  templateUrl: 'dataset-edit-dialog.component.html',
+  styleUrls: ['dataset-edit-dialog.component.scss'],
 })
-export class DatasetAddDialogComponent {
+export class DatasetEditDialogComponent {
   @ViewChild('fileInput') input?: ElementRef<HTMLInputElement>;
 
   name = new FormControl(this.data.name ?? '', [Validators.required]);
@@ -32,31 +32,22 @@ export class DatasetAddDialogComponent {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
-    public dialogRef: MatDialogRef<DatasetAddDialogComponent>,
+    public dialogRef: MatDialogRef<DatasetEditDialogComponent>,
     private formBuilder: FormBuilder,
     private cdr: ChangeDetectorRef,
   ) {}
-
-  get fileName(): string {
-    return this.input?.nativeElement?.files?.[0]?.name ?? '';
-  }
-
-  get hasFile(): boolean {
-    return this.fileName !== '';
-  }
 
   refresh() {
     this.cdr.markForCheck();
   }
 
   get canSubmit(): boolean {
-    return this.form.valid && this.hasFile;
+    return this.form.valid;
   }
 
   close() {
     this.dialogRef.close({
       ...this.form.value,
-      file: this.input?.nativeElement?.files?.[0],
     });
   }
 }

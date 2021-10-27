@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { DatasetInfoWithOwnerModel } from '@ese/api-interfaces';
 
 @Component({
@@ -8,6 +8,8 @@ import { DatasetInfoWithOwnerModel } from '@ese/api-interfaces';
 })
 export class DatasetsListLayoutComponent {
   @Input() data: DatasetInfoWithOwnerModel[] = [];
+  @Input() isEditable = false;
+  @Output() edit = new EventEmitter<DatasetInfoWithOwnerModel>();
 
   get isEmpty(): boolean {
     return this.data.length === 0;

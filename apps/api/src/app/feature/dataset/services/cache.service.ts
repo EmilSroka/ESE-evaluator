@@ -28,6 +28,8 @@ export class DatasetInfoCache implements OnApplicationBootstrap {
     if (target == null) return;
     target.name = info.name;
     target.description = info.description;
+    this.nameToEntry.set(info.name, target);
+    this.nameToEntry.delete(oldName);
   }
 
   has(name: string): boolean {

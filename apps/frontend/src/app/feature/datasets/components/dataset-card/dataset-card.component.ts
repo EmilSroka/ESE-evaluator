@@ -14,8 +14,10 @@ import { DatasetInfoWithOwnerModel } from '@ese/api-interfaces';
 })
 export class DatasetCardComponent {
   @Input() info?: DatasetInfoWithOwnerModel;
+  @Input() isEditable = false;
   @Input() displayUser = true;
   @Output() interaction = new EventEmitter<DatasetInfoWithOwnerModel>();
+  @Output() edit = new EventEmitter<DatasetInfoWithOwnerModel>();
 
   @HostListener('click')
   handleClick(): void {

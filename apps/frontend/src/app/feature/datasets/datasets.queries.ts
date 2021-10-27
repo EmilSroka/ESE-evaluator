@@ -13,3 +13,13 @@ export const LIST_DATASETS_INFO = gql`
 export type ListDatasetsInfoResult = {
   listDataSets: DatasetInfoWithOwnerModel[];
 };
+
+export const EDIT_DATASET = gql`
+  mutation Update($data: EditDataset!) {
+    updateDataSets(data: $data) {
+      name
+      description
+      username
+    }
+  }
+`;

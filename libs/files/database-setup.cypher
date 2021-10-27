@@ -96,6 +96,9 @@ CREATE (:Translations {
   toast_upload_dataset: 'Przesyłamy Twój zbiór danych...',
   toast_upload_dataset_success: 'Zbiór danych przesłany poprawnie',
   toast_upload_dataset_fail: 'Nie udało się przesłać zbioru danych',
+  toast_edit_dataset: 'Twój zbiór danych jest aktualizowany...',
+  toast_edit_dataset_success: 'Zbiór danych zaktualizowany poprawnie',
+  toast_edit_dataset_fail: 'Nie udało się zaktualizować zbioru danych',
   toast_ok: 'ok'
 })-[:OF]->(pl);
 
@@ -110,6 +113,9 @@ CREATE (:Translations {
   toast_upload_dataset: 'Your dataset is uploading...',
   toast_upload_dataset_success: 'Your dataset was uploaded successfully',
   toast_upload_dataset_fail: 'The dataset could not be uploaded',
+  toast_edit_dataset: 'Your dataset is editing...',
+  toast_edit_dataset_success: 'Your dataset was updated successfully',
+  toast_edit_dataset_fail: 'The dataset could not be updated',
   toast_ok: 'ok'
 })-[:OF]->(en);
 
@@ -125,6 +131,8 @@ CREATE (:Translations {
   validation_invalid_username_error: 'invalid user name',
   validation_username_taken_error: 'username taken',
   validation_invalid_password_error: 'invalid password',
+  validation_dataset_name_taken_error: 'dataset name taken',
+  not_a_json_file_error: 'provided file is invalid',
   unknown_error: 'unknown error'
 })-[:OF]->(en);
 
@@ -140,6 +148,8 @@ CREATE (:Translations {
   validation_invalid_username_error: 'niepoprawna nazwa użytkownika',
   validation_username_taken_error: 'użytkownik z podaną nazwą już istneje',
   validation_invalid_password_error: 'niepoprawne hasło',
+  validation_dataset_name_taken_error: 'zbiór danych z podaną nazwą już istneje',
+  not_a_json_file_error: 'przesłano niepoprawny plik',
   unknown_error: 'nieznany błąd'
 })-[:OF]->(pl);
 
@@ -224,7 +234,9 @@ CREATE (:Translations {
   datasets_search: 'Search',
   datasets_page: 'Page',
   datasets_invalid_page: 'Incorrext value, current page: {{ page }}',
-  datasets_help: 'More info'
+  datasets_help: 'More info',
+  datasets_edit: 'Edit',
+  datasets_edit_title: 'Edit dataset'
 })-[:OF]->(en);
 
 MATCH (pl:Language { tag: 'pl' }) WITH pl
@@ -244,7 +256,9 @@ CREATE (:Translations {
   datasets_search: 'Szukaj',
   datasets_page: 'Strona',
   datasets_invalid_page: 'Niepoprawna strona, obecnie: {{ page }}',
-  datasets_help: 'Pomoc'
+  datasets_help: 'Pomoc',
+  datasets_edit: 'Edytuj',
+  datasets_edit_title: 'Edytuj zbiór danych'
 })-[:OF]->(pl);
 
 MATCH (pl:Language { tag: 'pl' }) WITH pl
