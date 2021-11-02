@@ -4,11 +4,13 @@ import { propsStringify } from '../../../utils/neo4j/props-stringify';
 import {
   DatasetInfoDbModel,
   DatasetInfoDbWithOwnerModel,
+  DatasetInfoModel,
   UserDbModel,
 } from '@ese/api-interfaces';
 import { ID_SERVICE, IdService } from '../../../shared/id/id-service.interface';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { propsUpdateStringify } from '../../../utils/neo4j/props-update-stringify';
 
 const USER_VARIABLE = 'user';
 const USER_TYPE = 'User';
@@ -38,6 +40,12 @@ export class DatasetGateway {
     );
   }
 
+  update(oldName: string, newData: DatasetInfoModel) {
+    return this.neo4j
+      .query(this.updateQuery(oldName, newData))
+      .pipe(map(record => record.get(VARIABLE).properties));
+  }
+
   private createQuery(
     datasetInfo: DatasetInfoDbModel,
     userEmail: string,
@@ -55,5 +63,10 @@ export class DatasetGateway {
       MATCH (${VARIABLE}:${DB_TYPE})-[:${RELATION_NAME}]->(${USER_VARIABLE}:${USER_TYPE})
       RETURN ${VARIABLE}, ${USER_VARIABLE}
     `;
+  }
+
+  private updateQuery(oldName: string, props: DatasetInfoModel): string {
+    const asString = propsUpdateStringify(VARIABLE, props);
+    return `MERGE (${VARIABLE}:${DB_TYPE} { name: '${oldName}'}) SET ${asString} RETURN ${VARIABLE}`;
   }
 }

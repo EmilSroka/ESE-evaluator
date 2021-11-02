@@ -1,0 +1,21 @@
+<h1 mat-dialog-title>{{'datasets_edit_title' | translate}}</h1>
+<form [formGroup]="form">
+  <mat-form-field class="full-width" appearance="fill">
+    <mat-label>{{'datasets_name' | translate}}</mat-label>
+    <input matInput [formControl]="name">
+    <mat-error *ngIf="name.invalid">{{'forms_required_error' | translate}}</mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="full-width" appearance="fill">
+    <mat-label>{{'datasets_description' | translate}}</mat-label>
+    <textarea matInput rows="6" [formControl]="description"></textarea>
+    <mat-error *ngIf="description.invalid">{{'forms_required_error' | translate}}</mat-error>
+  </mat-form-field>
+
+  <p class="align-right">
+    <button mat-raised-button class="upload" color="primary" [disabled]="!canSubmit" (click)="close()">
+      <mat-icon>edit</mat-icon>
+      <span class="edit-text">{{'datasets_edit' | translate}}</span>
+    </button>
+  </p>
+</form>

@@ -7,13 +7,15 @@ import {
 } from '@ese/api-interfaces';
 import { CreateDatasetService } from './services/create.service';
 import { Observable } from 'rxjs';
-import { ListDatasetInfoService } from './services/list.service';
+import { AccessDatasetInfoService } from './services/list.service';
+import { EditDatasetService } from './services/edit.service';
 
 @Injectable()
 export class DatasetService {
   constructor(
     private createDatasetService: CreateDatasetService,
-    private listDatasetService: ListDatasetInfoService,
+    private accessDatasetInfoService: AccessDatasetInfoService,
+    private editDatasetService: EditDatasetService,
   ) {}
 
   create(
@@ -25,6 +27,18 @@ export class DatasetService {
   }
 
   list(): Observable<DatasetInfoWithOwnerModel[]> {
-    return this.listDatasetService.list();
+    return this.accessDatasetInfoService.list();
+  }
+
+  getByName(name: string): Observable<DatasetInfoWithOwnerModel> {
+    return this.accessDatasetInfoService.getByName(name);
+  }
+
+  update(
+    currentName: string,
+    owner: UserDbModel,
+    newData: DatasetInfoModel,
+  ): Observable<DatasetInfoDbWithOwnerModel> {
+    return this.editDatasetService.update(currentName, newData, owner);
   }
 }

@@ -13,6 +13,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
+import { DatasetEditDialogComponent } from './layout/edit/dataset-edit-dialog.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 const materialComponents = [
   MatDialogModule,
@@ -21,12 +23,14 @@ const materialComponents = [
   MatInputModule,
   MatIconModule,
   MatButtonModule,
+  MatTooltipModule,
 ];
 
 const externalComponents = [
   DatasetCardComponent,
   DatasetsListLayoutComponent,
   DatasetAddDialogComponent,
+  DatasetEditDialogComponent,
 ];
 
 @NgModule({

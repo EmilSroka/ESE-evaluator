@@ -6,7 +6,27 @@ import {
   ExtractSubjectType,
   InferSubjects,
 } from '@casl/ability';
-import { UserDbModel } from '@ese/api-interfaces';
+import { DatasetInfoWithOwnerModel, UserDbModel } from '@ese/api-interfaces';
+
+class Dataset implements DatasetInfoWithOwnerModel {
+  description: string;
+  name: string;
+  username: string;
+}
+
+export function wrapDataSet(dataset: DatasetInfoWithOwnerModel): Dataset {
+  const result = new Dataset();
+  Object.assign(result, dataset);
+  return result;
+}
+
+export enum DatasetAction {
+  Update = 'update',
+}
+
+type DatasetSubject = InferSubjects<typeof Dataset>;
+
+export type DatasetAbility = Ability<[DatasetAction, DatasetSubject]>;
 
 class User implements UserDbModel {
   about: string;
@@ -45,6 +65,19 @@ export class AbilityFactory {
     return build({
       detectSubjectType: item =>
         item.constructor as ExtractSubjectType<UserSubject>,
+    });
+  }
+
+  createForDataset(user: UserDbModel) {
+    const { can, build } = new AbilityBuilder<DatasetAbility>(
+      Ability as AbilityClass<DatasetAbility>,
+    );
+
+    can(DatasetAction.Update, Dataset, { username: user.username });
+
+    return build({
+      detectSubjectType: item =>
+        item.constructor as ExtractSubjectType<DatasetSubject>,
     });
   }
 }

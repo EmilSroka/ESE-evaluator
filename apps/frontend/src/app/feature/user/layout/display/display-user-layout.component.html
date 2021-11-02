@@ -12,7 +12,7 @@
   </mat-card-content>
   <mat-card-actions>
     <div class="actions">
-      <button mat-button class="edit" *ngIf="isEditable" (click)='edit.emit()'>
+      <button mat-button class="edit" *ngIf="isEditable" (click)="edit.emit()">
         <mat-icon>edit</mat-icon>
         {{'profile_display_edit' | translate}}
       </button>

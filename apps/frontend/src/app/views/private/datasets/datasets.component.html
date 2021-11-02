@@ -6,7 +6,7 @@
         <ese-datasets-list [datasets]="datasets$"></ese-datasets-list>
       </mat-tab>
       <mat-tab [label]="'datasets_tab_my' | translate">
-        <ese-datasets-list [datasets]="myDatasets$"></ese-datasets-list>
+        <ese-datasets-list [datasets]="myDatasets$" [isEditable]="true" (edit)="edit($event)"></ese-datasets-list>
       </mat-tab>
     </mat-tab-group>
   </div>

@@ -3,7 +3,8 @@
   <input matInput [formControl]="search">
   <mat-icon matPrefix>search</mat-icon>
 </mat-form-field>
-<ese-datasets-list-layout [data]="(filteredDatasets$ | async) ?? []"></ese-datasets-list-layout>
+<ese-datasets-list-layout [data]="(filteredDatasets$ | async) ?? []"
+                          [isEditable]="isEditable" (edit)="edit.emit($event)"></ese-datasets-list-layout>
 <mat-form-field appearance="outline" class="page">
   <mat-label>{{ 'datasets_page' | translate }}</mat-label>
   <input matInput [formControl]="page">

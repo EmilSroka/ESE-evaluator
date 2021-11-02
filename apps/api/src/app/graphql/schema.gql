@@ -49,6 +49,7 @@ type Mutation {
   login(password: String!, email: String!): UserWithToken!
   register(data: UserData!, password: String!, email: String!): UserWithToken!
   updateUser(data: UpdateUser!): AuthUser!
+  updateDataSets(data: EditDataset!): DatasetInfo!
 }
 
 input UserData {
@@ -62,4 +63,10 @@ input UpdateUser {
   organization: String
   password: String
   username: String
+}
+
+input EditDataset {
+  description: String!
+  name: String!
+  oldName: String!
 }

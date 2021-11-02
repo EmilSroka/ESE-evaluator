@@ -1,7 +1,11 @@
 <mat-card>
   <h2>{{ info?.name ?? '' }}</h2>
   <p>{{ info?.description ?? '' }}</p>
-  <div *ngIf="displayUser && !!info?.username" class="user">
+  <div *ngIf="displayUser && !!info?.username" class="bottom">
+    <button mat-mini-fab color="basic" class="edit" *ngIf="isEditable" (click)="edit.emit(info)"
+            [attr.aria-label]="'datasets_edit' | translate" [matTooltip]="'datasets_edit' | translate">
+      <mat-icon color="primary">edit</mat-icon>
+    </button>
     <ese-user-link [username]="info?.username ?? ''"></ese-user-link>
   </div>
 </mat-card>

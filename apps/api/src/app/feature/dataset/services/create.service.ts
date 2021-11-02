@@ -12,7 +12,7 @@ import {
   FILE_STORAGE,
   FileStorage,
 } from '../../../providers/file-storage/file-storage';
-import { map, switchMap } from 'rxjs/operators';
+import { map, switchMap, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { ExceptionFactory } from '../../errors/exception.factory';
 import { DatasetInfoCache } from './cache.service';
@@ -39,11 +39,7 @@ export class CreateDatasetService {
     return this.storage.save(`${id}.json`, file).pipe(
       switchMap(() => this.gateway.create({ ...info, ...date, id }, owner)),
       map(datasetInfo => ({ ...datasetInfo, username: owner.username })),
-      map(datasetInfo => {
-        // todo: race condition
-        this.cache.add(datasetInfo);
-        return datasetInfo;
-      }),
+      tap(datasetInfo => this.cache.add(datasetInfo)),
     );
   }
 

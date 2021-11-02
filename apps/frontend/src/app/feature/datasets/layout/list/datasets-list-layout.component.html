@@ -4,6 +4,6 @@
 </div>
 <ng-template #list>
   <div class="wrapper">
-    <ese-dataset-card *ngFor="let dataset of data" [info]="dataset"></ese-dataset-card>
+    <ese-dataset-card *ngFor="let dataset of data" [info]="dataset" [isEditable]="isEditable" (edit)="edit.emit($event)"></ese-dataset-card>
   </div>
 </ng-template>
