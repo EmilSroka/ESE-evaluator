@@ -73,7 +73,8 @@ CREATE (:Translations {
   menu_register: 'Register',
   menu_logout: 'Logout',
   menu_me: 'My profile',
-  menu_datasets: 'Datasets'
+  menu_datasets: 'Datasets',
+  menu_configurations: 'Configurations'
 })-[:OF]->(en);
 
 MATCH (pl:Language { tag: 'pl' }) WITH pl
@@ -82,7 +83,8 @@ CREATE (:Translations {
   menu_register: 'Utwórz konto',
   menu_logout: 'Wyloguj',
   menu_me: 'Mój profil',
-  menu_datasets: 'Zbiory danych'
+  menu_datasets: 'Zbiory danych',
+  menu_configurations: 'Ustawienia'
 })-[:OF]->(pl);
 
 MATCH (pl:Language { tag: 'pl' }) WITH pl
@@ -273,4 +275,22 @@ CREATE (:Translations {
   modal_ok: 'Ok',
   modal_registration: '# Registration\nTo create an account, please provide:\n* an **email address**\n* a **user name** that consists of one or two parts separated by space. Each part can have only letters and cannot be longer than 20 characters.\n* **password**, that meets below conditions:\n  * have at least one upper letter\n  * have at least one lower letter\n  * have at least one digit\n  * have at least 8 characters',
   modal_dataset: '# Format\nDataset is stored as a `json` file. Under unique keys, one can store an object that represents a set of strings with common property. The structure of such an object looks like this:\n```\n{\n "name": string,\n "description": string,\n "items": string[]\n}\n```'
+})-[:OF]->(en);
+
+MATCH (pl:Language { tag: 'pl' }) WITH pl
+CREATE (:Translations {
+  config_description: 'Opis',
+  config_info: 'Informacje',
+  config_dataset_name: 'Zbiór danych',
+  config_categories: 'Liczba kategorii',
+  config_seeds: 'Liczba próbek'
+})-[:OF]->(pl);
+
+MATCH (en:Language { tag: 'en-US' }) WITH en
+CREATE (:Translations {
+  config_description: 'Description',
+  config_info: 'Details',
+  config_dataset_name: 'Dataset',
+  config_categories: 'Categories',
+  config_seeds: 'Seed size'
 })-[:OF]->(en);
