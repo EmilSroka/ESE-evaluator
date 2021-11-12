@@ -1,0 +1,43 @@
+<mat-card class="wrapper">
+  <div class="content" [ngClass]="{ 'hide': isLoading }">
+    <mat-card-title>{{ 'configs_add_title' | translate }}</mat-card-title>
+    <form class="form" [formGroup]="form" (ngSubmit)="doAdd()">
+      <div>
+        <div class="dataset">
+          <p>{{ 'configs_add_dataset' | translate }}: {{ selectedDataset }}</p>
+          <button mat-button type="button" (click)="selectDataset()">{{ 'configs_add_dataset_select' | translate }}</button>
+        </div>
+        <mat-error *ngIf="displayDatasetError">
+          {{ 'configs_add_dataset_error' | translate }}
+        </mat-error>
+      </div>
+      <mat-form-field appearance="fill" class="input">
+        <mat-label>{{ 'configs_add_name' | translate }}</mat-label>
+        <input matInput [formControl]="name">
+        <mat-error *ngIf="shouldDisplayError(name)">
+          {{ 'forms_required_error' | translate }}
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="input">
+        <mat-label>{{ 'configs_add_description' | translate }}</mat-label>
+        <textarea matInput [rows]="4" [formControl]="description"></textarea>
+        <mat-error *ngIf="shouldDisplayError(description)">
+          {{ 'forms_required_error' | translate }}
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="input">
+        <mat-label>{{ 'configs_add_categories' | translate }}</mat-label>
+        <input type="number" matInput [formControl]="categories">
+        <mat-error *ngIf="shouldDisplayError(categories)">
+          {{ 'configs_add_number_error' | translate }}
+        </mat-error>
+      </mat-form-field>
+    </form>
+    <mat-card-actions align="end">
+      <button mat-flat-button class="create" color="primary">{{ 'configs_add_create' | translate }}</button>
+    </mat-card-actions>
+  </div>
+  <div [ngClass]="{ 'hide': !isLoading }" class="spinner">
+    <mat-spinner></mat-spinner>
+  </div>
+</mat-card>

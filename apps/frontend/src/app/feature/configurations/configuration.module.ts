@@ -9,23 +9,41 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { ReactiveFormsModule } from '@angular/forms';
 import { IllustrationsModule } from '../../shared/illustrations/illustrations.module';
+import { ConfigurationAddFormComponent } from './components/add-card/configuration-add-form.component';
+import { MatButtonModule } from '@angular/material/button';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { SelectDatasetDialogComponent } from './components/add-card/select-dataset-dialog.component';
+import { DatasetModule } from '../datasets/dataset.module';
 
 const materialModules = [
-  MatCardModule,
+  MatProgressSpinnerModule,
   MatFormFieldModule,
-  MatIconModule,
+  MatButtonModule,
   MatInputModule,
+  MatCardModule,
+  MatIconModule,
+];
+
+const externalComponents = [
+  ConfigurationAddFormComponent,
+  ConfigurationListComponent,
+];
+
+const internalComponents = [
+  SelectDatasetDialogComponent,
+  ConfigurationCardComponent,
 ];
 
 @NgModule({
-  declarations: [ConfigurationCardComponent, ConfigurationListComponent],
+  declarations: [...externalComponents, ...internalComponents],
   imports: [
     ...materialModules,
     SharedModule,
     UserModule,
     ReactiveFormsModule,
     IllustrationsModule,
+    DatasetModule,
   ],
-  exports: [ConfigurationListComponent],
+  exports: [...externalComponents],
 })
 export class ConfigurationModule {}

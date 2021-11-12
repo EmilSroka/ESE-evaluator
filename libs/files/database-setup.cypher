@@ -286,7 +286,17 @@ CREATE (:Translations {
   config_seeds: 'Liczba próbek',
   config_invalid_page: 'Niepoprawna strona, obecnie: {{ page }}',
   configs_no_data: 'Nie znaleziono konfiguracji',
-  configs_img_title: ''
+  configs_img_title: '',
+  configs_add_title: 'Nowa konfiguracja',
+  configs_add_dataset: 'Zbiór danych',
+  configs_add_no_dataset: 'Nie wybrano',
+  configs_add_dataset_select: 'Wybierz',
+  configs_add_dataset_error: 'Nie wybrano zbioru danych',
+  configs_add_name: 'Nazwa',
+  configs_add_description: 'Opis',
+  configs_add_categories: 'Ilość kategorii',
+  configs_add_number_error: 'Pole powinno być liczbą',
+  configs_add_create: 'Utwórz'
 })-[:OF]->(pl);
 
 MATCH (en:Language { tag: 'en-US' }) WITH en
@@ -298,5 +308,15 @@ CREATE (:Translations {
   config_seeds: 'Seed size',
   config_invalid_page: 'Incorrext value, current page: {{ page }}',
   configs_no_data: 'There are no configurations',
-  configs_img_title: ''
+  configs_img_title: '',
+  configs_add_title: 'New configuration',
+  configs_add_dataset: 'Dataset',
+  configs_add_no_dataset: 'No selected',
+  configs_add_dataset_select: 'Select',
+  configs_add_dataset_error: 'Dataset not selected',
+  configs_add_name: 'Name',
+  configs_add_description: 'Description',
+  configs_add_categories: 'Number of categories',
+  configs_add_number_error: 'Invalid number',
+  configs_add_create: 'Create'
 })-[:OF]->(en);

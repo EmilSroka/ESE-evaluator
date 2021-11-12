@@ -4,6 +4,7 @@ export enum PrivatePath {
   user = 'user',
   datasets = 'datasets',
   configurations = 'configurations',
+  addConfiguration = 'add-configuration',
 }
 
 export const USERNAME_PATH_PARAM_NAME = 'username';

@@ -14,11 +14,13 @@ const INIT_PAGE_NUMBER = '1';
   styleUrls: ['datasets-list-layout.component.scss'],
 })
 export class DatasetsListLayoutComponent implements OnInit {
+  @Input() showIcons = true;
   @Input() coolDown = 500;
   @Input() perPage = 3;
   @Input() datasets!: Observable<DatasetInfoWithOwnerModel[]>;
   @Input() isEditable = false;
   @Output() edit = new EventEmitter<DatasetInfoWithOwnerModel>();
+  @Output() interaction = new EventEmitter<DatasetInfoWithOwnerModel>();
   search = new FormControl('');
   page = new FormControl(
     INIT_PAGE_NUMBER,

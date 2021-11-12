@@ -1,4 +1,5 @@
-import { DatasetInfoWithOwnerModel, UserModel } from '@ese/api-interfaces';
+import { UserModel } from './user-model';
+import { DatasetInfoWithOwnerModel } from './dataset-model';
 
 export interface ConfigInfoModel {
   name: string;
@@ -10,4 +11,9 @@ export interface ConfigInfoModel {
 export interface ConfigModel extends ConfigInfoModel {
   owner: UserModel;
   dataset: DatasetInfoWithOwnerModel;
+}
+
+export interface AddConfigModel extends ConfigInfoModel {
+  dataset_name: string;
+  owner_username: string;
 }
