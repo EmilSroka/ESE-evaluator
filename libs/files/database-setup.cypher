@@ -283,7 +283,10 @@ CREATE (:Translations {
   config_info: 'Informacje',
   config_dataset_name: 'Zbiór danych',
   config_categories: 'Liczba kategorii',
-  config_seeds: 'Liczba próbek'
+  config_seeds: 'Liczba próbek',
+  config_invalid_page: 'Niepoprawna strona, obecnie: {{ page }}',
+  configs_no_data: 'Nie znaleziono konfiguracji',
+  configs_img_title: ''
 })-[:OF]->(pl);
 
 MATCH (en:Language { tag: 'en-US' }) WITH en
@@ -292,5 +295,8 @@ CREATE (:Translations {
   config_info: 'Details',
   config_dataset_name: 'Dataset',
   config_categories: 'Categories',
-  config_seeds: 'Seed size'
+  config_seeds: 'Seed size',
+  config_invalid_page: 'Incorrext value, current page: {{ page }}',
+  configs_no_data: 'There are no configurations',
+  configs_img_title: ''
 })-[:OF]->(en);

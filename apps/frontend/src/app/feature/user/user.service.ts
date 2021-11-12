@@ -24,6 +24,7 @@ import { AuthService } from '../auth/auth.service';
 import { asyncScheduler, BehaviorSubject, Observable, of } from 'rxjs';
 import { UserAuthModel } from '@ese/api-interfaces';
 import { DatasetsService } from '../datasets/datasets.service';
+import { ConfigurationsService } from '../configurations/configurations.service';
 
 @Injectable({
   providedIn: 'root',
@@ -35,6 +36,7 @@ export class UserService {
     private apollo: Apollo,
     private auth: AuthService,
     private datasets: DatasetsService,
+    private configs: ConfigurationsService,
   ) {
     this.auth
       .isAuthenticated()
@@ -76,6 +78,7 @@ export class UserService {
     this.user$.next(undefined);
     this.auth.clearToken();
     this.datasets.clear();
+    this.configs.clear();
   }
 
   update(data: UserUpdateModel): Observable<boolean> {

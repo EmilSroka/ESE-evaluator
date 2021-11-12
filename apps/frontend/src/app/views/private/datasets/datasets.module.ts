@@ -11,7 +11,6 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ReactiveFormsModule } from '@angular/forms';
-import { DatasetsListComponent } from './list/datasets-list.component';
 import { AddDatasetService } from './services/add.service';
 import { EditDatasetService } from './services/edit.service';
 
@@ -26,11 +25,7 @@ const materialComponents = [
 ];
 
 @NgModule({
-  declarations: [
-    DatasetsComponent,
-    DatasetsListComponent,
-    DatasetsIllustrationComponent,
-  ],
+  declarations: [DatasetsComponent, DatasetsIllustrationComponent],
   providers: [AddDatasetService, EditDatasetService],
   exports: [DatasetsComponent],
   imports: [

@@ -3,10 +3,10 @@
     <h1 class="mat-h1">{{ 'datasets_title' | translate }}</h1>
     <mat-tab-group>
       <mat-tab [label]="'datasets_tab_all' | translate">
-        <ese-datasets-list [datasets]="datasets$"></ese-datasets-list>
+        <ese-datasets-list-layout [datasets]="datasets$"></ese-datasets-list-layout>
       </mat-tab>
       <mat-tab [label]="'datasets_tab_my' | translate">
-        <ese-datasets-list [datasets]="myDatasets$" [isEditable]="true" (edit)="edit($event)"></ese-datasets-list>
+        <ese-datasets-list-layout [datasets]="myDatasets$" [isEditable]="true" (edit)="edit($event)"></ese-datasets-list-layout>
       </mat-tab>
     </mat-tab-group>
   </div>

@@ -1,13 +1,14 @@
 .content {
-  display: flex;
-  justify-content: space-around;
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 1fr 200px;
 }
 
 .info {
   margin-left: 16px;
-  flex: 0 1 300px;
+  width: 200px;
 }
 
 .description {
-  flex: 1 1 auto;
+  flex: 0 1 auto;
 }

@@ -1,1 +1,25 @@
-<ese-configuration-card [info]="model"></ese-configuration-card>
+<div class="wrapper">
+  <div class="content">
+    <h1 class="mat-h1">{{ 'datasets_title' | translate }}</h1>
+    <mat-tab-group>
+      <mat-tab [label]="'datasets_tab_all' | translate">
+        <ese-configs-list [configs]="configs" [perPage]='2'></ese-configs-list>
+      </mat-tab>
+      <mat-tab [label]="'datasets_tab_my' | translate">
+        <ese-configs-list [configs]="configs" [perPage]='2'></ese-configs-list>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+  <ese-configs-illustration class="illustration"></ese-configs-illustration>
+</div>
+<!--<div class="buttons">-->
+<!--  <button color="basic" class="info" mat-fab (click)='openHelpInfo()'-->
+<!--          [attr.aria-label]="'datasets_help' | translate" [matTooltip]="'datasets_help' | translate">-->
+<!--    <mat-icon color="primary">help</mat-icon>-->
+<!--  </button>-->
+<!--  <button mat-fab color="primary" (click)="add()"-->
+<!--          [attr.aria-label]="'datasets_add' | translate" [matTooltip]="'datasets_add' | translate">-->
+<!--    <mat-icon>add</mat-icon>-->
+<!--  </button>-->
+<!--</div>-->
+

@@ -59,6 +59,7 @@
     "cache-manager": "^3.4.4",
     "class-transformer": "^0.4.0",
     "class-validator": "^0.13.1",
+    "escape-string-regexp": "^5.0.0",
     "graphql": "^15.5.1",
     "neo4j-driver": "^4.3.2",
     "ngx-markdown": "^12.0.1",
