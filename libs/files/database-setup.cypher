@@ -101,6 +101,9 @@ CREATE (:Translations {
   toast_edit_dataset: 'Twój zbiór danych jest aktualizowany...',
   toast_edit_dataset_success: 'Zbiór danych zaktualizowany poprawnie',
   toast_edit_dataset_fail: 'Nie udało się zaktualizować zbioru danych',
+  toast_add_config: 'Tworzymy twoją konfigurację...',
+  toast_add_config_fail: 'Nie udało się utworzyć konfiguracji',
+  toast_add_config_success: 'Konfiguracja utworzona pomyślnie',
   toast_ok: 'ok'
 })-[:OF]->(pl);
 
@@ -118,6 +121,9 @@ CREATE (:Translations {
   toast_edit_dataset: 'Your dataset is editing...',
   toast_edit_dataset_success: 'Your dataset was updated successfully',
   toast_edit_dataset_fail: 'The dataset could not be updated',
+  toast_add_config: 'Your configuration is being created...',
+  toast_add_config_fail: 'The configuration could not be created',
+  toast_add_config_success: 'The configuration was created successfully',
   toast_ok: 'ok'
 })-[:OF]->(en);
 
@@ -209,14 +215,16 @@ MATCH (en:Language { tag: 'en-US' }) WITH en
 CREATE (:Translations {
   user_error_img_title: '',
   user_profile_img_title: '',
-  user_cannot_find: 'Cannot find user'
+  user_cannot_find: 'Cannot find user',
+  user_go_back: 'Go back'
 })-[:OF]->(en);
 
 MATCH (pl:Language { tag: 'pl' }) WITH pl
 CREATE (:Translations {
   user_error_img_title: '',
   user_profile_img_title: '',
-  user_cannot_find: 'Nie można znaleźć użytkownika'
+  user_cannot_find: 'Nie można znaleźć użytkownika',
+  user_go_back: 'Confnij'
 })-[:OF]->(pl);
 
 MATCH (en:Language { tag: 'en-US' }) WITH en
@@ -287,6 +295,7 @@ CREATE (:Translations {
   config_invalid_page: 'Niepoprawna strona, obecnie: {{ page }}',
   configs_no_data: 'Nie znaleziono konfiguracji',
   configs_img_title: '',
+  configs_add: 'Dodaj konfigurację',
   configs_add_title: 'Nowa konfiguracja',
   configs_add_dataset: 'Zbiór danych',
   configs_add_no_dataset: 'Nie wybrano',
@@ -295,8 +304,10 @@ CREATE (:Translations {
   configs_add_name: 'Nazwa',
   configs_add_description: 'Opis',
   configs_add_categories: 'Ilość kategorii',
+  configs_add_seeds: 'Ilość instancji',
   configs_add_number_error: 'Pole powinno być liczbą',
-  configs_add_create: 'Utwórz'
+  configs_add_create: 'Utwórz',
+  configs_add_img_title: ''
 })-[:OF]->(pl);
 
 MATCH (en:Language { tag: 'en-US' }) WITH en
@@ -309,6 +320,7 @@ CREATE (:Translations {
   config_invalid_page: 'Incorrext value, current page: {{ page }}',
   configs_no_data: 'There are no configurations',
   configs_img_title: '',
+  configs_add: 'Add configuration',
   configs_add_title: 'New configuration',
   configs_add_dataset: 'Dataset',
   configs_add_no_dataset: 'No selected',
@@ -317,6 +329,8 @@ CREATE (:Translations {
   configs_add_name: 'Name',
   configs_add_description: 'Description',
   configs_add_categories: 'Number of categories',
+  configs_add_seeds: 'Number of seeds',
   configs_add_number_error: 'Invalid number',
-  configs_add_create: 'Create'
+  configs_add_create: 'Create',
+  configs_add_img_title: ''
 })-[:OF]->(en);

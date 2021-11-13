@@ -14,6 +14,6 @@ export interface ConfigModel extends ConfigInfoModel {
 }
 
 export interface AddConfigModel extends ConfigInfoModel {
-  dataset_name: string;
-  owner_username: string;
+  datasetName: string;
+  ownerUsername: string;
 }

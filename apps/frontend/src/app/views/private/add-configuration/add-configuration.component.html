@@ -1,0 +1,12 @@
+<div class="wrapper">
+  <button mat-icon-button class="back" (click)="goBack()"
+          [attr.aria-label]="'user_go_back' | translate" [matTooltip]="'user_go_back' | translate">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <div class="form">
+    <ese-configs-add-form [isLoading]="isLoading" (add)="add($event)"></ese-configs-add-form>
+  </div>
+  <div class="illustration">
+    <ese-configs-add-illustration></ese-configs-add-illustration>
+  </div>
+</div>

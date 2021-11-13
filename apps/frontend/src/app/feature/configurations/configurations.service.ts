@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { ConfigModel } from '@ese/api-interfaces';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { AddConfigModel, ConfigModel } from '@ese/api-interfaces';
+import { delay } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -8,6 +9,10 @@ import { ConfigModel } from '@ese/api-interfaces';
 export class ConfigurationsService {
   private configurations = new BehaviorSubject<ConfigModel[]>(mock);
   configurations$ = this.configurations.asObservable();
+
+  add(data: AddConfigModel): Observable<boolean> {
+    return of(true).pipe(delay(2000));
+  }
 
   clear(): void {
     this.configurations.next([]);

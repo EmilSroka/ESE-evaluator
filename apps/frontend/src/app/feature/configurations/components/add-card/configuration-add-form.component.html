@@ -1,7 +1,7 @@
 <mat-card class="wrapper">
   <div class="content" [ngClass]="{ 'hide': isLoading }">
     <mat-card-title>{{ 'configs_add_title' | translate }}</mat-card-title>
-    <form class="form" [formGroup]="form" (ngSubmit)="doAdd()">
+    <form class="form" [formGroup]="form">
       <div>
         <div class="dataset">
           <p>{{ 'configs_add_dataset' | translate }}: {{ selectedDataset }}</p>
@@ -32,9 +32,16 @@
           {{ 'configs_add_number_error' | translate }}
         </mat-error>
       </mat-form-field>
+      <mat-form-field appearance="fill" class="input">
+        <mat-label>{{ 'configs_add_seeds' | translate }}</mat-label>
+        <input type="number" matInput [formControl]="seeds">
+        <mat-error *ngIf="shouldDisplayError(seeds)">
+          {{ 'configs_add_number_error' | translate }}
+        </mat-error>
+      </mat-form-field>
     </form>
     <mat-card-actions align="end">
-      <button mat-flat-button class="create" color="primary">{{ 'configs_add_create' | translate }}</button>
+      <button mat-flat-button class="create" color="primary" (click)="doAdd()" [disabled]="form.invalid">{{ 'configs_add_create' | translate }}</button>
     </mat-card-actions>
   </div>
   <div [ngClass]="{ 'hide': !isLoading }" class="spinner">
