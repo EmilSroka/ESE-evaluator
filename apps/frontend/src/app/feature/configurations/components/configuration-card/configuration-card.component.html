@@ -1,0 +1,16 @@
+<mat-card>
+  <mat-card-title>{{ info?.name }}</mat-card-title>
+  <mat-card-content class="content">
+    <div class="description">
+      <h2>{{ 'config_description' | translate }}:</h2>
+      <p>{{ info?.description }}</p>
+    </div>
+    <div class="info">
+      <h2>{{ 'config_info' | translate  }}:</h2>
+      <p><b>{{ 'config_dataset_name' | translate }}</b>: {{ info?.dataset?.name }}</p>
+      <p><b>{{ 'config_categories' | translate }}</b>: {{ info?.categories }}</p>
+      <p><b>{{ 'config_seeds' | translate }}</b>: {{ info?.seeds }}</p>
+      <ese-user-link [username]="info?.owner?.username ?? ''"></ese-user-link>
+    </div>
+  </mat-card-content>
+</mat-card>

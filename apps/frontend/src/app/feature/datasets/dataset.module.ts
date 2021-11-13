@@ -4,7 +4,6 @@ import { MatCardModule } from '@angular/material/card';
 import { UserModule } from '../user/user.module';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from '../../shared/shared.module';
-import { NoDataIllustrationComponent } from './layout/list/no-data-illustration.component';
 import { DatasetsListLayoutComponent } from './layout/list/datasets-list-layout.component';
 import { DatasetAddDialogComponent } from './layout/add/dataset-add-dialog.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -15,6 +14,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
 import { DatasetEditDialogComponent } from './layout/edit/dataset-edit-dialog.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { IllustrationsModule } from '../../shared/illustrations/illustrations.module';
 
 const materialComponents = [
   MatDialogModule,
@@ -34,7 +34,7 @@ const externalComponents = [
 ];
 
 @NgModule({
-  declarations: [...externalComponents, NoDataIllustrationComponent],
+  declarations: [...externalComponents],
   exports: [...externalComponents],
   imports: [
     ...materialComponents,
@@ -42,6 +42,7 @@ const externalComponents = [
     CommonModule,
     SharedModule,
     ReactiveFormsModule,
+    IllustrationsModule,
   ],
 })
 export class DatasetModule {}

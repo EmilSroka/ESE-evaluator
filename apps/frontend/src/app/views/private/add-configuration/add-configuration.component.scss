@@ -1,0 +1,37 @@
+.wrapper {
+  max-width: 1200px;
+  height: 80vh;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-content: center;
+  position: relative;
+
+  @media (max-width: 700px) {
+    display: block;
+  }
+}
+
+.back {
+  position: absolute;
+  left: 16px;
+  top: 16px;
+  z-index: 1;
+
+  @media (max-width: 700px) {
+    position: static;
+  }
+}
+
+.form {
+  flex: 0 1 400px;
+}
+
+.illustration {
+  flex: 0 1 300px;
+
+  @media (max-width: 900px) {
+    display: none;
+  }
+}

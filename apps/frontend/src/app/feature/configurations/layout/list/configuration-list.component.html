@@ -1,25 +1,26 @@
 <mat-form-field appearance="outline" class="search">
   <mat-label>{{ 'datasets_search' | translate }}</mat-label>
   <input matInput [formControl]="search">
-  <mat-icon matPrefix *ngIf="showIcons">search</mat-icon>
+  <mat-icon matPrefix>search</mat-icon>
 </mat-form-field>
 
-<div *ngIf="filtered$ | async as filtered">
+
+<div *ngIf="filteredConfigs$ | async as filtered">
   <div *ngIf="filtered.length > 0 else empty" class="wrapper">
-    <ese-dataset-card *ngFor="let dataset of filtered" [info]="dataset" [isEditable]="isEditable" (edit)="edit.emit($event)" (interaction)="interaction.emit($event)"></ese-dataset-card>
+    <ese-configuration-card *ngFor="let config of filtered" [info]="config"></ese-configuration-card>
   </div>
 </div>
 
 <ng-template #empty>
   <div class="no-data">
     <ese-no-datasets-illustration></ese-no-datasets-illustration>
-    <h1 class="no-data-info">{{'datasets_no_data' | translate}}</h1>
+    <h1 class="no-data-info">{{'configs_no_data' | translate}}</h1>
   </div>
 </ng-template>
 
 <mat-form-field appearance="outline" class="page">
   <mat-label>{{ 'datasets_page' | translate }}</mat-label>
   <input matInput [formControl]="page">
-  <mat-icon matPrefix *ngIf="showIcons">description</mat-icon>
-  <mat-error *ngIf="page.invalid">{{ 'datasets_invalid_page' | translate: { page: lastValidPageNumber } }}</mat-error>
+  <mat-icon matPrefix>description</mat-icon>
+  <mat-error *ngIf="page.invalid">{{ 'config_invalid_page' | translate: { page: lastValidPageNumber } }}</mat-error>
 </mat-form-field>
