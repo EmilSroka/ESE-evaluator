@@ -6,4 +6,6 @@ export class DatasetInfo implements DatasetInfoWithOwnerModel {
   @Field() description: string;
   @Field() name: string;
   @Field() username: string;
+  @Field() categories: number;
+  @Field() seeds: number;
 }

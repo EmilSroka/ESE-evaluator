@@ -29,6 +29,8 @@ const model1: ConfigModel = {
     name: 'Elo',
     description: 'Hi hi hi',
     username: 'HiHiHi',
+    seeds: 1,
+    categories: 10,
   },
   owner: {
     username: 'Emil Sroka',
@@ -45,6 +47,8 @@ const model2: ConfigModel = {
     name: 'Elo',
     description: 'Hi hi hi',
     username: 'HiHiHi',
+    seeds: 5,
+    categories: 4,
   },
   owner: {
     username: 'Emil Sroka',
