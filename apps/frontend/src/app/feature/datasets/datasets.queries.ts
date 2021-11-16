@@ -7,6 +7,8 @@ export const LIST_DATASETS_INFO = gql`
       name
       description
       username
+      seeds
+      categories
     }
   }
 `;

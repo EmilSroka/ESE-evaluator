@@ -9,6 +9,7 @@ import { AddConfigModel, DatasetInfoWithOwnerModel } from '@ese/api-interfaces';
 
 const NO_DATASET_TRANSLATION_KEY = 'configs_add_no_dataset';
 const MODAL_WIDTH = '450px';
+const SIZE_LIMIT = 100;
 
 @Component({
   selector: 'ese-configs-add-form',
@@ -18,12 +19,22 @@ const MODAL_WIDTH = '450px';
 export class ConfigurationAddFormComponent {
   @Input() isLoading = false;
   @Output() add = new EventEmitter<AddConfigModel>();
+  categoriesLimit = SIZE_LIMIT;
+  seedsLimit = SIZE_LIMIT;
 
   dataset = new FormControl('', Validators.required);
   name = new FormControl('', Validators.required);
   description = new FormControl('', Validators.required);
-  categories = new FormControl(0, [Validators.required, Validators.min(0)]);
-  seeds = new FormControl(0, [Validators.required, Validators.min(0)]);
+  categories = new FormControl(1, [
+    Validators.required,
+    Validators.min(1),
+    Validators.max(SIZE_LIMIT),
+  ]);
+  seeds = new FormControl(1, [
+    Validators.required,
+    Validators.min(1),
+    Validators.max(SIZE_LIMIT),
+  ]);
 
   form = this.fb.group({
     ownerUsername: [this.user.get() ?? ''],
@@ -50,8 +61,21 @@ export class ConfigurationAddFormComponent {
       .afterClosed()
       .pipe(filter(data => data != null))
       .subscribe({
-        next: (dataset: DatasetInfoWithOwnerModel) =>
-          this.dataset.setValue(dataset.name),
+        next: (dataset: DatasetInfoWithOwnerModel) => {
+          this.dataset.setValue(dataset.name);
+          this.categories.setValidators([
+            Validators.required,
+            Validators.min(1),
+            Validators.max(dataset.categories),
+          ]);
+          this.seeds.setValidators([
+            Validators.required,
+            Validators.min(1),
+            Validators.max(dataset.seeds),
+          ]);
+          this.categoriesLimit = dataset.categories;
+          this.seedsLimit = dataset.seeds;
+        },
       });
   }
 

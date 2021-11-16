@@ -31,6 +31,8 @@ type DatasetInfo {
   description: String!
   name: String!
   username: String!
+  categories: Float!
+  seeds: Float!
 }
 
 type Query {

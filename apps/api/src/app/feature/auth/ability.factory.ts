@@ -12,6 +12,8 @@ class Dataset implements DatasetInfoWithOwnerModel {
   description: string;
   name: string;
   username: string;
+  categories: number;
+  seeds: number;
 }
 
 export function wrapDataSet(dataset: DatasetInfoWithOwnerModel): Dataset {

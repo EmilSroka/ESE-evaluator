@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { DatasetInfoCache } from './cache.service';
 import {
+  DatasetInfoDbModel,
   DatasetInfoDbWithOwnerModel,
   DatasetInfoWithOwnerModel,
 } from '@ese/api-interfaces';
@@ -19,6 +20,10 @@ export class AccessDatasetInfoService {
     return of(this.cache.getByName(name)).pipe(
       map(dataset => toDatasetWithOwner(dataset)),
     );
+  }
+
+  getDbModelByName(name: string): Observable<DatasetInfoDbModel> {
+    return of(this.cache.getByName(name));
   }
 }
 

@@ -16,6 +16,7 @@ import { map, switchMap, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { ExceptionFactory } from '../../errors/exception.factory';
 import { DatasetInfoCache } from './cache.service';
+import { MetadataDatasetService } from './metadata.service';
 
 @Injectable()
 export class CreateDatasetService {
@@ -26,6 +27,7 @@ export class CreateDatasetService {
     private gateway: DatasetGateway,
     private validator: DatasetValidator,
     private cache: DatasetInfoCache,
+    private metadata: MetadataDatasetService,
   ) {}
 
   create(
@@ -37,7 +39,12 @@ export class CreateDatasetService {
     const date = getDateProps();
     this.handleValidity(info, file, owner.email);
     return this.storage.save(`${id}.json`, file).pipe(
-      switchMap(() => this.gateway.create({ ...info, ...date, id }, owner)),
+      switchMap(() =>
+        this.gateway.create(
+          { ...info, ...date, id, ...this.metadata.get(file) },
+          owner,
+        ),
+      ),
       map(datasetInfo => ({ ...datasetInfo, username: owner.username })),
       tap(datasetInfo => this.cache.add(datasetInfo)),
     );

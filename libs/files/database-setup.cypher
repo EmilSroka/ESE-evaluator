@@ -305,7 +305,7 @@ CREATE (:Translations {
   configs_add_description: 'Opis',
   configs_add_categories: 'Ilość kategorii',
   configs_add_seeds: 'Ilość instancji',
-  configs_add_number_error: 'Pole powinno być liczbą',
+  configs_add_number_error: 'Niepoprawna liczba',
   configs_add_create: 'Utwórz',
   configs_add_img_title: ''
 })-[:OF]->(pl);

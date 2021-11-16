@@ -3,11 +3,18 @@ export interface DatasetInfoModel {
   description: string;
 }
 
+export interface DatasetMetadataModel {
+  categories: number;
+  seeds: number;
+}
+
 export interface DatasetInfoEditModel extends DatasetInfoModel {
   oldName: string;
 }
 
-export interface DatasetInfoDbModel extends DatasetInfoModel {
+export interface DatasetInfoDbModel
+  extends DatasetInfoModel,
+    DatasetMetadataModel {
   id: string;
   createdAt: number;
 }
@@ -16,7 +23,9 @@ export interface DatasetInfoDbWithOwnerModel extends DatasetInfoDbModel {
   username: string;
 }
 
-export interface DatasetInfoWithOwnerModel extends DatasetInfoModel {
+export interface DatasetInfoWithOwnerModel
+  extends DatasetInfoModel,
+    DatasetMetadataModel {
   username: string;
 }
 

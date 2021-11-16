@@ -8,6 +8,8 @@ import { CreateDatasetService } from './services/create.service';
 import { DatasetInfoCache } from './services/cache.service';
 import { AccessDatasetInfoService } from './services/list.service';
 import { EditDatasetService } from './services/edit.service';
+import { MetadataDatasetService } from './services/metadata.service';
+import { AccessDatasetService } from './services/get.service';
 
 @Module({
   imports: [IdModule, Neo4jModule],
@@ -19,6 +21,8 @@ import { EditDatasetService } from './services/edit.service';
     DatasetInfoCache,
     AccessDatasetInfoService,
     EditDatasetService,
+    MetadataDatasetService,
+    AccessDatasetService,
   ],
   exports: [DatasetService],
 })
