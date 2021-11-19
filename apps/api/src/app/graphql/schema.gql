@@ -35,6 +35,15 @@ type DatasetInfo {
   seeds: Float!
 }
 
+type Configuration {
+  name: String!
+  description: String!
+  categories: Float!
+  seeds: Float!
+  dataset: DatasetInfo!
+  owner: GetUser!
+}
+
 type Query {
   availableLanguages: [Language!]!
   translationsFor(tag: String!): JSONObject!
@@ -42,6 +51,7 @@ type Query {
   me: AuthUser!
   user(username: String!): GetUser!
   listDataSets: [DatasetInfo!]!
+  listConfigurations: [Configuration!]!
 }
 
 """JSONObject custom scalar type"""

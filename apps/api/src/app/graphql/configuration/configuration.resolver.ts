@@ -1,4 +1,4 @@
-import { Args, Mutation, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../../feature/auth/guards/jwt-auth.guard';
 import { Observable } from 'rxjs';
@@ -8,13 +8,20 @@ import { map, switchMap, tap } from 'rxjs/operators';
 import { ExceptionFactory } from '../../feature/errors/exception.factory';
 import { AddConfiguration } from './models/add-configuration.model';
 import { ConfigurationService } from '../../feature/configuration/configuration.service';
+import { Configuration } from './models/configuration.model';
 
-@Resolver(of => AddConfiguration)
+@Resolver(of => Configuration)
 export class ConfigurationResolver {
   constructor(
     private exceptionFactory: ExceptionFactory,
     private config: ConfigurationService,
   ) {}
+
+  @Query(() => [Configuration])
+  @UseGuards(JwtAuthGuard)
+  listConfigurations(): Observable<Configuration[]> {
+    return this.config.list();
+  }
 
   @Mutation(() => String)
   @UseGuards(JwtAuthGuard)
