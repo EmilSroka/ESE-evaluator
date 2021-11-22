@@ -9,4 +9,8 @@
   <div class="illustration">
     <ese-configs-add-illustration></ese-configs-add-illustration>
   </div>
+  <button color="basic" class="info" mat-fab (click)='openHelpInfo()'
+          [attr.aria-label]="'config_help' | translate" [matTooltip]="'config_help' | translate">
+    <mat-icon color="primary">help</mat-icon>
+  </button>
 </div>

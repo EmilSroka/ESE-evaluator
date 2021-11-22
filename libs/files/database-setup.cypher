@@ -275,18 +275,26 @@ MATCH (pl:Language { tag: 'pl' }) WITH pl
 CREATE (:Translations {
   modal_ok: 'Ok',
   modal_registration: '# Rejestracja \nAby utworzyć konto należy podać: \n* **adres e-mail** \n* **nazwę użytkownika** składającą się z jednego lub dwóch członów rozdzielonych spacją. Człon może zawierać jedynie litery oraz może mieć maksymalnie 20 znaków \n* **hasło**, spełniające poniższe warunki: \n  * przynajmniej jedna duża litera \n  * przynajmniej jedna mała litera \n  * przynajmniej jedna liczba \n  * minimalnie 8 znaków',
-  modal_dataset: '# Format\nZbiór danych przechowywany jest jako plik `json`. Pod unikalnymi kluczami można przechowywać obiekt reprezentujący zbiór napisów posiadających wspólną cechę. Struktura takiego obiektu wygląda następująco:\n```\n{\n\t"name": string,\n\t"description": string,\n\t"items": string[]\n}\n```'
+  modal_dataset: '# Format\nZbiór danych przechowywany jest jako plik `json`. Pod unikalnymi kluczami można przechowywać obiekt reprezentujący zbiór napisów posiadających wspólną cechę. Struktura takiego obiektu wygląda następująco:\n```\n{\n\t"name": string,\n\t"description": string,\n\t"items": string[]\n}\n```',
+  modal_config: '# Konfiguracja\nKonfiguracji zawiera informacje o zbiorze danych oraz startowych ziarnach. Konfigurację można kilkukrotnie użyć do przeprowadzenia testu.',
+  modal_add_config: '# Opcje\nKonfiguracja pozwala dostosowanie następujących opcji:\n* zbiór danych,\n* kategorie — liczba przypadków wejściowych. Każdy przypadek wejściowy odpowiada jednej kategorii ze zbioru danych,\n* ziarna — liczba określająca liczbę słów startowych w każdej kategorii. Jest ograniczona do liczby najkrótszej kategorii w zbiorze danych oraz musi być większa od 0.'
 })-[:OF]->(pl);
 
 MATCH (en:Language { tag: 'en-US' }) WITH en
 CREATE (:Translations {
   modal_ok: 'Ok',
   modal_registration: '# Registration\nTo create an account, please provide:\n* an **email address**\n* a **user name** that consists of one or two parts separated by space. Each part can have only letters and cannot be longer than 20 characters.\n* **password**, that meets below conditions:\n  * have at least one upper letter\n  * have at least one lower letter\n  * have at least one digit\n  * have at least 8 characters',
-  modal_dataset: '# Format\nDataset is stored as a `json` file. Under unique keys, one can store an object that represents a set of strings with common property. The structure of such an object looks like this:\n```\n{\n "name": string,\n "description": string,\n "items": string[]\n}\n```'
+  modal_dataset: '# Format\nDataset is stored as a `json` file. Under unique keys, one can store an object that represents a set of strings with common property. The structure of such an object looks like this:\n```\n{\n "name": string,\n "description": string,\n "items": string[]\n}\n```',
+  modal_config: '# Configuration\nConfiguration saves information about selected dataset and seeds. You can use configuration to perform multiple tests.',
+  modal_add_config: '# Options\nConfiguration allows setting bellow options:\n* dataset,\n* categories — number of test cases. Every test case corresponds to one category from dataset,\n* seeds — number of seeds in every test case. The number is limited by 0, and a number of words in the shortest category of dataset.'
 })-[:OF]->(en);
 
 MATCH (pl:Language { tag: 'pl' }) WITH pl
 CREATE (:Translations {
+  config_title: 'Konfiguracje',
+  config_tab_all: 'Wszystkie',
+  config_tab_my: 'Moje',
+  config_help: 'Pomoc',
   config_description: 'Opis',
   config_info: 'Informacje',
   config_dataset_name: 'Zbiór danych',
@@ -312,6 +320,10 @@ CREATE (:Translations {
 
 MATCH (en:Language { tag: 'en-US' }) WITH en
 CREATE (:Translations {
+  config_title: 'Configurations',
+  config_tab_all: 'All',
+  config_tab_my: 'My',
+  config_help: 'More info',
   config_description: 'Description',
   config_info: 'Details',
   config_dataset_name: 'Dataset',

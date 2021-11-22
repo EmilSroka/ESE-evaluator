@@ -35,6 +35,15 @@ type DatasetInfo {
   seeds: Float!
 }
 
+type Configuration {
+  name: String!
+  description: String!
+  categories: Float!
+  seeds: Float!
+  dataset: DatasetInfo!
+  owner: GetUser!
+}
+
 type Query {
   availableLanguages: [Language!]!
   translationsFor(tag: String!): JSONObject!
@@ -42,6 +51,7 @@ type Query {
   me: AuthUser!
   user(username: String!): GetUser!
   listDataSets: [DatasetInfo!]!
+  listConfigurations: [Configuration!]!
 }
 
 """JSONObject custom scalar type"""
@@ -52,6 +62,7 @@ type Mutation {
   register(data: UserData!, password: String!, email: String!): UserWithToken!
   updateUser(data: UpdateUser!): AuthUser!
   updateDataSets(data: EditDataset!): DatasetInfo!
+  addConfiguration(data: AddConfiguration!): String!
 }
 
 input UserData {
@@ -71,4 +82,13 @@ input EditDataset {
   description: String!
   name: String!
   oldName: String!
+}
+
+input AddConfiguration {
+  name: String!
+  description: String!
+  categories: Float!
+  seeds: Float!
+  datasetName: String!
+  ownerUsername: String!
 }

@@ -4,6 +4,10 @@ import { Location } from '@angular/common';
 import { AddConfigModel } from '@ese/api-interfaces';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
+import { MarkdownDialogComponent } from '../../../shared/markdown-dialog/markdown-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+
+const MODAL_WIDTH = '400px';
 
 @Component({
   selector: 'ese-add-configuration',
@@ -18,6 +22,7 @@ export class AddConfigurationComponent {
     private translate: TranslateService,
     private snackBar: MatSnackBar,
     private location: Location,
+    private dialog: MatDialog,
   ) {}
 
   goBack(): void {
@@ -38,6 +43,13 @@ export class AddConfigurationComponent {
           this.displayFailureMessage();
         }
       },
+    });
+  }
+
+  openHelpInfo(): void {
+    this.dialog.open(MarkdownDialogComponent, {
+      data: this.translate.instant('modal_add_config'),
+      width: MODAL_WIDTH,
     });
   }
 

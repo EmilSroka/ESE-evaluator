@@ -12,7 +12,8 @@ export function propsStringify(object: Record<string, any>): string {
 }
 
 export function isObjectOrFunction(value: any): boolean {
-  if (value != null && typeof value === 'object') return true;
+  if (value != null && typeof value === 'object' && !Array.isArray(value))
+    return true;
   return typeof value === 'function';
 }
 

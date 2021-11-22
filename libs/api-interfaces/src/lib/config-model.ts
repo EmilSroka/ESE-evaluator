@@ -8,6 +8,10 @@ export interface ConfigInfoModel {
   categories: number;
 }
 
+export interface ConfigInfoDbModel extends ConfigInfoModel {
+  id: string;
+}
+
 export interface ConfigModel extends ConfigInfoModel {
   owner: UserModel;
   dataset: DatasetInfoWithOwnerModel;
@@ -17,3 +21,7 @@ export interface AddConfigModel extends ConfigInfoModel {
   datasetName: string;
   ownerUsername: string;
 }
+
+export type BenchmarkData = {
+  string?: string[];
+};

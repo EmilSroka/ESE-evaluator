@@ -24,6 +24,16 @@
   }
 }
 
+.info {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+
+  @media (max-width: 700px) {
+    position: static;
+  }
+}
+
 .form {
   flex: 0 1 400px;
 }
