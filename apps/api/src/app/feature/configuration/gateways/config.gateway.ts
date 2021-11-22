@@ -21,7 +21,7 @@ const CONFIG_VARIABLE = 'config';
 const CONFIG_TYPE = 'Configuration';
 const CONFIG_DATASET_RELATION = 'USE';
 const CONFIG_USER_RELATION = 'CREATED_BY';
-const DATA_CONFIG_RELATION = 'OF';
+const DATA_CONFIG_RELATION = 'USED_BY';
 const DATASET_USER_RELATION = 'ADDED_BY';
 
 @Injectable()

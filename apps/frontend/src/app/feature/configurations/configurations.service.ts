@@ -1,59 +1,49 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { AddConfigModel, ConfigModel } from '@ese/api-interfaces';
-import { delay } from 'rxjs/operators';
+import { catchError, map, shareReplay, tap } from 'rxjs/operators';
+import {
+  ADD_CONFIGURATION,
+  LIST_CONFIGURATIONS,
+  ListConfigurationsResult,
+} from './configurations.queries';
+import { Apollo } from 'apollo-angular';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ConfigurationsService {
-  private configurations = new BehaviorSubject<ConfigModel[]>(mock);
+  private configurations = new BehaviorSubject<ConfigModel[]>([]);
   configurations$ = this.configurations.asObservable();
 
+  constructor(private apollo: Apollo) {}
+
+  update(): void {
+    this.apollo
+      .query<ListConfigurationsResult>({
+        query: LIST_CONFIGURATIONS,
+        fetchPolicy: 'no-cache',
+      })
+      .subscribe({
+        next: value => this.configurations.next(value.data.listConfigurations),
+      });
+  }
+
   add(data: AddConfigModel): Observable<boolean> {
-    return of(true).pipe(delay(2000));
+    return this.apollo
+      .mutate({
+        mutation: ADD_CONFIGURATION,
+        variables: { data },
+      })
+      .pipe(
+        tap(() => this.update()),
+        shareReplay(1),
+        map(response => Boolean(response.data)),
+        catchError(() => of(false)),
+      );
   }
 
   clear(): void {
     this.configurations.next([]);
   }
 }
-
-const model1: ConfigModel = {
-  name: 'Example config',
-  description:
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis eget elit porttitor purus fermentum malesuada in quis tortor. Ut finibus lectus sed velit cursus, vel placerat urna interdum. Donec a dolor a felis scelerisque iaculis tempus at lacus.',
-  seeds: 5,
-  categories: 13,
-  dataset: {
-    name: 'Elo',
-    description: 'Hi hi hi',
-    username: 'HiHiHi',
-    seeds: 1,
-    categories: 10,
-  },
-  owner: {
-    username: 'Emil Sroka',
-    organization: 'AGH',
-  },
-};
-
-const model2: ConfigModel = {
-  name: 'Alllla',
-  description: 'Alllla',
-  seeds: 5,
-  categories: 13,
-  dataset: {
-    name: 'Elo',
-    description: 'Hi hi hi',
-    username: 'HiHiHi',
-    seeds: 5,
-    categories: 4,
-  },
-  owner: {
-    username: 'Emil Sroka',
-    organization: 'AGH',
-  },
-};
-
-const mock = [model1, model2, model2, model1, model1, model2, model1, model2];

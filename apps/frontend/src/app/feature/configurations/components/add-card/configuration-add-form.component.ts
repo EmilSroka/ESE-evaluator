@@ -37,7 +37,7 @@ export class ConfigurationAddFormComponent {
   ]);
 
   form = this.fb.group({
-    ownerUsername: [this.user.get() ?? ''],
+    ownerUsername: [''],
     datasetName: this.dataset,
     name: this.name,
     description: this.description,
@@ -94,6 +94,10 @@ export class ConfigurationAddFormComponent {
   }
 
   doAdd(): void {
-    this.add.emit(this.form.value);
+    this.user.get().subscribe(user => {
+      const data = { ...this.form.value };
+      data.ownerUsername = user?.username;
+      this.add.emit(data);
+    });
   }
 }
